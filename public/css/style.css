@@ -97,8 +97,11 @@ div.has-error> .form-text {
 .mowa-card{
     /* text-align: center; */
 }
-.mowa-card .card{
-    
+.mowa-card .card {
+    margin-bottom: 10px;
+}
+.col-3.mowa-card {
+    padding-right: 0px !important;
 }
 .mowa-card .card-body {
     padding: 15px;
@@ -107,4 +110,84 @@ div.has-error> .form-text {
 }
 .mowa-card a{
     text-align: left;
+}
+
+.select-group .col-md-4{
+    padding: 0px;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+.select-group .col-md-4:nth-child(3) {
+    border-right: none;
+}
+
+.purchase-totals .card-body {
+    padding-top: 2px;
+}
+
+.purchase-totals input.form-control.date,.purchase-totals input#reference-no, .purchase-totals .btn-group.bootstrap-select.form-control {
+    border: none;
+}
+
+
+.purchase-totals .form-group {
+    margin-bottom: 5px;
+}
+.pos-page table#product-table .product-img span {
+    display: none;
+}
+.transaction-list-items-head {
+    display: none !important;
+}
+.pos-page  .order-list .transaction-list-items .product-title .btn {
+    padding: 2px 0px;
+}
+.pos-page .transaction-list-items .sub-total {
+    font-weight: 700;
+}
+.pos-page .item-quantity input.form-control.qty.numkey.input-number {
+    font-size: 14px;
+}
+.pos-page .col-12.totals {
+    border: 1px solid #ccc;
+    border-left: 0px;
+    border-right: 0px;
+    /* border-top-left-radius: 20px; */
+    /* border-top-right-radius: 20px; */
+    border-bottom: none;
+    padding-top: 0px !important;
+}
+
+.purchase-totals .col-6.discount-btn {
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    vertical-align: -webkit-baseline-middle
+}
+
+.purchase-totals .col-6.tax-btn {
+    border-bottom: 1px solid #ccc;
+    vertical-align: -webkit-baseline-middle;
+
+}
+
+.purchase-totals .tax-btn i, .discount-btn i{
+    font-size: 18px;
+    padding-right: 10px;
+    
+}
+.purchase-totals .totals-title{
+    font-size: 14px;
+    
+}
+
+.purchase-totals #discount, .purchase-totals #tax, .purchase-totals #subtotal, .purchase-totals #item {
+    font-size: 13px;
+    padding-left: 10px;
+    text-align: right;
+}
+.purchase-totals #subtotal, .purchase-totals #item {
+    text-align: right;
+}
+.purchase-totals .col-9 .totals-title {
+    padding-left: 10px
 }
