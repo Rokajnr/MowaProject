@@ -210,7 +210,7 @@
                     <td style="padding: 5px;width:30%">{{trans('file.Change')}}: {{number_format((float)$payment_data->change, 2, '.', '')}}</td>
                 </tr>                
                 @endforeach
-                <tr><td class="centered" colspan="3">{{trans('file.Thank you for shopping with us. Please come again')}}</td></tr>
+                <tr><td class="centered" colspan="3">{{trans('file.Thank you for visiting. Please come again')}}</td></tr>
                 <tr>
                     <td class="centered" colspan="3">
                     <?php echo '<img style="margin-top:10px;" src="data:image/png;base64,' . DNS1D::getBarcodePNG($lims_sale_data->reference_no, 'C128') . '" width="300" alt="barcode"   />';?>
