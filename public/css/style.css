@@ -51,4 +51,60 @@ div.has-error> .form-text {
     margin-top: 20px;
     font-size: 1.2rem;
 }
+/* POS V2022 */
 
+/* Daytime Color Chart */
+.cc_1 {
+    background: #b5ceff !important;
+}
+.cc_2 {
+    background: #c5d6e6 !important;
+}
+.cc_3 {
+    background: #ddd6fc !important;
+}
+.cc_4 {
+    background: #ccece6 !important;
+}
+.cc_5 {
+    background: #f9d9e7 !important;
+}
+.cc_6 {
+    background: #ffb5ef !important;
+}
+.cc_7 {
+    background: #f9d9c9 !important;
+}
+.cc_8 {
+   background: #f9ebc9 !important;
+}
+.cc_9 {
+    background: #b5ceff !important;
+}
+
+.cc_10 {
+    background: #d5d9e8 !important;
+}
+.cc_11{
+    background: #00a183 !important;
+}
+
+
+
+.side-nav.side-navbar{
+    position: inherit;
+}
+.mowa-card{
+    /* text-align: center; */
+}
+.mowa-card .card{
+    
+}
+.mowa-card .card-body {
+    padding: 15px;
+    padding-top: 10px;
+    min-height: 115px;
+}
+.mowa-card a{
+    text-align: left;
+}
