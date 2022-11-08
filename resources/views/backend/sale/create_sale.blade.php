@@ -6,7 +6,17 @@
 @if(session()->has('not_permitted'))
   <div class="alert alert-danger alert-dismissible text-center"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{{ session()->get('not_permitted') }}</div>
 @endif
-<!-- Side Navbar -->
+
+<section class="forms pos-section">
+    <div class="container-fluid">
+        <div class="row">
+            <audio id="mysoundclip1" preload="auto">
+                <source src="{{url('public/beep/beep-timber.mp3')}}"></source>
+            </audio>
+            <audio id="mysoundclip2" preload="auto">
+                <source src="{{url('public/beep/beep-07.mp3')}}"></source>
+            </audio>
+            <!-- Side Navbar -->
 <nav class="side-navbar shrink">
     <div class="side-navbar-wrapper">
       <!-- Sidebar Header    -->
@@ -739,15 +749,203 @@
       </div>
     </div>
 </nav>
-<section class="forms pos-section">
-    <div class="container-fluid">
-        <div class="row">
-            <audio id="mysoundclip1" preload="auto">
-                <source src="{{url('public/beep/beep-timber.mp3')}}"></source>
-            </audio>
-            <audio id="mysoundclip2" preload="auto">
-                <source src="{{url('public/beep/beep-07.mp3')}}"></source>
-            </audio>
+            <div class="col-md-12">
+                                <!-- navbar-->
+                                <header class="header">
+                                    <nav class="navbar">
+                                      <div class="container-fluid">
+                                        <div class="navbar-holder d-flex align-items-center justify-content-between">
+                                          <a id="toggle-btn" href="#" class="menu-btn"><i class="fa fa-bars"> </i></a>
+                                          <div class="navbar-header">
+                
+                                          <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+                                            <li class="nav-item"><a id="btnFullscreen" title="Full Screen"><i class="dripicons-expand"></i></a></li>
+                                            <?php
+                                                $general_setting_permission = DB::table('permissions')->where('name', 'general_setting')->first();
+                                                $general_setting_permission_active = DB::table('role_has_permissions')->where([
+                                                            ['permission_id', $general_setting_permission->id],
+                                                            ['role_id', Auth::user()->role_id]
+                                                        ])->first();
+                
+                                                $pos_setting_permission = DB::table('permissions')->where('name', 'pos_setting')->first();
+                
+                                                $pos_setting_permission_active = DB::table('role_has_permissions')->where([
+                                                    ['permission_id', $pos_setting_permission->id],
+                                                    ['role_id', Auth::user()->role_id]
+                                                ])->first();
+                                            ?>
+                                            @if($pos_setting_permission_active)
+                                            <li class="nav-item"><a class="dropdown-item" href="{{route('setting.pos')}}"><i class="dripicons-gear"></i>  <span>{{trans('file.POS Setting')}}</span></a> </li>
+                                            @endif
+                                            @if($alert_product > 0)
+                                            <li class="nav-item">
+                                                  <a rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-item"><i class="dripicons-bell"></i><span class="badge badge-danger">{{$alert_product}}</span>
+                                                      <span class="caret"></span>
+                                                      <span class="sr-only">Toggle Dropdown</span>
+                                                  </a>
+                                                  <ul class="dropdown-menu edit-options dropdown-menu-right dropdown-default notifications" user="menu">
+                                                      <li class="notifications">
+                                                        <a href="{{route('report.qtyAlert')}}" class="btn btn-link">{{$alert_product}} product exceeds alert quantity</a>
+                                                      </li>
+                                                  </ul>
+                                            </li>
+                                            @endif
+                                            <li class="nav-item">
+                                                <a class="dropdown-item" href="{{ url('read_me') }}" target="_blank"><i class="dripicons-information"></i> {{trans('file.Help')}}</a>
+                                            </li>&nbsp;
+                                            <li class="nav-item">
+                                                  <a rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-item"><i class="dripicons-user"></i> <span>{{ucfirst(Auth::user()->name)}}</span> <i class="fa fa-angle-down"></i>
+                                                  </a>
+                                                  <ul class="dropdown-menu edit-options dropdown-menu-right dropdown-default" user="menu">
+                                                      <li>
+                                                        <a href="{{route('user.profile', ['id' => Auth::id()])}}"><i class="dripicons-user"></i> {{trans('file.profile')}}</a>
+                                                      </li>
+                                                      @if($general_setting_permission_active)
+                                                      <li>
+                                                        <a href="{{route('setting.general')}}"><i class="dripicons-gear"></i> {{trans('file.settings')}}</a>
+                                                      </li>
+                                                      @endif
+                                                      <li>
+                                                        <a href="{{url('my-transactions/'.date('Y').'/'.date('m'))}}"><i class="dripicons-swap"></i> {{trans('file.My Transaction')}}</a>
+                                                      </li>
+                                                      <li>
+                                                        <a href="{{url('holidays/my-holiday/'.date('Y').'/'.date('m'))}}"><i class="dripicons-vibrate"></i> {{trans('file.My Holiday')}}</a>
+                                                      </li>
+                                                      <li>
+                                                        <a href="{{ route('logout') }}"
+                                                           onclick="event.preventDefault();
+                                                                         document.getElementById('logout-form').submit();"><i class="dripicons-power"></i>
+                                                            {{trans('file.logout')}}
+                                                        </a>
+                                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                            @csrf
+                                                        </form>
+                                                      </li>
+                                                  </ul>
+                                            </li>
+                                          </ul>
+                                        </div>
+                                      </div>
+                                    </nav>
+                                </header>
+            </div>
+            <div class="col-md-6">
+                <div class="filter-window">
+                    <div class="category mt-3">
+                        <div class="row ml-2 mr-2 px-2">
+                            <div class="col-7">Choose category</div>
+                            <div class="col-5 text-right">
+                                <span class="btn btn-default btn-sm">
+                                    <i class="dripicons-cross"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row ml-2 mt-3">
+                            @foreach($lims_category_list as $category)
+                            <div class="col-md-3 category-img text-center" data-category="{{$category->id}}">
+                                @if($category->image)
+                                    <img  src="{{url('public/images/category', $category->image)}}" />
+                                @else
+                                    <img  src="{{url('public/images/product/zummXD2dvAtI.png')}}" />
+                                @endif
+                                <p class="text-center">{{$category->name}}</p>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="brand mt-3">
+                        <div class="row ml-2 mr-2 px-2">
+                            <div class="col-7">Choose brand</div>
+                            <div class="col-5 text-right">
+                                <span class="btn btn-default btn-sm">
+                                    <i class="dripicons-cross"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row ml-2 mt-3">
+                            @foreach($lims_brand_list as $brand)
+                            @if($brand->image)
+                                <div class="col-md-3 brand-img text-center" data-brand="{{$brand->id}}">
+                                    <img  src="{{url('public/images/brand',$brand->image)}}" />
+                                    <p class="text-center">{{$brand->title}}</p>
+                                </div>
+                            @else
+                                <div class="col-md-3 brand-img" data-brand="{{$brand->id}}">
+                                    <img  src="{{url('public/images/product/zummXD2dvAtI.png')}}" />
+                                    <p class="text-center">{{$brand->title}}</p>
+                                </div>
+                            @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <button class="btn btn-block btn-primary" id="category-filter">{{trans('file.category')}}</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-block btn-info" id="brand-filter">{{trans('file.Brand')}}</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-block btn-danger" id="featured-filter">{{trans('file.Featured')}}</button>
+                    </div>
+                    <div class="col-md-12 mt-1 table-container">
+                        <table id="product-table" class="table product-list">
+                            <thead class="d-none">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @for ($i=0; $i < ceil($product_number/5); $i++)
+                                <tr>
+                                    <td class="product-img sound-btn" title="{{$lims_product_list[0+$i*5]->name}}" data-product ="{{$lims_product_list[0+$i*5]->code . ' (' . $lims_product_list[0+$i*5]->name . ')'}}"><img  src="{{url('public/images/product',$lims_product_list[0+$i*5]->base_image)}}" width="100%" />
+                                        <p>{{$lims_product_list[0+$i*5]->name}}</p>
+                                        <span>{{$lims_product_list[0+$i*5]->code}}</span>
+                                    </td>
+                                    @if(!empty($lims_product_list[1+$i*5]))
+                                    <td class="product-img sound-btn" title="{{$lims_product_list[1+$i*5]->name}}" data-product ="{{$lims_product_list[1+$i*5]->code . ' (' . $lims_product_list[1+$i*5]->name . ')'}}"><img  src="{{url('public/images/product',$lims_product_list[1+$i*5]->base_image)}}" width="100%" />
+                                        <p>{{$lims_product_list[1+$i*5]->name}}</p>
+                                        <span>{{$lims_product_list[1+$i*5]->code}}</span>
+                                    </td>
+                                    @else
+                                    <td style="border:none;"></td>
+                                    @endif
+                                    @if(!empty($lims_product_list[2+$i*5]))
+                                    <td class="product-img sound-btn" title="{{$lims_product_list[2+$i*5]->name}}" data-product ="{{$lims_product_list[2+$i*5]->code . ' (' . $lims_product_list[2+$i*5]->name . ')'}}"><img  src="{{url('public/images/product',$lims_product_list[2+$i*5]->base_image)}}" width="100%" />
+                                        <p>{{$lims_product_list[2+$i*5]->name}}</p>
+                                        <span>{{$lims_product_list[2+$i*5]->code}}</span>
+                                    </td>
+                                    @else
+                                    <td style="border:none;"></td>
+                                    @endif
+                                    @if(!empty($lims_product_list[3+$i*5]))
+                                    <td class="product-img sound-btn" title="{{$lims_product_list[3+$i*5]->name}}" data-product ="{{$lims_product_list[3+$i*5]->code . ' (' . $lims_product_list[3+$i*5]->name . ')'}}"><img  src="{{url('public/images/product',$lims_product_list[3+$i*5]->base_image)}}" width="100%" />
+                                        <p>{{$lims_product_list[3+$i*5]->name}}</p>
+                                        <span>{{$lims_product_list[3+$i*5]->code}}</span>
+                                    </td>
+                                    @else
+                                    <td style="border:none;"></td>
+                                    @endif
+                                    @if(!empty($lims_product_list[4+$i*5]))
+                                    <td class="product-img sound-btn" title="{{$lims_product_list[4+$i*5]->name}}" data-product ="{{$lims_product_list[4+$i*5]->code . ' (' . $lims_product_list[4+$i*5]->name . ')'}}"><img  src="{{url('public/images/product',$lims_product_list[4+$i*5]->base_image)}}" width="100%" />
+                                        <p>{{$lims_product_list[4+$i*5]->name}}</p>
+                                        <span>{{$lims_product_list[4+$i*5]->code}}</span>
+                                    </td>
+                                    @else
+                                    <td style="border:none;"></td>
+                                    @endif
+                                </tr>
+                            @endfor
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
@@ -1283,201 +1481,7 @@
             </div>
             {!! Form::close() !!}
             <!-- product list -->
-            <div class="col-md-6">
-                <!-- navbar-->
-                <header class="header">
-                    <nav class="navbar">
-                      <div class="container-fluid">
-                        <div class="navbar-holder d-flex align-items-center justify-content-between">
-                          <a id="toggle-btn" href="#" class="menu-btn"><i class="fa fa-bars"> </i></a>
-                          <div class="navbar-header">
 
-                          <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-                            <li class="nav-item"><a id="btnFullscreen" title="Full Screen"><i class="dripicons-expand"></i></a></li>
-                            <?php
-                                $general_setting_permission = DB::table('permissions')->where('name', 'general_setting')->first();
-                                $general_setting_permission_active = DB::table('role_has_permissions')->where([
-                                            ['permission_id', $general_setting_permission->id],
-                                            ['role_id', Auth::user()->role_id]
-                                        ])->first();
-
-                                $pos_setting_permission = DB::table('permissions')->where('name', 'pos_setting')->first();
-
-                                $pos_setting_permission_active = DB::table('role_has_permissions')->where([
-                                    ['permission_id', $pos_setting_permission->id],
-                                    ['role_id', Auth::user()->role_id]
-                                ])->first();
-                            ?>
-                            @if($pos_setting_permission_active)
-                            <li class="nav-item"><a class="dropdown-item" href="{{route('setting.pos')}}"><i class="dripicons-gear"></i>  <span>{{trans('file.POS Setting')}}</span></a> </li>
-                            @endif
-                            @if($alert_product > 0)
-                            <li class="nav-item">
-                                  <a rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-item"><i class="dripicons-bell"></i><span class="badge badge-danger">{{$alert_product}}</span>
-                                      <span class="caret"></span>
-                                      <span class="sr-only">Toggle Dropdown</span>
-                                  </a>
-                                  <ul class="dropdown-menu edit-options dropdown-menu-right dropdown-default notifications" user="menu">
-                                      <li class="notifications">
-                                        <a href="{{route('report.qtyAlert')}}" class="btn btn-link">{{$alert_product}} product exceeds alert quantity</a>
-                                      </li>
-                                  </ul>
-                            </li>
-                            @endif
-                            <li class="nav-item">
-                                <a class="dropdown-item" href="{{ url('read_me') }}" target="_blank"><i class="dripicons-information"></i> {{trans('file.Help')}}</a>
-                            </li>&nbsp;
-                            <li class="nav-item">
-                                  <a rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-item"><i class="dripicons-user"></i> <span>{{ucfirst(Auth::user()->name)}}</span> <i class="fa fa-angle-down"></i>
-                                  </a>
-                                  <ul class="dropdown-menu edit-options dropdown-menu-right dropdown-default" user="menu">
-                                      <li>
-                                        <a href="{{route('user.profile', ['id' => Auth::id()])}}"><i class="dripicons-user"></i> {{trans('file.profile')}}</a>
-                                      </li>
-                                      @if($general_setting_permission_active)
-                                      <li>
-                                        <a href="{{route('setting.general')}}"><i class="dripicons-gear"></i> {{trans('file.settings')}}</a>
-                                      </li>
-                                      @endif
-                                      <li>
-                                        <a href="{{url('my-transactions/'.date('Y').'/'.date('m'))}}"><i class="dripicons-swap"></i> {{trans('file.My Transaction')}}</a>
-                                      </li>
-                                      <li>
-                                        <a href="{{url('holidays/my-holiday/'.date('Y').'/'.date('m'))}}"><i class="dripicons-vibrate"></i> {{trans('file.My Holiday')}}</a>
-                                      </li>
-                                      <li>
-                                        <a href="{{ route('logout') }}"
-                                           onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();"><i class="dripicons-power"></i>
-                                            {{trans('file.logout')}}
-                                        </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            @csrf
-                                        </form>
-                                      </li>
-                                  </ul>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </nav>
-                </header>
-                <div class="filter-window">
-                    <div class="category mt-3">
-                        <div class="row ml-2 mr-2 px-2">
-                            <div class="col-7">Choose category</div>
-                            <div class="col-5 text-right">
-                                <span class="btn btn-default btn-sm">
-                                    <i class="dripicons-cross"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row ml-2 mt-3">
-                            @foreach($lims_category_list as $category)
-                            <div class="col-md-3 category-img text-center" data-category="{{$category->id}}">
-                                @if($category->image)
-                                    <img  src="{{url('public/images/category', $category->image)}}" />
-                                @else
-                                    <img  src="{{url('public/images/product/zummXD2dvAtI.png')}}" />
-                                @endif
-                                <p class="text-center">{{$category->name}}</p>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="brand mt-3">
-                        <div class="row ml-2 mr-2 px-2">
-                            <div class="col-7">Choose brand</div>
-                            <div class="col-5 text-right">
-                                <span class="btn btn-default btn-sm">
-                                    <i class="dripicons-cross"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row ml-2 mt-3">
-                            @foreach($lims_brand_list as $brand)
-                            @if($brand->image)
-                                <div class="col-md-3 brand-img text-center" data-brand="{{$brand->id}}">
-                                    <img  src="{{url('public/images/brand',$brand->image)}}" />
-                                    <p class="text-center">{{$brand->title}}</p>
-                                </div>
-                            @else
-                                <div class="col-md-3 brand-img" data-brand="{{$brand->id}}">
-                                    <img  src="{{url('public/images/product/zummXD2dvAtI.png')}}" />
-                                    <p class="text-center">{{$brand->title}}</p>
-                                </div>
-                            @endif
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <button class="btn btn-block btn-primary" id="category-filter">{{trans('file.category')}}</button>
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-block btn-info" id="brand-filter">{{trans('file.Brand')}}</button>
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-block btn-danger" id="featured-filter">{{trans('file.Featured')}}</button>
-                    </div>
-                    <div class="col-md-12 mt-1 table-container">
-                        <table id="product-table" class="table product-list">
-                            <thead class="d-none">
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @for ($i=0; $i < ceil($product_number/5); $i++)
-                                <tr>
-                                    <td class="product-img sound-btn" title="{{$lims_product_list[0+$i*5]->name}}" data-product ="{{$lims_product_list[0+$i*5]->code . ' (' . $lims_product_list[0+$i*5]->name . ')'}}"><img  src="{{url('public/images/product',$lims_product_list[0+$i*5]->base_image)}}" width="100%" />
-                                        <p>{{$lims_product_list[0+$i*5]->name}}</p>
-                                        <span>{{$lims_product_list[0+$i*5]->code}}</span>
-                                    </td>
-                                    @if(!empty($lims_product_list[1+$i*5]))
-                                    <td class="product-img sound-btn" title="{{$lims_product_list[1+$i*5]->name}}" data-product ="{{$lims_product_list[1+$i*5]->code . ' (' . $lims_product_list[1+$i*5]->name . ')'}}"><img  src="{{url('public/images/product',$lims_product_list[1+$i*5]->base_image)}}" width="100%" />
-                                        <p>{{$lims_product_list[1+$i*5]->name}}</p>
-                                        <span>{{$lims_product_list[1+$i*5]->code}}</span>
-                                    </td>
-                                    @else
-                                    <td style="border:none;"></td>
-                                    @endif
-                                    @if(!empty($lims_product_list[2+$i*5]))
-                                    <td class="product-img sound-btn" title="{{$lims_product_list[2+$i*5]->name}}" data-product ="{{$lims_product_list[2+$i*5]->code . ' (' . $lims_product_list[2+$i*5]->name . ')'}}"><img  src="{{url('public/images/product',$lims_product_list[2+$i*5]->base_image)}}" width="100%" />
-                                        <p>{{$lims_product_list[2+$i*5]->name}}</p>
-                                        <span>{{$lims_product_list[2+$i*5]->code}}</span>
-                                    </td>
-                                    @else
-                                    <td style="border:none;"></td>
-                                    @endif
-                                    @if(!empty($lims_product_list[3+$i*5]))
-                                    <td class="product-img sound-btn" title="{{$lims_product_list[3+$i*5]->name}}" data-product ="{{$lims_product_list[3+$i*5]->code . ' (' . $lims_product_list[3+$i*5]->name . ')'}}"><img  src="{{url('public/images/product',$lims_product_list[3+$i*5]->base_image)}}" width="100%" />
-                                        <p>{{$lims_product_list[3+$i*5]->name}}</p>
-                                        <span>{{$lims_product_list[3+$i*5]->code}}</span>
-                                    </td>
-                                    @else
-                                    <td style="border:none;"></td>
-                                    @endif
-                                    @if(!empty($lims_product_list[4+$i*5]))
-                                    <td class="product-img sound-btn" title="{{$lims_product_list[4+$i*5]->name}}" data-product ="{{$lims_product_list[4+$i*5]->code . ' (' . $lims_product_list[4+$i*5]->name . ')'}}"><img  src="{{url('public/images/product',$lims_product_list[4+$i*5]->base_image)}}" width="100%" />
-                                        <p>{{$lims_product_list[4+$i*5]->name}}</p>
-                                        <span>{{$lims_product_list[4+$i*5]->code}}</span>
-                                    </td>
-                                    @else
-                                    <td style="border:none;"></td>
-                                    @endif
-                                </tr>
-                            @endfor
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
             <!-- product edit modal -->
             <!-- product edit modal -->
             <div id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
