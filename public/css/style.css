@@ -89,7 +89,18 @@ div.has-error> .form-text {
     background: #00a183 !important;
 }
 
-
+.col-3.mowa-card.category-img[data-category="2"] .card {
+    background-color: #ddd6fc !important;
+}
+.col-3.mowa-card.category-img[data-category="3"] .card {
+    background-color: #d5d9e8 !important;
+}
+.col-3.mowa-card.category-img[data-category="4"] .card {
+    background-color: #ccece6 !important;
+}
+.col-3.mowa-card.category-img[data-category="5"] .card {
+    background-color: #f9d9e7 !important;
+}
 
 .side-nav.side-navbar{
     position: inherit;
@@ -114,8 +125,8 @@ div.has-error> .form-text {
 
 .select-group .col-md-4{
     padding: 0px;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #cccccc40;
+    border-bottom: 1px solid #cccccc40;
 }
 .select-group .col-md-4:nth-child(3) {
     border-right: none;
@@ -190,4 +201,129 @@ div.has-error> .form-text {
 }
 .purchase-totals .col-9 .totals-title {
     padding-left: 10px
+}
+.pos-page #product-table td p {
+    font-size: 14px;
+    font-weight: 600;
+    text-align: end;
+}
+table.dataTable img {
+    background: #fff;
+    padding: 10px;
+    border-radius: 0px !important;
+    max-height: 100px !important;
+    min-height: 100px !important;
+    /* max-width: 60px; */
+}
+.square-abrv {
+    text-align: center;
+    padding-right: 0px !important;
+}
+
+.square-abrv h1 {
+    padding: 10px;
+    width: 45px;
+}
+
+.bill-item {
+    padding: 8px;
+    /* border-top: 1px solid #f0f0f0; */
+    margin-bottom: 6px;
+    border-bottom: 0.8px solid #ddd
+    /* box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%); */
+}
+.bills {
+    box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
+    max-height: 70vh;
+}
+
+.bill-customer-name {
+    vertical-align: middle;
+    display: inline-block;
+    width: 80%;
+}
+.bill-customer-name h4{
+    padding-top: 3px;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.bill-date {
+    text-align: center;
+    display:inline-block;
+}
+
+.arrow-right {
+    font-size: 14px;
+    text-align: center;
+    display:inline-block;
+    padding: 1px 4px;
+}
+.arrow-right i{
+    padding-top: 4px;
+    vertical-align: middle;
+}
+.bill-total {
+    text-align: center;
+    display: inline-block;
+}
+.bill-date h5, .bill-total h5{
+    font-size: 12px;
+    font-weight: 400;
+    padding-top: 10px;
+    vertical-align: -webkit-baseline-middle;
+}
+
+span.green-badge {
+    background: #8bc34a;
+    width: 10px;
+    height: 10px;
+    border-radius: 50px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+
+.delete-bill {
+    display: inline-block;
+    color: red;
+}
+
+.bills-header {
+    height: 80px;
+    padding: 20px;
+    box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
+}
+
+.add-bill-draft {
+    font-size: 30px;
+}
+.purchase-totals button.btn.dropdown-toggle.btn-link:after {
+    display: none;
+}
+
+.purchase-totals button.btn.dropdown-toggle.btn-link {
+    padding: 5px 10px !important;
+}
+.purchase-totals button.add-customer-btn.btn.btn-default {
+    border: none;
+}
+
+.customer-options i, .biller-info i {
+    color: #FF9800;
+    font-weight: 500;
+}
+.customer-options a {
+    color: #000 !important;
+}
+
+.purchase-totals .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+    color: #000;
+    font-weight: 600;
+}
+.biller-info .btn-group.bootstrap-select.form-control {
+    width: 89%;
+}
+.purchase-totals .row.select-group {
+    box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
 }
