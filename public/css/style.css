@@ -1,8 +1,9 @@
 
-.logo-container{
+.logo-container {
     width: 100px;
 }
-.logo-container > img{
+
+.logo-container > img {
     width: 100%;
 }
 
@@ -10,11 +11,12 @@
     margin-top: 65px;
 }
 
-.form-container{
+.form-container {
     max-width: 600px;
     margin: 10px auto;
 }
-.form-container h1{
+
+.form-container h1 {
     font-weight: 300;
     font-size: 2.5rem;
 }
@@ -24,7 +26,8 @@
     border-radius: 5px;
     background: white;
 }
-#imageUpload{
+
+#imageUpload {
     margin-bottom: 20px;
     min-height: 80px;
 }
@@ -33,7 +36,7 @@ div.has-error > input {
     border: 1px solid #dc3545;
 }
 
-div.has-error> .form-text {
+div.has-error > .form-text {
     color: #dc3545;
 }
 
@@ -47,37 +50,46 @@ div.has-error> .form-text {
     color: #e13535;
 }
 
-#success-text{
+#success-text {
     margin-top: 20px;
     font-size: 1.2rem;
 }
+
 /* POS V2022 */
 
 /* Daytime Color Chart */
 .cc_1 {
     background: #b5ceff !important;
 }
+
 .cc_2 {
     background: #c5d6e6 !important;
 }
+
 .cc_3 {
     background: #ddd6fc !important;
 }
+
 .cc_4 {
     background: #ccece6 !important;
 }
+
 .cc_5 {
     background: #f9d9e7 !important;
 }
+
 .cc_6 {
     background: #ffb5ef !important;
 }
+
 .cc_7 {
     background: #f9d9c9 !important;
 }
+
 .cc_8 {
-   background: #f9ebc9 !important;
+    background: #f9ebc9 !important;
 }
+
 .cc_9 {
     background: #b5ceff !important;
 }
@@ -85,49 +97,74 @@ div.has-error> .form-text {
 .cc_10 {
     background: #d5d9e8 !important;
 }
-.cc_11{
+
+.cc_11 {
     background: #00a183 !important;
+}
+
+/*-- Color variables --*/
+:root {
+    --cc_1: #b5ceff !important;
+    --cc_2: #c5d6e6 !important;
+    --cc_3: #ddd6fc !important;
+    --cc_4: #ccece6 !important;
+    --cc_5: #f9d9e7 !important;
+    --cc_6: #ffb5ef !important;
+    --cc_7: #f9d9c9 !important;
+    --cc_8: #f9ebc9 !important;
+    --cc_9: #b5ceff !important;
+    --cc_10: #d5d9e8 !important;
+    --cc_11: #00a183 !important;
 }
 
 .col-3.mowa-card.category-img[data-category="2"] .card {
     background-color: #ddd6fc !important;
 }
+
 .col-3.mowa-card.category-img[data-category="3"] .card {
     background-color: #d5d9e8 !important;
 }
+
 .col-3.mowa-card.category-img[data-category="4"] .card {
     background-color: #ccece6 !important;
 }
+
 .col-3.mowa-card.category-img[data-category="5"] .card {
     background-color: #f9d9e7 !important;
 }
 
-.side-nav.side-navbar{
+.side-nav.side-navbar {
     position: inherit;
 }
-.mowa-card{
+
+.mowa-card {
     /* text-align: center; */
 }
+
 .mowa-card .card {
     margin-bottom: 10px;
 }
+
 .col-3.mowa-card {
     padding-right: 0px !important;
 }
+
 .mowa-card .card-body {
     padding: 15px;
     padding-top: 10px;
     min-height: 115px;
 }
-.mowa-card a{
+
+.mowa-card a {
     text-align: left;
 }
 
-.select-group .col-md-4{
+.select-group .col-md-4 {
     padding: 0px;
     border-right: 1px solid #cccccc40;
     border-bottom: 1px solid #cccccc40;
 }
+
 .select-group .col-md-4:nth-child(3) {
     border-right: none;
 }
@@ -136,7 +173,7 @@ div.has-error> .form-text {
     padding-top: 2px;
 }
 
-.purchase-totals input.form-control.date,.purchase-totals input#reference-no, .purchase-totals .btn-group.bootstrap-select.form-control {
+.purchase-totals input.form-control.date, .purchase-totals input#reference-no, .purchase-totals .btn-group.bootstrap-select.form-control {
     border: none;
 }
 
@@ -144,21 +181,27 @@ div.has-error> .form-text {
 .purchase-totals .form-group {
     margin-bottom: 5px;
 }
+
 .pos-page table#product-table .product-img span {
     display: none;
 }
+
 .transaction-list-items-head {
     display: none !important;
 }
-.pos-page  .order-list .transaction-list-items .product-title .btn {
+
+.pos-page .order-list .transaction-list-items .product-title .btn {
     padding: 2px 0px;
 }
+
 .pos-page .transaction-list-items .sub-total {
     font-weight: 700;
 }
+
 .pos-page .item-quantity input.form-control.qty.numkey.input-number {
     font-size: 14px;
 }
+
 .pos-page .col-12.totals {
     border: 1px solid #ccc;
     border-left: 0px;
@@ -181,14 +224,15 @@ div.has-error> .form-text {
 
 }
 
-.purchase-totals .tax-btn i, .discount-btn i{
+.purchase-totals .tax-btn i, .discount-btn i {
     font-size: 18px;
     padding-right: 10px;
-    
+
 }
-.purchase-totals .totals-title{
+
+.purchase-totals .totals-title {
     font-size: 14px;
-    
+
 }
 
 .purchase-totals #discount, .purchase-totals #tax, .purchase-totals #subtotal, .purchase-totals #item {
@@ -196,17 +240,21 @@ div.has-error> .form-text {
     padding-left: 10px;
     text-align: right;
 }
+
 .purchase-totals #subtotal, .purchase-totals #item {
     text-align: right;
 }
+
 .purchase-totals .col-9 .totals-title {
     padding-left: 10px
 }
+
 .pos-page #product-table td p {
     font-size: 14px;
     font-weight: 600;
     text-align: end;
 }
+
 table.dataTable img {
     background: #fff;
     padding: 10px;
@@ -215,6 +263,7 @@ table.dataTable img {
     min-height: 100px !important;
     /* max-width: 60px; */
 }
+
 .square-abrv {
     text-align: center;
     padding-right: 0px !important;
@@ -232,6 +281,7 @@ table.dataTable img {
     border-bottom: 0.8px solid #ddd
     /* box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%); */
 }
+
 .bills {
     box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
     max-height: 70vh;
@@ -242,7 +292,8 @@ table.dataTable img {
     display: inline-block;
     width: 80%;
 }
-.bill-customer-name h4{
+
+.bill-customer-name h4 {
     padding-top: 3px;
     font-size: 14px;
     margin-bottom: 2px;
@@ -250,24 +301,27 @@ table.dataTable img {
 
 .bill-date {
     text-align: center;
-    display:inline-block;
+    display: inline-block;
 }
 
 .arrow-right {
     font-size: 14px;
     text-align: center;
-    display:inline-block;
+    display: inline-block;
     padding: 1px 4px;
 }
-.arrow-right i{
+
+.arrow-right i {
     padding-top: 4px;
     vertical-align: middle;
 }
+
 .bill-total {
     text-align: center;
     display: inline-block;
 }
-.bill-date h5, .bill-total h5{
+
+.bill-date h5, .bill-total h5 {
     font-size: 12px;
     font-weight: 400;
     padding-top: 10px;
@@ -298,6 +352,7 @@ span.green-badge {
 .add-bill-draft {
     font-size: 30px;
 }
+
 .purchase-totals button.btn.dropdown-toggle.btn-link:after {
     display: none;
 }
@@ -305,6 +360,7 @@ span.green-badge {
 .purchase-totals button.btn.dropdown-toggle.btn-link {
     padding: 5px 10px !important;
 }
+
 .purchase-totals button.add-customer-btn.btn.btn-default {
     border: none;
 }
@@ -313,6 +369,7 @@ span.green-badge {
     color: #FF9800;
     font-weight: 500;
 }
+
 .customer-options a {
     color: #000 !important;
 }
@@ -321,9 +378,62 @@ span.green-badge {
     color: #000;
     font-weight: 600;
 }
+
 .biller-info .btn-group.bootstrap-select.form-control {
     width: 89%;
 }
+
 .purchase-totals .row.select-group {
+    box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
+}
+
+a#notification-icon:after {
+    display: none;
+}
+
+.dropdown-menu.notif-icon.show {
+    right: -6px;
+}
+
+.pos-page .navbar-header .nav-menu i {
+    font-size: 16px !important;
+}
+
+a#toggle-btn {
+    z-index: 9999;
+}
+
+span.payment-option i {
+    font-size: 32px;
+    vertical-align: -webkit-baseline-middle;
+    padding: 0px 0px 0px 20px;
+}
+
+.payment-amount .dropup a.dropdown-item i {
+    font-size: 29px;
+    padding-right: 10px;
+}
+
+.payment-amount .dropup a.dropdown-item {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 20px;
+    vertical-align: -webkit-baseline-middle;
+}
+
+.dropdown-menu.dropdown-menu-right.show {
+    width: 400px
+}
+
+span.payment-option-heading {
+    width: 100%;
+    padding: 10px 12px 0px;
+}
+
+.payment-amount .row {
+    padding: 10px;
+}
+
+.dropdown-menu.dropdown-menu-right.show {
     box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
 }
