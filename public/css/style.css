@@ -115,6 +115,7 @@ div.has-error > .form-text {
     --cc_9: #b5ceff !important;
     --cc_10: #d5d9e8 !important;
     --cc_11: #00a183 !important;
+    --box-shadow-default: 0 0 35px 0 rgb(154 161 171 / 15%);
 }
 
 .col-3.mowa-card.category-img[data-category="2"] .card {
@@ -261,7 +262,7 @@ table.dataTable img {
     border-radius: 0px !important;
     max-height: 100px !important;
     min-height: 100px !important;
-    /* max-width: 60px; */
+    max-width: 130px;
 }
 
 .square-abrv {
@@ -437,3 +438,120 @@ span.payment-option-heading {
 .dropdown-menu.dropdown-menu-right.show {
     box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
 }
+.payment-option.dropdown-toggle {
+    cursor: pointer;
+}
+.col-md-12.mt-1.table-container.mCustomScrollbar._mCS_2.mCS_no_scrollbar {
+    background: #f7f7f7;
+}
+
+#product-table tbody {
+    background: none;
+}
+
+td.listed-product-wrapper.product-img.sound-btn {
+    background: #f7f7f7;
+}
+
+.listed-product-content {
+    background: #fff;
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: var(--box-shadow-default);
+}
+
+td.listed-product-wrapper.product-img.sound-btn {
+    border: none !important;
+}
+
+.listed-product-content button.btn.btn-default.plus {
+    border: 1px solid #f9d9c9 !important;
+    border-radius: 20px;
+    border-color: #f9d9c9 !important;
+    color: var(--cc_7);
+}
+.payment-amount {
+    border-radius: 50px;
+}
+
+/* mobile menu */
+.row.navigation-items {
+    text-align: center;
+    font-weight: 400;
+    font-size: 14px;
+}
+.row.navigation-items i{
+    font-size: 30px;
+    padding-bottom: 5px;
+}
+
+.mobile-menu-nav {
+    padding: 12px;
+    background: #fff;
+    padding-top: 20px;
+    padding-bottom: 5px;
+    position: fixed;
+    bottom: 1px;
+    width: 100%;
+    z-index: 9999;
+    box-shadow: var(--box-shadow-default);
+}
+
+@media (min-width: 992px){
+    .mobile-menu-nav{
+        display: none;
+    }
+}
+
+.navigation-item {
+    text-align: center;
+}
+
+.menu-title {
+    text-align: center;
+    font-weight: 600;
+}
+@media (min-width: 767.98px) {
+
+    #myTable.table-striped-columns>:not(caption)>tr>:nth-child(2n),
+    #myTable.table-striped>tbody>tr:nth-of-type(odd)>* {
+        --bs-table-accent-bg: #fff;
+    }
+
+    .table-hover>tbody>tr:hover>* {
+        --bs-table-accent-bg: #fff;
+    }
+}
+
+.dashly a.dropdown-item i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.dashly a.dropdown-item {
+    font-size: 14px
+}
+
+/* Mobile Responsive Breakpoints */
+/* @media (max-width:768px){
+    .payment-amount {
+        position: fixed;
+        bottom: 85px;
+        width: 63%;
+        right: 0px;
+        z-index: 800;
+        text-align: left;
+        border-radius: 0px;
+    }
+    .card.purchase-totals {
+    margin-bottom: 108px;
+}
+    .payment-amount h2{
+        font-size: 18px;
+    }
+    
+i.fa-thin.fa-credit-card {
+    font-size: 26px;
+}
+    
+} */
