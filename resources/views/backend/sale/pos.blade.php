@@ -1023,7 +1023,7 @@
                                         <a class="nav-link dropdown-toggle" href="#" id="adminDropDownMenu"
                                            role="button" data-toggle="dropdown" aria-haspopup="true"
                                            aria-expanded="false">
-                                            <i class="fa-light fa-user"></i>
+                                            <i class="fa-regular fa-user"></i>
                                             {{ucfirst(Auth::user()->name)}}
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="adminDropDownMenu">
@@ -1216,80 +1216,99 @@
                                 <tbody>
                                 @for ($i=0; $i < ceil($product_number/5); $i++)
                                     <tr>
-                                        <td class="product-img sound-btn" title="{{$lims_product_list[0+$i*5]->name}}"
+                                        <td class="listed-product-wrapper product-img sound-btn" title="{{$lims_product_list[0+$i*5]->name}}"
                                             data-product="{{$lims_product_list[0+$i*5]->code . ' (' . $lims_product_list[0+$i*5]->name . ')'}}">
-                                            <button type="button" class="btn btn-default plus" style="    border: 1px solid #ccc;
-                                        padding: 4px 8px;
-                                        float: right;
-                                        background: transparent;"><i class="dripicons-plus"></i></button>
-                                            </span><img
-                                                src="{{url('public/images/product',$lims_product_list[0+$i*5]->base_image)}}"
-                                                width="100%"/>
-                                            <p>{{$lims_product_list[0+$i*5]->name}}</p>
+                                            <div class="listed-product-content">
+                                                <button type="button" class="btn btn-default plus" style="    border: 1px solid #ccc;
+                                                padding: 4px 8px;
+                                                float: right;
+                                                background: transparent;"><i class="dripicons-plus"></i></button>
+                                                    </span><img
+                                                        src="{{url('public/images/product',$lims_product_list[0+$i*5]->base_image)}}"
+                                                        width="100%"/>
+                                                    <p>{{$lims_product_list[0+$i*5]->name}}</p>
+                                            </div>
+
                                         </td>
                                         @if(!empty($lims_product_list[1+$i*5]))
-                                            <td class="product-img sound-btn"
+                                            <td class="listed-product-wrapper product-img sound-btn"
                                                 title="{{$lims_product_list[1+$i*5]->name}}"
                                                 data-product="{{$lims_product_list[1+$i*5]->code . ' (' . $lims_product_list[1+$i*5]->name . ')'}}">
-                                                <button type="button" class="btn btn-default plus" style="    border: 1px solid #ccc;
-                                        padding: 4px 8px;
-                                        float: right;
-                                        background: transparent;"><i class="dripicons-plus"></i></button>
-                                                <img
-                                                    src="{{url('public/images/product',$lims_product_list[1+$i*5]->base_image)}}"
-                                                    width="100%"/>
-                                                <p>{{$lims_product_list[1+$i*5]->name}}</p>
+                                                <div class="listed-product-content">
+                                                    <button type="button" class="btn btn-default plus" style="    border: 1px solid #ccc;
+                                                    padding: 4px 8px;
+                                                    float: right;
+                                                    background: transparent;"><i class="dripicons-plus"></i></button>
+                                                            <img
+                                                                src="{{url('public/images/product',$lims_product_list[1+$i*5]->base_image)}}"
+                                                                width="100%"/>
+                                                            <p>{{$lims_product_list[1+$i*5]->name}}</p>
+                                                </div>
+
                                             </td>
                                         @else
-                                            <td style="border:none;"></td>
+                                        <td class="listed-product-wrapper product-img sound-btn" style="border:none;">
+                                        </td>
                                         @endif
                                         @if(!empty($lims_product_list[2+$i*5]))
-                                            <td class="product-img sound-btn"
+                                            <td class="listed-product-wrapper product-img sound-btn"
                                                 title="{{$lims_product_list[2+$i*5]->name}}"
                                                 data-product="{{$lims_product_list[2+$i*5]->code . ' (' . $lims_product_list[2+$i*5]->name . ')'}}">
-                                                <button type="button" class="btn btn-default plus" style="    border: 1px solid #ccc;
-                                        padding: 4px 8px;
-                                        float: right;
-                                        background: transparent;"><i class="dripicons-plus"></i></button>
-                                                <img
-                                                    src="{{url('public/images/product',$lims_product_list[2+$i*5]->base_image)}}"
-                                                    width="100%"/>
-                                                <p>{{$lims_product_list[2+$i*5]->name}}</p>
+                                                <div class="listed-product-content">
+                                                    <button type="button" class="btn btn-default plus" style="    border: 1px solid #ccc;
+                                                    padding: 4px 8px;
+                                                    float: right;
+                                                    background: transparent;"><i class="dripicons-plus"></i></button>
+                                                            <img
+                                                                src="{{url('public/images/product',$lims_product_list[2+$i*5]->base_image)}}"
+                                                                width="100%"/>
+                                                            <p>{{$lims_product_list[2+$i*5]->name}}</p>
+                                                </div>
+
                                             </td>
                                         @else
-                                            <td style="border:none;"></td>
+                                        <td class="listed-product-wrapper product-img sound-btn" style="border:none;">
+                                        </td>
                                         @endif
                                         @if(!empty($lims_product_list[3+$i*5]))
-                                            <td class="product-img sound-btn"
+                                            <td class="listed-product-wrapper product-img sound-btn"
                                                 title="{{$lims_product_list[3+$i*5]->name}}"
                                                 data-product="{{$lims_product_list[3+$i*5]->code . ' (' . $lims_product_list[3+$i*5]->name . ')'}}">
-                                                <button type="button" class="btn btn-default plus" style="    border: 1px solid #ccc;
-                                        padding: 4px 8px;
-                                        float: right;
-                                        background: transparent;"><i class="dripicons-plus"></i></button>
-                                                <img
-                                                    src="{{url('public/images/product',$lims_product_list[3+$i*5]->base_image)}}"
-                                                    width="100%"/>
-                                                <p>{{$lims_product_list[3+$i*5]->name}}</p>
+                                                <div class="listed-product-content">
+                                                    <button type="button" class="btn btn-default plus" style="    border: 1px solid #ccc;
+                                                    padding: 4px 8px;
+                                                    float: right;
+                                                    background: transparent;"><i class="dripicons-plus"></i></button>
+                                                            <img
+                                                                src="{{url('public/images/product',$lims_product_list[3+$i*5]->base_image)}}"
+                                                                width="100%"/>
+                                                            <p>{{$lims_product_list[3+$i*5]->name}}</p>
+                                                </div>
+
                                             </td>
                                         @else
-                                            <td style="border:none;"></td>
+                                        <td class="listed-product-wrapper product-img sound-btn" style="border:none;">
+                                        </td>
                                         @endif
                                         @if(!empty($lims_product_list[4+$i*5]))
-                                            <td class="product-img sound-btn"
+                                            <td class="listed-product-wrapper product-img sound-btn"
                                                 title="{{$lims_product_list[4+$i*5]->name}}"
                                                 data-product="{{$lims_product_list[4+$i*5]->code . ' (' . $lims_product_list[4+$i*5]->name . ')'}}">
-                                                <button type="button" class="btn btn-default plus" style="    border: 1px solid #ccc;
-                                        padding: 4px 8px;
-                                        float: right;
-                                        background: transparent;"><i class="dripicons-plus"></i></button>
-                                                <img
-                                                    src="{{url('public/images/product',$lims_product_list[4+$i*5]->base_image)}}"
-                                                    width="100%"/>
-                                                <p>{{$lims_product_list[4+$i*5]->name}}</p>
+                                                <div class="listed-product-content">
+                                                    <button type="button" class="btn btn-default plus" style="    border: 1px solid #ccc;
+                                                    padding: 4px 8px;
+                                                    float: right;
+                                                    background: transparent;"><i class="dripicons-plus"></i></button>
+                                                            <img
+                                                                src="{{url('public/images/product',$lims_product_list[4+$i*5]->base_image)}}"
+                                                                width="100%"/>
+                                                            <p>{{$lims_product_list[4+$i*5]->name}}</p>
+                                                </div>
+
                                             </td>
                                         @else
-                                            <td style="border:none;"></td>
+                                            <td class="listed-product-wrapper product-img sound-btn" style="border:none;">
+                                            </td>
                                         @endif
                                     </tr>
                                 @endfor
@@ -1552,7 +1571,7 @@
                          </span>
                         </div>
                     </div>
-                    <div class="payment-options">
+                    <div class="hidden payment-options">
                         <div class="column-5 hidden">
                             <button style="background: #0984e3" type="button" class="btn btn-custom payment-btn"
                                     data-toggle="modal" data-target="#add-payment" id="credit-card-btn"><i
@@ -1608,6 +1627,57 @@
                     </div>
                 </div>
             </div>
+                <div class="row">
+                    <div class="mobile-menu-nav">
+                        <div class="container">
+                            <div class="row justify-content-around navigation-items">
+                                <div class="col-3 navigation-item">
+                                    <i class="fa-light fa-home"></i>
+                                    <div class="menu-title">Home</div>
+                                </div>
+                                <div class="col-3 navigation-item">
+                                    <i class="fa-light fa-list"></i>
+                                    <div class="menu-title">Bills</div>
+                                </div>                                
+
+                                <div class="col-3 navigation-item">
+                                    <i class="fa-light fa-user"></i>
+                                    <div class="menu-title">Profile</div>
+                                </div>
+                                <div class="col-3 navigation-item">
+                                    <i class="fa-light fa-bookmark"></i>
+                                    <div class="menu-title">Home</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <button class="btn btn-primary" id="liveToastBtn" onclick="return showToast()" type="button">Show live toast</button>
+                
+                <div class="toaster position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+                    <div class="toast fade hide" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true">
+                      <div class="toast-header">
+                        <svg class="docs-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                          <rect width="100%" height="100%" fill="#007aff"></rect>
+                        </svg><strong class="me-auto">Bootstrap</strong><small>11 mins ago</small>
+                        <button class="btn-close" type="button" data-dismiss="toast" aria-label="Close"></button>
+                      </div>
+                      <div class="toast-body">Hello, world! This is a toast message.</div>
+                    </div>
+                  </div> --}}
+                  <div id="testToast" class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                      <svg class="docs-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="#007aff"></rect>
+                      </svg><strong class="me-auto">Bootstrap</strong><small>11 mins ago</small>
+                      <button class="btn-close" type="button" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">Hello, world! This is a toast message.</div>
+                  </div> 
+
+                  
+
+
             <!-- payment modal -->
             <div id="add-payment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
                  class="modal fade text-left">
@@ -2280,6 +2350,8 @@
             </div>
         </div>
         </div>
+        {{-- Tabs Experiment --}}
+        
     </section>
 
 @endsection
@@ -2905,6 +2977,11 @@
             else
                 checkDiscount(qty, true);
         });
+
+                    // function showToast(){
+                    //     $("#testToast").addClass("show");
+                    //     //#("testToast").removeClass("toast-is-hidden");
+                    // }
 
         $("#myTable").on('click', '.minus', function () {
             rowindex = $(this).closest('tr').index();
