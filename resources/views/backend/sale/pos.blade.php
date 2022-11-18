@@ -1909,7 +1909,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNotifications"
+                <div class="offcanvas add-product offcanvas-end" tabindex="-1" id="offcanvasNotifications"
                     aria-labelledby="offcanvasNotificationsLabel" aria-modal="true" role="dialog">
                     <div class="offcanvas-header px-5">
                         <h3 class="offcanvas-title" id="offcanvasNotificationsLabel">Add Product</h3>
