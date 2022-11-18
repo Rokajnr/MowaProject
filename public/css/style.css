@@ -536,8 +536,11 @@ td.listed-product-wrapper.product-img.sound-btn {
     position: fixed;
     bottom: 1px;
     width: 100%;
-    z-index: 9999;
+    z-index: 9989;
     box-shadow: var(--box-shadow-default);
+}
+#billsMobileView, #offcanvasNotifications {
+    z-index: 9990;
 }
 
 @media (min-width: 992px) {
@@ -581,7 +584,28 @@ td.listed-product-wrapper.product-img.sound-btn {
 .dashly a.dropdown-item {
     font-size: 13px
 }
+.add-product.offcanvas .card {
+    height: 80px;
+}
 
+.add-product.offcanvas .mowa-card .btn.btn-link {
+    padding: 20px 10px;
+}
+
+.add-product.offcanvas .card-body { padding: 0px;
+}
+
+.add-product.offcanvas h5.card-title {
+    font-size: 12px;
+}
+
+.add-product.offcanvas .col-3.mowa-card {
+    padding-left: 5px !important;
+}
+.add-product.offcanvas td.listed-product-wrapper.product-img.sound-btn {
+    padding: 5px;
+    min-width: 145px;
+}
 /* Mobile Responsive Breakpoints */
 @media (max-width:768px){
 /*     .payment-amount {
