@@ -1105,13 +1105,13 @@
                                         class="fa fa-bars"> </i></a></div>
 
                             <div class="dropdown">
-                                <a class="dropdown-toggle no-arrow" href="#" id="adminDropDownMenu" role="button"
+                                <span class="dropdown-toggle no-arrow" href="#" id="adminDropDownMenu" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i
                                         class="fa-regular fa-user no-arrow d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px link-secondary"></i>
                                     {{ ucfirst(Auth::user()->name) }}
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="adminDropDownMenu">
+                                </span>
+                                <div class="dropdown-menu dropdown-menu-center" aria-labelledby="adminDropDownMenu">
                                     <li><a class="dropdown-item"
                                             href="{{ route('user.profile', ['id' => Auth::id()]) }}"><i
                                                 class="dripicons-user"></i> {{ trans('file.profile') }}</a>
@@ -1747,86 +1747,15 @@
                     <div class="container">
                         <div class="row justify-content-around navigation-items">
                             <div class="col-3 navigation-item">
-                                <span type="button" role="tab" aria-controls="itemsListTab" aria-selected="true">
-                                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 32 32" style="
-    width: 40px;
-    padding: 10px 0px 0px;
-">
-                                        <path
-                                            d="M28.09,30.39H23.25a.34.34,0,0,1-.3-.18,2.34,2.34,0,0,0-4.14,0,.33.33,0,0,1-.3.18H14.17a.33.33,0,0,1-.3-.18,2.34,2.34,0,0,0-4.14,0,.33.33,0,0,1-.3.18H4.59a.32.32,0,0,1-.33-.31V2.13a.33.33,0,0,1,.33-.32h23.5a.33.33,0,0,1,.33.32v28A.32.32,0,0,1,28.09,30.39Zm-4.64-.63h4.31V2.45H4.93V29.76h4.3a3,3,0,0,1,5.14,0h3.94a3,3,0,0,1,5.14,0Z">
-                                        </path>
-                                        <path d="M10.23,14.65H9.16a.32.32,0,1,1,0-.63h1.07a.32.32,0,1,1,0,.63Z"></path>
-                                        <path d="M23.53,14.65H12.47a.32.32,0,1,1,0-.63H23.53a.32.32,0,1,1,0,.63Z"></path>
-                                        <path
-                                            d="M10.23,17.83H9.16a.33.33,0,0,1-.34-.32.33.33,0,0,1,.34-.32h1.07a.32.32,0,0,1,.33.32A.32.32,0,0,1,10.23,17.83Z">
-                                        </path>
-                                        <path
-                                            d="M23.53,17.83H12.47a.32.32,0,0,1-.33-.32.33.33,0,0,1,.33-.32H23.53a.33.33,0,0,1,.33.32A.32.32,0,0,1,23.53,17.83Z">
-                                        </path>
-                                        <path d="M10.23,21H9.16a.32.32,0,1,1,0-.63h1.07a.32.32,0,1,1,0,.63Z"></path>
-                                        <path d="M23.53,21H12.47a.32.32,0,1,1,0-.63H23.53a.32.32,0,1,1,0,.63Z"></path>
-                                        <path d="M23.53,24.18H20.07a.32.32,0,1,1,0-.63h3.46a.32.32,0,1,1,0,.63Z"></path>
-                                        <path
-                                            d="M17.83,9a.33.33,0,0,1-.34-.31.4.4,0,0,0-.41-.4A.32.32,0,0,1,16.75,8a.33.33,0,0,1,.33-.32,1.07,1.07,0,0,1,1.08,1A.32.32,0,0,1,17.83,9Z">
-                                        </path>
-                                        <path
-                                            d="M16.34,5.75A.33.33,0,0,1,16,5.43V4.55a.33.33,0,0,1,.66,0v.88A.33.33,0,0,1,16.34,5.75Z">
-                                        </path>
-                                        <path
-                                            d="M17.08,8.27H15.6a1.05,1.05,0,0,1-1.07-1V6.14a1.05,1.05,0,0,1,1.07-1h1.48a1.06,1.06,0,0,1,1.08,1,.34.34,0,0,1-.67,0,.4.4,0,0,0-.41-.39H15.6a.4.4,0,0,0-.41.39v1.1a.4.4,0,0,0,.41.39h1.48a.33.33,0,0,1,.33.32A.32.32,0,0,1,17.08,8.27Z">
-                                        </path>
-                                        <path
-                                            d="M16.34,11.68a.33.33,0,0,1-.33-.32v-.88a.33.33,0,0,1,.66,0v.88A.33.33,0,0,1,16.34,11.68Z">
-                                        </path>
-                                        <path
-                                            d="M17.08,10.79H15.6a1.05,1.05,0,0,1-1.07-1,.32.32,0,0,1,.33-.31.32.32,0,0,1,.33.31.4.4,0,0,0,.41.4h1.48a.4.4,0,0,0,.41-.4V8.67a.34.34,0,0,1,.67,0V9.76A1.06,1.06,0,0,1,17.08,10.79Z">
-                                        </path>
-                                    </svg>
+                                <span type="button" role="tab" class="btn" aria-controls="itemsListTab" aria-selected="true">
+                                    <span class="menu-icon"> <img src="{{ url('public/images/icons/streamlinehq-receipt-register-1-shopping-ecommerce-48.png') }}" /></span>
                                     <div class="menu-title">POS</div>
                                 </span>
                             </div>
                             <div class="col-3 navigation-item">
                                 <span type="button" class="btn" data-bs-toggle="modal"
                                     data-bs-target="#billsMobileView">
-                                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 32 32" style="
-    width: 40px;
-    padding-bottom: 5px;
-">
-                                        <path
-                                            d="M27.91,19.78a2.22,2.22,0,0,1-1-.26,2.17,2.17,0,0,1-1.1-1.6.71.71,0,0,1,1.41-.18.71.71,0,0,0,.38.54.75.75,0,0,0,.55.06.77.77,0,0,0,.44-.35.72.72,0,0,0-.29-1l-1.39-.79A2.12,2.12,0,0,1,26,13.33a2.15,2.15,0,0,1,4,.75.7.7,0,0,1-.61.79.71.71,0,0,1-.8-.61.74.74,0,0,0-.37-.54.73.73,0,0,0-1,.29.72.72,0,0,0,.29,1l1.38.79a2.13,2.13,0,0,1-.44,3.91A2.1,2.1,0,0,1,27.91,19.78Z">
-                                        </path>
-                                        <path
-                                            d="M27.92,13.63a.7.7,0,0,1-.71-.7V12a.71.71,0,0,1,1.42,0v1A.7.7,0,0,1,27.92,13.63Z">
-                                        </path>
-                                        <path
-                                            d="M27.92,20.73a.7.7,0,0,1-.71-.7v-1a.71.71,0,0,1,1.42,0v1A.7.7,0,0,1,27.92,20.73Z">
-                                        </path>
-                                        <path
-                                            d="M24.81,31.88H8.48a3.81,3.81,0,0,1-3.82-3.79V3.91A3.81,3.81,0,0,1,8.48.12H24.81a3.81,3.81,0,0,1,3.82,3.79V9.1a.71.71,0,0,1-1.42,0V3.91a2.4,2.4,0,0,0-2.4-2.38H8.48a2.4,2.4,0,0,0-2.4,2.38V28.09a2.4,2.4,0,0,0,2.4,2.38H24.81a2.4,2.4,0,0,0,2.4-2.38V22.9a.71.71,0,0,1,1.42,0v5.19A3.81,3.81,0,0,1,24.81,31.88Z">
-                                        </path>
-                                        <path d="M22.88,23.44H13.12a.71.71,0,1,1,0-1.41h9.76a.71.71,0,1,1,0,1.41Z"></path>
-                                        <path
-                                            d="M22.88,19.23H13.12a.71.71,0,0,1-.72-.7.71.71,0,0,1,.72-.71h9.76a.71.71,0,0,1,.71.71A.7.7,0,0,1,22.88,19.23Z">
-                                        </path>
-                                        <path
-                                            d="M22.88,15H13.12a.71.71,0,0,1-.72-.7.71.71,0,0,1,.72-.71h9.76a.71.71,0,0,1,.71.71A.7.7,0,0,1,22.88,15Z">
-                                        </path>
-                                        <path
-                                            d="M22.88,10.81H13.12a.71.71,0,0,1-.72-.7.71.71,0,0,1,.72-.71h9.76a.71.71,0,0,1,.71.71A.7.7,0,0,1,22.88,10.81Z">
-                                        </path>
-                                        <path d="M10.91,23.44h-.5a.71.71,0,1,1,0-1.41h.5a.71.71,0,1,1,0,1.41Z"></path>
-                                        <path
-                                            d="M10.91,19.23h-.5a.7.7,0,0,1-.71-.7.71.71,0,0,1,.71-.71h.5a.71.71,0,0,1,.71.71A.7.7,0,0,1,10.91,19.23Z">
-                                        </path>
-                                        <path
-                                            d="M10.91,15h-.5a.7.7,0,0,1-.71-.7.71.71,0,0,1,.71-.71h.5a.71.71,0,0,1,.71.71A.7.7,0,0,1,10.91,15Z">
-                                        </path>
-                                        <path
-                                            d="M10.91,10.81h-.5a.7.7,0,0,1-.71-.7.71.71,0,0,1,.71-.71h.5a.71.71,0,0,1,.71.71A.7.7,0,0,1,10.91,10.81Z">
-                                        </path>
-                                    </svg>
+                                    <span class="menu-icon"> <img src="{{ url('public/images/icons/streamlinehq-receipt-dollar-shopping-ecommerce-48.png') }}" /></span>
                                     <div class="menu-title">Bills</div>
                                 </span>
                             </div>
@@ -1834,56 +1763,14 @@
                             <div class="col-3 navigation-item">
                                 <span type="button" class="btn" data-bs-toggle="offcanvas"
                                     href="#offcanvasNotifications" role="button" aria-controls="offcanvasNotifications">
-                                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 32 32" style="
-    width: 45px;
-">
-                                        <path
-                                            d="M16,26.33A3.3,3.3,0,1,1,19.18,23,3.25,3.25,0,0,1,16,26.33Zm0-5.89A2.59,2.59,0,1,0,18.49,23,2.55,2.55,0,0,0,16,20.44Z">
-                                        </path>
-                                        <path
-                                            d="M22,17.83a6.38,6.38,0,0,0-2.82-4.95L18.07,3h0a1,1,0,0,0,1-1,2,2,0,0,0-1.92-2H14.79a2,2,0,0,0-1.92,2,1,1,0,0,0,1,1.05h0l-1.14,9.84A6.38,6.38,0,0,0,10,17.83h0v12A2.13,2.13,0,0,0,12.05,32H20A2.13,2.13,0,0,0,22,29.84v-12Zm-.68.71v9H10.65v-9ZM13.89,2.33A.34.34,0,0,1,13.56,2,1.25,1.25,0,0,1,14.79.71h2.42A1.25,1.25,0,0,1,18.44,2a.34.34,0,0,1-.33.34H13.89Zm.73.71h2.76l.86,7.43H13.76ZM13.28,13.4l.15-.09.25-2.13h4.64l.25,2.13.15.09a5.63,5.63,0,0,1,2.62,4.43H10.66A5.65,5.65,0,0,1,13.28,13.4Zm8.07,16.44A1.43,1.43,0,0,1,20,31.29h-7.9a1.43,1.43,0,0,1-1.4-1.45V28.22h10.7Z"
-                                            style="
-"></path>
-                                    </svg>
+                                    <span class="menu-icon"> <img src="{{ url('public/images/icons/streamlinehq-spirits-glass-food-drinks-48.png') }}" /></span>
                                     <div class="menu-title">Product</div>
                                 </span>
                             </div>
                             <div class="col-3 navigation-item">
                                 <span type="button" class="btn" data-bs-toggle="modal"
                                     data-bs-target="#recentSalesMobileView">
-                                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 32 32" style="
-    width: 44px;
-">
-                                        <path
-                                            d="M31.56,21.23a1.82,1.82,0,0,0-2.06-1.3c-1.38.25-2.91.67-4.52,1.1-.84.23-1.71.46-2.56.67a3.22,3.22,0,0,0-3-2.58l-.66,0a10.13,10.13,0,0,1-3.23-.8,9.93,9.93,0,0,0-3.21-.79,7.55,7.55,0,0,0-5.48,2.13.94.94,0,0,1-.6.23h0l-.47,0V18.63a.35.35,0,0,0-.34-.36H.7a.35.35,0,0,0-.34.36v9.58a.35.35,0,0,0,.34.36H5.41a.35.35,0,0,0,.34-.36v-1.4H7.43A7.25,7.25,0,0,1,9.1,27l5,1.14a6.32,6.32,0,0,0,1.37.15h.09l2.77,0a6.15,6.15,0,0,0,2.39-.52l9.82-4.24A1.87,1.87,0,0,0,31.56,21.23ZM5.06,27.86h-4V19h4v8.87Zm25.21-5-9.82,4.24a5.58,5.58,0,0,1-2.13.46l-2.77,0a5.68,5.68,0,0,1-1.3-.13l-5-1.15a8.6,8.6,0,0,0-1.82-.2H5.75V20.56l.45,0h0a1.55,1.55,0,0,0,1.06-.41,7,7,0,0,1,5-2,9.51,9.51,0,0,1,3,.75,10.63,10.63,0,0,0,3.44.84h0l.66,0a2.52,2.52,0,0,1,2.36,2c-2.94.68-5.7,1-7-.18a.35.35,0,0,0-.49,0,.36.36,0,0,0,0,.5c2,1.89,6.51.69,10.85-.48,1.61-.43,3.12-.84,4.47-1.09a1.13,1.13,0,0,1,1.28.8A1.17,1.17,0,0,1,30.27,22.84Z">
-                                        </path>
-                                        <path
-                                            d="M28,4.42v0a.32.32,0,0,0,0-.09,0,0,0,0,0,0,0,.36.36,0,0,0-.07-.1h0l-.06,0h-.05l-1.84-.65a.35.35,0,0,0-.44.22.37.37,0,0,0,.21.46l1.19.41-8.44,5.88-2.65-3a.35.35,0,0,0-.46-.05L6.65,13.81a.36.36,0,0,0-.08.49.35.35,0,0,0,.29.15.31.31,0,0,0,.2-.07l8.4-6.23,2.63,3a.35.35,0,0,0,.46,0l8.72-6.07V6.5a.35.35,0,0,0,.7,0V4.42Z">
-                                        </path>
-                                        <path
-                                            d="M6.86,17.61a.35.35,0,0,1-.35-.36v-1a.35.35,0,1,1,.69,0v1A.35.35,0,0,1,6.86,17.61Z">
-                                        </path>
-                                        <path
-                                            d="M10.32,16.54a.35.35,0,0,1-.35-.35v-2a.35.35,0,1,1,.69,0v2A.35.35,0,0,1,10.32,16.54Z">
-                                        </path>
-                                        <path
-                                            d="M13.78,16.19a.35.35,0,0,1-.35-.36V11.66a.35.35,0,1,1,.69,0v4.17A.35.35,0,0,1,13.78,16.19Z">
-                                        </path>
-                                        <path
-                                            d="M17.24,17.25a.34.34,0,0,1-.35-.35V13.08a.35.35,0,1,1,.69,0V16.9A.35.35,0,0,1,17.24,17.25Z">
-                                        </path>
-                                        <path
-                                            d="M20.7,18a.35.35,0,0,1-.35-.36V12.37a.35.35,0,1,1,.69,0v5.24A.35.35,0,0,1,20.7,18Z">
-                                        </path>
-                                        <path
-                                            d="M24.16,19.39a.35.35,0,0,1-.35-.36V10.24a.35.35,0,1,1,.69,0V19A.35.35,0,0,1,24.16,19.39Z">
-                                        </path>
-                                        <path
-                                            d="M27.62,18.68a.35.35,0,0,1-.35-.36V9.53a.35.35,0,1,1,.69,0v8.79A.35.35,0,0,1,27.62,18.68Z">
-                                        </path>
-                                    </svg>
+                                    <span class="menu-icon"> <img src="{{ url('public/images/icons/streamlinehq-performance-money-increase-business-products-48.png') }}" /></span>
                                     <div class="menu-title">Sales</div>
                                 </span>
                             </div>
@@ -1901,7 +1788,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body px-2">
                                 <div class="bills-tab">
                                     <div class="bills-header">
                                         <div class="row">
@@ -1918,7 +1805,7 @@
                                             <div class="bill-item">
                                                 <div class="row">
                                                     <div class="square-abrv col-3">
-                                                        <h1 class="cc_1">A</h1>
+                                                        <h1 class="text-bg-primary-soft">A</h1>
                                                     </div>
                                                     <div class="col-9">
                                                         @if (in_array('sales-edit', $all_permission))
