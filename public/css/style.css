@@ -432,6 +432,12 @@ a#notification-icon:after {
 .pos-page .navbar-header .nav-menu i {
     font-size: 16px !important;
 }
+span.menu-icon img {
+    width: 35px;
+    text-align: center;
+    padding-bottom: 3px;
+}
+
 
 a#toggle-btn {
     z-index: 9999;
@@ -569,11 +575,11 @@ td.listed-product-wrapper.product-img.sound-btn {
 
 .dashly a.dropdown-item i {
     margin-right: 10px;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .dashly a.dropdown-item {
-    font-size: 14px
+    font-size: 13px
 }
 
 /* Mobile Responsive Breakpoints */
