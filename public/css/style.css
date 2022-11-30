@@ -116,6 +116,9 @@ div.has-error>.form-text {
     --cc_11: #00a183 !important;
     --box-shadow-default: 0 0 35px 0 rgb(154 161 171 / 15%);
     --border-color-default: #e4e6fc;
+    --bbva_main_color: #004481;
+    --bbva_cc_2: #dde9f2;
+    --bbva_cc_3: #4aa4c6;
 }
 
 .col-3.mowa-card.category-img[data-category="2"] .card {
@@ -175,6 +178,10 @@ div.has-error>.form-text {
 
 .purchase-totals .card-body {
     padding-top: 2px;
+}
+.card.purchase-totals {
+    background: #f8fafb;
+    box-shadow: none;
 }
 
 .purchase-totals input.form-control.date,
@@ -468,6 +475,15 @@ span.payment-option i {
     box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
     border-radius: 20px;
 }
+.payment-amount {
+    background-color: var(--bbva_main_color) !important;
+    color: var(--bbva_cc_2) !important;
+}
+
+.payment-amount h2 {
+    color: var(--bbva_cc_2) !important;
+}
+
 
 
 span.payment-option-heading {
@@ -687,6 +703,25 @@ td.listed-product-wrapper.product-img.sound-btn {
     max-height: 288px;
     overflow-y: scroll;
 }
+.modal-content thead tr, .modal-content thead th {
+    background-color: var(--bbva_main_color) !important;
+}
+.modal-content thead th{
+    color: var(--bbva_cc_2) !important;
+    padding: 5px 10px !important;
+    font-size: 14px;
+}
+.modal-content{
+    background-color: var(--bbva_cc_2) !important;
+}
+
+.modal-content td {
+    padding: 5px 10px !important;
+    font-size: 14px;
+    border-bottom: 2px solid #4aa4c629 !important;
+
+
+}
 /* Payment Modal */
 .payment-modal .modal-content .modal-body.color-1 {
     background: #5eb7b7;
@@ -741,11 +776,11 @@ td.listed-product-wrapper.product-img.sound-btn {
 }
 
 .payment-modal .modal-content .modal-body.color-1 {
-    background: #5eb7b7;
+    background: var(--bbva_cc_2);
 }
 
 .payment-modal .modal-content .modal-body.color-2 {
-    background: #1b2a49;
+    background: var(--bbva_main_color);
 }
 
 .payment-modal .modal-content .modal-body .icon span {
@@ -808,7 +843,7 @@ td.listed-product-wrapper.product-img.sound-btn {
 }
 
 .payment-modal .modal-content .btn-primary {
-    background: #5eb7b7 !important;
+    background: var(--bbva_cc_3) !important;
     height: 52px;
     border-radius: 0px;
     width: 100%;
@@ -870,6 +905,9 @@ td.listed-product-wrapper.product-img.sound-btn {
 .payment-modal .form-lg-text {
     font-size: 25px;
     font-weight: 700;
+}
+.payment-modal .bootstrap-select .btn-link {
+    color: inherit;
 }
 
 /* Mobile Responsive Breakpoints */
