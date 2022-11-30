@@ -572,6 +572,11 @@ td.listed-product-wrapper.product-img.sound-btn {
         display: none;
     }
 }
+@media (min-width:767.98px) and (max-width: 1023px){
+    .hidden-on-tablet{
+        display: none;
+    }
+}
 @media (min-width: 768px) {
     .sales-highlights-wrapper{
         display: none;
@@ -635,7 +640,13 @@ td.listed-product-wrapper.product-img.sound-btn {
     padding: 5px;
     min-width: 145px;
 }
+.pos-page #product-table {
+    background: #f3f3f3;
+}
 /* Sales Highlights */
+.sales-highlights-wrapper {
+    background: #dde9f2;
+}
 .sales-highlights-wrapper .row.bg-highlight-1 {
     background: #004481;
     min-height: 250px;
@@ -675,6 +686,18 @@ td.listed-product-wrapper.product-img.sound-btn {
 .sales-highlights-wrapper h5.text-muted.text-uppercase {
     color: #4dabcf !important;
     margin: 0px !important;
+}
+.sales-highlights .sales-icon img {
+    width: 30px;
+    padding-bottom: 10px;
+
+}
+
+.sales-highlights h6.text-muted.text-uppercase {
+    color: var(--bbva_main_color) !important;
+}
+.sales-highlights .badge {
+    font-size: 16px;
 }
 .sales-highlights-wrapper .card-body .row{
     vertical-align: middle;

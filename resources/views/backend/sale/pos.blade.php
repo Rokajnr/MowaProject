@@ -1114,7 +1114,7 @@
                                         class="fa-regular fa-user no-arrow d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px link-secondary"></i>
                                     {{ ucfirst(Auth::user()->name) }}
                                 </span>
-                                <div class="dropdown-menu dropdown-menu-center" aria-labelledby="adminDropDownMenu">
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDropDownMenu">
                                     <li><a class="dropdown-item"
                                             href="{{ route('user.profile', ['id' => Auth::id()]) }}"><i
                                                 class="dripicons-user"></i> {{ trans('file.profile') }}</a>
@@ -1150,7 +1150,7 @@
                     </header>
 
                 </div>
-                <div class="col-md-2 bills-tab hidden-on-mobile">
+                <div class="col-md-2 bills-tab hidden-on-mobile hidden-on-tablet">
                     <div class="bills-header">
                         <div class="row">
                             <h3 class="col-10 title">Bills</h3>
@@ -1253,8 +1253,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="row main-cards scrollbar pe-0">
-                            <div class="col-3 mowa-card">
+                        <div class="row main-cards scrollbar ms-1 pe-0">
+                            <div class="col-sm-4 col-lg-3 mowa-card px-1">
                                 <div class="card cc_7">
                                     <a class="btn btn-link" id="category-filter">
                                         <div class="card-body">
@@ -1263,7 +1263,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-3 mowa-card">
+                            <div class="col-sm-4 col-lg-3 mowa-card px-1">
                                 <div class="card cc_2">
                                     <a class="btn btn-link" id="brand-filter">
                                         <div class="card-body">
@@ -1272,7 +1272,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-3 mowa-card">
+                            <div class="col-sm-4 col-lg-3 mowa-card px-1">
                                 <div class="card cc_5">
                                     <a class="btn btn-link" id="featured-filter">
                                         <div class="card-body">
@@ -1282,7 +1282,7 @@
                                 </div>
                             </div>
                             @foreach ($lims_category_list as $category)
-                                <div class="col-3 mowa-card category-img" data-category="{{ $category->id }}">
+                                <div class="col-sm-4 col-lg-3 mowa-card px-1 category-img" data-category="{{ $category->id }}">
                                     <div class="card cc_8">
                                         <a class="btn btn-link">
                                             <div class="card-body">
@@ -1294,7 +1294,7 @@
                             @endforeach
                         </div>
                         <div class="col-md-12 mt-1 table-container">
-                            <table id="product-table" class="table no-shadow product-list">
+                            <table id="product-table" class="table table-responsive no-shadow product-list">
                                 <thead class="d-none">
                                     <tr>
                                         <th></th>
@@ -1421,40 +1421,49 @@
                 <div id="sales-highlights" class="col-md-3 sales-highlights-wrapper">
                     <div class="row bg-highlight-1">
                         <div class="welcome-text col">
-                            <h2><strong> Welcome Back! Admin </strong></h2>
+                            <h2><strong> Welcome Back! {{ ucfirst(Auth::user()->name) }} </strong></h2>
                         </div>
                     </div>
                     <div class="col-md-12 sales-highlights">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body align-items-center">
                                 <div class="highlight-heading">
                                     <h2>Today's Sales</h2>
                                 </div>
                                 <div class="row cash-in-hand">
                                     <div class="col-4">
+                                        <span class="sales-icon">
+                                            <img src="{{ url('public/images/icons/cash-in-hand.png') }}" alt="">
+                                        </span>
                                         <h6 class="text-muted text-uppercase">Cash In Hand
-                                            <br><span class="text-lowercase text-primary">For current shift</span>
+                                            {{-- <br><span class="text-lowercase text-primary">For current shift</span> --}}
                                         </h6>
 
                                     </div>
                                     <div class="col-8">
-                                        <h5 id="cash_in_hand" class="card-title"></h5>
+                                        <h5 class="card-title"><span id="cash_in_hand" class="badge text-bg-success-soft"></span></h5>
                                     </div>
                                 </div>
                                 <div class="row profits">
                                     <div class="col-4">
+                                        <span class="sales-icon">
+                                            <img src="{{ url('public/images/icons/profits.png') }}" alt="">
+                                        </span>
                                         <h6 class="text-muted text-uppercase">Profits</h6>
                                     </div>
                                     <div class="col-8">
-                                        <h5 class="card-title today_profit">0</h5>
+                                        <h5 class="card-title"><span class="today_profit badge text-bg-success-soft">0</span></h5>
                                     </div>
                                 </div>
                                 <div class="row sales">
                                     <div class="col-4">
+                                        <span class="sales-icon">
+                                            <img src="{{ url('public/images/icons/cash-payments.png') }}" alt="">
+                                        </span>
                                         <h6 class="text-muted text-uppercase">Cash Sales</h6>
                                     </div>
                                     <div class="col-8">
-                                        <h5 class="card-title cash_payment">0</h5>
+                                        <h5 class="card-title"><span class="cash_payment badge text-bg-success-soft">0</span></h5>
                                     </div>
                                 </div>
                                 <div class="row cash">
@@ -1462,7 +1471,7 @@
                                         <h6 class="text-muted text-uppercase">Total Sales</h6>
                                     </div>
                                     <div class="col-8">
-                                        <h5 class="card-title total_sale_amount">0</h5>
+                                        <h5 class="card-title"><span class="total_sale_amount badge text-bg-success-soft">0</span></h5>
                                     </div>
                                 </div>
                             </div>
@@ -1470,7 +1479,7 @@
                     </div>
                     <div class="row bg-highlight-2"></div>
                 </div>
-                <div id="purchase-totals" class="col-md-3">
+                <div id="purchase-totals" class="col-xs-12 col-sm-5 col-lg-3">
                     <div class="card purchase-totals">
                         <div class="card-body" style="padding-bottom: 0">
                             {!! Form::open(['route' => 'sales.store', 'method' => 'post', 'files' => true, 'class' => 'payment-form']) !!}
@@ -1716,7 +1725,7 @@
                         </div>
                         <div class="payment-amount">
                             <a class="btn payment-btn" data-toggle="modal" data-target="#add-payment" id="cash-btn">
-                                <h2>{{ trans('file.grand total') }} <span id="grand-total">0.00</span></h2>
+                                <h2 class="fw-bold">Pay <span id="grand-total">0.00</span></h2>
                             </a>
                             <span class="dropup" style="vertical-align: middle;">
                                 <span type="button" class="payment-option dropdown-toggle no-arrow"
