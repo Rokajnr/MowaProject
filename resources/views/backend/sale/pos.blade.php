@@ -999,8 +999,7 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="notification-icon">
                                         <li><a href="{{ route('report.qtyAlert') }}" class="dropdown-item"><span
-                                                    class="green-badge"></span> {{ $alert_product }} product exceeds
-                                                alert quantity</a>
+                                                    class="green-badge"></span> {{ $alert_product }} Products are running low in stock</a>
                                         </li>
                                         @foreach (\Auth::user()->unreadNotifications as $key => $notification)
                                             <li> <a href="#"
@@ -1217,14 +1216,15 @@
                             </div>
                             <div class="row ml-2 mt-3">
                                 @foreach ($lims_category_list as $category)
-                                    <div class="col-md-3 category-img text-center" data-category="{{ $category->id }}">
-                                        @if ($category->image)
-                                            <img src="{{ url('public/images/category', $category->image) }}" />
-                                        @else
-                                            <img src="{{ url('public/images/product/zummXD2dvAtI.png') }}" />
-                                        @endif
-                                        <p class="text-center">{{ $category->name }}</p>
+                                <div class="col-2 mowa-card brand-img" data-category="{{ $category->id }}">
+                                    <div class="card cc_4">
+                                        <a class="btn btn-link">
+                                            <div class="card-body">
+                                                <h5 class="card-title"> {{ $category->name }}</h5>
+                                            </div>
+                                        </a>
                                     </div>
+                                </div>
                                 @endforeach
                             </div>
                         </div>
@@ -2012,7 +2012,16 @@
                                     </div>
                                     <div class="row ml-2 mt-3">
                                         @foreach ($lims_category_list as $category)
-                                            <div class="col-md-3 category-img text-center"
+                                        <div class="col-2 mowa-card brand-img" data-category="{{ $category->id }}">
+                                            <div class="card cc_4">
+                                                <a class="btn btn-link">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title"> {{ $category->name }}</h5>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                            {{-- <div class="col-md-3 category-img text-center"
                                                 data-category="{{ $category->id }}">
                                                 @if ($category->image)
                                                     <img src="{{ url('public/images/category', $category->image) }}" />
@@ -2020,7 +2029,7 @@
                                                     <img src="{{ url('public/images/product/zummXD2dvAtI.png') }}" />
                                                 @endif
                                                 <p class="text-center">{{ $category->name }}</p>
-                                            </div>
+                                            </div> --}}
                                         @endforeach
                                     </div>
                                 </div>
@@ -3147,8 +3156,8 @@
         </div>
         {{-- Toast Alert Messages --}}
         <div aria-live="polite" aria-atomic="true">
-            <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999 !important">
-                <div id="addProductToast" class="toast text-bg-info-soft fade" role="alert" aria-live="assertive"
+            <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999 !important">
+                <div id="addProductToast" class="toast text-bg-danger-soft fade" role="alert" aria-live="assertive"
                     data-bs-autohide="true" aria-atomic="true">
                     <div class="toast-header">
                         <i class="fa-light fa-triangle-exclamation text-bg-warning-soft me-2"></i><strong
@@ -3158,9 +3167,10 @@
                     </div>
                     <div class="toast-body">This product is not available in stock</div>
                 </div>
-                <div id="selectCustomerToast" class="toast text-bg-info-soft fade" role="alert"
+                <div id="selectCustomerToast" class="toast text-bg-danger-soft fade" role="alert"
                     aria-live="assertive" data-bs-autohide="true" aria-atomic="true">
                     <div class="toast-header">
+                        <i class="fa-light fa-triangle-exclamation text-bg-warning-soft me-2"></i>
                         <span class="legend-circle bg-info"></span><strong class="me-auto">Alert</strong><small>just
                             Now</small>
                         <button class="btn-close" type="button" data-bs-dismiss="toast"
@@ -3168,9 +3178,10 @@
                     </div>
                     <div class="toast-body">Please select Customer!</div>
                 </div>
-                <div id="selectWarehouseToast" class="toast text-bg-info-soft fade" role="alert"
+                <div id="selectWarehouseToast" class="toast text-bg-danger-soft fade" role="alert"
                     aria-live="assertive" data-bs-autohide="true" aria-atomic="true">
                     <div class="toast-header">
+                        <i class="fa-light fa-triangle-exclamation text-bg-warning-soft me-2"></i>
                         <span class="legend-circle bg-info"></span><strong class="me-auto">Alert</strong><small>just
                             Now</small>
                         <button class="btn-close" type="button" data-bs-dismiss="toast"
@@ -3178,9 +3189,10 @@
                     </div>
                     <div class="toast-body">This product is not available in stock</div>
                 </div>
-                <div id="changeQuantityToast" class="toast text-bg-info-soft fade" role="alert"
+                <div id="changeQuantityToast" class="toast text-bg-danger-soft fade" role="alert"
                     aria-live="assertive" data-bs-autohide="true" aria-atomic="true">
                     <div class="toast-header">
+                        <i class="fa-light fa-triangle-exclamation text-bg-warning-soft me-2"></i>
                         <span class="legend-circle bg-info"></span><strong class="me-auto">Alert</strong><small>just
                             Now</small>
                         <button class="btn-close" type="button" data-bs-dismiss="toast"
@@ -3188,7 +3200,7 @@
                     </div>
                     <div class="toast-body">Quantity can't be less than 0</div>
                 </div>
-                <div id="changeQuantity1Toast" class="toast text-bg-info-soft fade" role="alert"
+                <div id="changeQuantity1Toast" class="toast text-bg-danger-soft fade" role="alert"
                     aria-live="assertive" data-bs-autohide="true" aria-atomic="true">
                     <div class="toast-header">
                         <span class="legend-circle bg-info"></span><strong class="me-auto">Alert</strong><small>just
@@ -3198,9 +3210,10 @@
                     </div>
                     <div class="toast-body">Quantity can't be less than 1</div>
                 </div>
-                <div id="insertProductToast" class="toast text-bg-info-soft fade" role="alert"
+                <div id="insertProductToast" class="toast text-bg-danger-soft fade" role="alert"
                     aria-live="assertive" data-bs-autohide="true" aria-atomic="true">
                     <div class="toast-header">
+                        <i class="fa-light fa-triangle-exclamation text-bg-warning-soft me-2"></i>
                         <span class="legend-circle bg-info"></span><strong class="me-auto">Alert</strong><small>just
                             Now</small>
                         <button class="btn-close" type="button" data-bs-dismiss="toast"
@@ -3208,9 +3221,10 @@
                     </div>
                     <div class="toast-body">Please insert product to order table!</div>
                 </div>
-                <div id="payingAmountBiggerToast" class="toast text-bg-info-soft fade" role="alert"
+                <div id="payingAmountBiggerToast" class="toast text-bg-danger-soft fade" role="alert"
                     aria-live="assertive" data-bs-autohide="true" aria-atomic="true">
                     <div class="toast-header">
+                        <i class="fa-light fa-triangle-exclamation text-bg-warning-soft me-2"></i>
                         <span class="legend-circle bg-info"></span><strong class="me-auto">Alert</strong><small>just
                             Now</small>
                         <button class="btn-close" type="button" data-bs-dismiss="toast"
@@ -3218,9 +3232,10 @@
                     </div>
                     <div class="toast-body">Paying amount cannot be bigger than recieved amount</div>
                 </div>
-                <div id="payingAmountTotalToast" class="toast text-bg-info-soft fade" role="alert"
+                <div id="payingAmountTotalToast" class="toast text-bg-danger-soft fade" role="alert"
                     aria-live="assertive" data-bs-autohide="true" aria-atomic="true">
                     <div class="toast-header">
+                        <i class="fa-light fa-triangle-exclamation text-bg-warning-soft me-2"></i>
                         <span class="legend-circle bg-info"></span><strong class="me-auto">Alert</strong><small>just
                             Now</small>
                         <button class="btn-close" type="button" data-bs-dismiss="toast"
@@ -3228,7 +3243,7 @@
                     </div>
                     <div class="toast-body">Paying amount cannot be bigger than grand total</div>
                 </div>
-                <div id="payingAmountDepositToast" class="toast text-bg-info-soft fade" role="alert"
+                <div id="payingAmountDepositToast" class="toast text-bg-danger-soft fade" role="alert"
                     aria-live="assertive" data-bs-autohide="true" aria-atomic="true">
                     <div class="toast-header">
                         <span class="legend-circle bg-info"></span><strong class="me-auto">Alert</strong><small>just
@@ -3238,9 +3253,10 @@
                     </div>
                     <div class="toast-body">Amount exceeds customer deposit! Customer deposit</div>
                 </div>
-                <div id="exceedsStockQuantityToast" class="toast text-bg-info-soft fade" role="alert"
+                <div id="exceedsStockQuantityToast" class="toast text-bg-danger-soft fade" role="alert"
                     aria-live="assertive" data-bs-autohide="true" aria-atomic="true">
                     <div class="toast-header">
+                        <i class="fa-light fa-triangle-exclamation text-bg-warning-soft me-2"></i>
                         <span class="legend-circle bg-info"></span><strong class="me-auto">Alert</strong><small>just
                             Now</small>
                         <button class="btn-close" type="button" data-bs-dismiss="toast"
