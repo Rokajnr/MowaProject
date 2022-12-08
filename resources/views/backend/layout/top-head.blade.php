@@ -10,6 +10,9 @@
     <meta name="robots" content="all,follow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="manifest" href="{{url('manifest.json')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="<?php echo asset('vendor/bootstrap/css/bootstrap.min.css') ?>" type="text/css">
     <link rel="preload" href="<?php echo asset('vendor/bootstrap-toggle/css/bootstrap-toggle.min.css') ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -140,7 +143,7 @@
                         </div>
                         <div class="col-md-6 form-group">
                             <label>{{trans('file.Warehouse')}} *</label>
-                            <select name="warehouse_id" class="selectpicker form-control" required data-live-search="true" data-live-search-style="begins" title="Select Warehouse...">
+                            <select name="warehouse_id" class="selectpicker form-control" required data-live-search="true" data-live-search-style="begins" title="Select Outlet...">
                                 @foreach($lims_warehouse_list as $warehouse)
                                 <option value="{{$warehouse->id}}">{{$warehouse->name}}</option>
                                 @endforeach
@@ -193,7 +196,7 @@
                     ?>
                       <div class="form-group">
                           <label>{{trans('file.Warehouse')}} *</label>
-                          <select name="warehouse_id" class="selectpicker form-control" required data-live-search="true" id="warehouse-id" data-live-search-style="begins" title="Select warehouse...">
+                          <select name="warehouse_id" class="selectpicker form-control" required data-live-search="true" id="warehouse-id" data-live-search-style="begins" title="Select outlet...">
                               @foreach($lims_warehouse_list as $warehouse)
                               <option value="{{$warehouse->id}}">{{$warehouse->name}}</option>
                               @endforeach

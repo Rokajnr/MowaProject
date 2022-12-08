@@ -43,7 +43,7 @@
                                         <div class="form-group">
                                             <label>{{trans('file.Warehouse')}} *</label>
                                             <input type="hidden" name="warehouse_id_hidden" value="{{$lims_sale_data->warehouse_id}}" />
-                                            <select required id="warehouse_id" name="warehouse_id" class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" title="Select warehouse...">
+                                            <select required id="warehouse_id" name="warehouse_id" class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" title="Select outlet...">
                                                 @foreach($lims_warehouse_list as $warehouse)
                                                 <option value="{{$warehouse->id}}">{{$warehouse->name}}</option>
                                                 @endforeach
@@ -448,7 +448,7 @@
                 <div class="row">
                   <div class="col-md-6 form-group warehouse-section">
                       <label>{{trans('file.Warehouse')}} *</strong> </label>
-                      <select required name="warehouse_id" class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" title="Select warehouse...">
+                      <select required name="warehouse_id" class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" title="Select outlet...">
                           @foreach($lims_warehouse_list as $warehouse)
                           <option value="{{$warehouse->id}}">{{$warehouse->name}}</option>
                           @endforeach
@@ -1089,7 +1089,7 @@
         var shipping_cost = parseFloat($('input[name="shipping_cost"]').val());
         var order_discount_type = $('select[name="order_discount_type"]').val();
         var order_discount_value = parseFloat($('input[name="order_discount_value"]').val());
-    
+
         if (!order_discount_value)
             order_discount_value = 0.00;
 

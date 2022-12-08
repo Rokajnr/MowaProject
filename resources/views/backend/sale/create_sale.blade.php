@@ -757,7 +757,7 @@
                                         <div class="navbar-holder d-flex align-items-center justify-content-between">
                                           <a id="toggle-btn" href="#" class="menu-btn"><i class="fa fa-bars"> </i></a>
                                           <div class="navbar-header">
-                
+
                                           <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
                                             <li class="nav-item"><a id="btnFullscreen" title="Full Screen"><i class="dripicons-expand"></i></a></li>
                                             <?php
@@ -766,9 +766,9 @@
                                                             ['permission_id', $general_setting_permission->id],
                                                             ['role_id', Auth::user()->role_id]
                                                         ])->first();
-                
+
                                                 $pos_setting_permission = DB::table('permissions')->where('name', 'pos_setting')->first();
-                
+
                                                 $pos_setting_permission_active = DB::table('role_has_permissions')->where([
                                                     ['permission_id', $pos_setting_permission->id],
                                                     ['role_id', Auth::user()->role_id]
@@ -973,7 +973,7 @@
                                             @if($lims_pos_setting_data)
                                             <input type="hidden" name="warehouse_id_hidden" value="{{$lims_sale_data->warehouse_id}}">
                                             @endif
-                                            <select required id="warehouse_id" name="warehouse_id" class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" title="Select warehouse...">
+                                            <select required id="warehouse_id" name="warehouse_id" class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" title="Select outlet...">
                                                 @foreach($lims_warehouse_list as $warehouse)
                                                 <option value="{{$warehouse->id}}">{{$warehouse->name}}</option>
                                                 @endforeach

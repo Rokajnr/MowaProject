@@ -51,7 +51,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>{{trans('file.Warehouse')}} *</label>
-                                            <select id="warehouse_id" name="warehouse_id" required class="selectpicker form-control" data-live-search="true" title="Select warehouse...">
+                                            <select id="warehouse_id" name="warehouse_id" required class="selectpicker form-control" data-live-search="true" title="Select outlet...">
                                                 @foreach($lims_warehouse_list as $warehouse)
                                                 <option value="{{$warehouse->id}}">{{$warehouse->name}}</option>
                                                 @endforeach

@@ -225,7 +225,7 @@
                 <div class="row">
                   <div class="col-md-6 form-group warehouse-section">
                       <label>{{trans('file.Warehouse')}} *</strong> </label>
-                      <select required name="warehouse_id" class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" title="Select warehouse...">
+                      <select required name="warehouse_id" class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" title="Select outlet...">
                           @foreach($lims_warehouse_list as $warehouse)
                           <option value="{{$warehouse->id}}">{{$warehouse->name}}</option>
                           @endforeach
@@ -350,7 +350,7 @@ function calculateGrandTotal() {
     var order_tax = subtotal * (order_tax / 100);
     var grand_total = subtotal + order_tax;
 
-    
+
     $('#subtotal').text(subtotal.toFixed(2));
     $('#order_tax').text(order_tax.toFixed(2));
     $('input[name="order_tax"]').val(order_tax.toFixed(2));
