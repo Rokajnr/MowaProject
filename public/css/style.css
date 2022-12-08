@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 .logo-container {
     width: 100px;
 }
@@ -125,7 +126,7 @@ div.has-error>.form-text {
     background-color: #ddd6fc !important;
 }
 
-.main-cards .mowa-card.category-img[data-category="3"] .card, .main-cards .mowa-card.category-img[data-category="7"] .card, .main-cards .mowa-card.category-img[data-category="11"] .card {
+.main-cards .mowa-card.category-img[data-category="3"] .card, .main-cards .mowa-card.category-img[data-category="9"] .card, .main-cards .mowa-card.category-img[data-category="13"] .card {
     background-color: #d5d9e8 !important;
 }
 
@@ -133,7 +134,7 @@ div.has-error>.form-text {
     background-color: #ccece6 !important;
 }
 
-.main-cards .mowa-card.category-img[data-category="5"] .card, .main-cards .mowa-card.category-img[data-category="9"] .card , .main-cards .mowa-card.category-img[data-category="13"] .card{
+.main-cards .mowa-card.category-img[data-category="5"] .card, .main-cards .mowa-card.category-img[data-category="7"] .card , .main-cards .mowa-card.category-img[data-category="11"] .card{
     background-color: #f9d9e7 !important;
 }
 
@@ -736,7 +737,7 @@ td.listed-product-wrapper.product-img.sound-btn {
     font-size: 14px;
 }
 .modal-content{
-    background-color: var(--bbva_cc_2) !important;
+    /* background-color: var(--bbva_cc_2) !important; */
 }
 
 .modal-content td {
@@ -933,7 +934,13 @@ td.listed-product-wrapper.product-img.sound-btn {
 .payment-modal .bootstrap-select .btn-link {
     color: inherit;
 }
-
+.modal-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    color: #000;
+}
+#recentTransaction .modal-content td {vertical-align: middle;}
 /* Mobile Responsive Breakpoints */
 @media (max-width:768px){
 /*     .payment-amount {
@@ -963,5 +970,3 @@ td.listed-product-wrapper.product-img.sound-btn {
 }
 
 }
-
-

@@ -1544,7 +1544,7 @@
                                                 @endif
                                                 <select required id="warehouse_id" name="warehouse_id"
                                                     class="selectpicker form-control" data-live-search="true"
-                                                    data-live-search-style="begins" title="Select warehouse..."
+                                                    data-live-search-style="begins" title="Select outlet..."
                                                     aria-describedby="warehouse-icon">
                                                     @foreach ($lims_warehouse_list as $warehouse)
                                                         <option value="{{ $warehouse->id }}">{{ $warehouse->name }}
@@ -2745,7 +2745,7 @@
                                         <thead class="thead-light text-uppercase">
                                             <tr class="table-primary fw-bold">
                                                 <th class="fs-6 fw-bold">{{ trans('file.date') }}</th>
-                                                <th class="fs-6 fw-bold">{{ trans('file.reference') }}</th>
+                                                {{-- <th class="fs-6 fw-bold">{{ trans('file.reference') }}</th> --}}
                                                 <th class="fs-6 fw-bold">{{ trans('file.customer') }}</th>
                                                 <th class="fs-6 fw-bold">{{ trans('file.grand total') }}</th>
                                                 <th class="fs-6 fw-bold">{{ trans('file.action') }}</th>
@@ -2755,24 +2755,50 @@
                                             @foreach ($recent_sale as $sale)
                                                 <?php $customer = DB::table('customers')->find($sale->customer_id); ?>
                                                 <tr>
-                                                    <td>{{ date('d-m-Y', strtotime($sale->created_at)) }}</td>
-                                                    <td>{{ $sale->reference_no }}</td>
+                                                    <td class="fw-bold">{{ date('d-m-Y', strtotime($sale->created_at)) }}</td>
+                                                    {{-- <td>{{ $sale->reference_no }}</td> --}}
                                                     <td>{{ $customer->name }}</td>
-                                                    <td>{{ $sale->grand_total }}</td>
+                                                    <td><span class="badge text-bg-success-soft fs-4"><i class="fa-solid fa-check me-3"></i>{{ $sale->grand_total }}</span></td>
                                                     <td>
-                                                        <div class="btn-group">
-                                                            @if (in_array('sales-edit', $all_permission))
-                                                                <a href="{{ route('sales.edit', $sale->id) }}"
-                                                                    class="btn btn-success btn-sm" title="Edit"><i
-                                                                        class="dripicons-document-edit"></i></a>&nbsp;
-                                                            @endif
-                                                            @if (in_array('sales-delete', $all_permission))
-                                                                {{ Form::open(['route' => ['sales.destroy', $sale->id], 'method' => 'DELETE']) }}
-                                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                                    onclick="return confirmDelete()" title="Delete">
-                                                                    <i class="dripicons-trash"></i></button>
-                                                                {{ Form::close() }}
-                                                            @endif
+                                                        <div class="dropdown">
+                                                            <a class="btn text-bg-secondary-soft dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                More
+                                                            </a>
+
+                                                            <ul class="dropdown-menu">
+                                                                <li>
+                                                                    <span class="dropdown-item">
+                                                                        <div class="col-md-12 label"><h5 class="fs-4 fw-bold">Sale Reference Number</h5></div>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    <span class="dropdown-item">
+                                                                        <div class="col-md-12">{{ $sale->reference_no }}</div>
+                                                                    </span>
+                                                                </li>
+                                                                <li>
+                                                                    @if (in_array('sales-edit', $all_permission))
+                                                                    <a href="{{ route('sales.edit', $sale->id) }}"
+                                                                        class="dropdown-item text-bg-success-soft"
+                                                                        title="Edit">
+                                                                        <i class="fa-light fa-edit fs-4 me-3"></i>
+                                                                        Edit</a>
+                                                                @endif
+                                                                @if (in_array('sales-delete', $all_permission))
+                                                                    {{ Form::open(['route' => ['sales.destroy', $sale->id], 'method' => 'DELETE']) }}
+                                                                <li>
+                                                                    <a type="submit"
+                                                                        class="dropdown-item text-bg-danger-soft"
+                                                                        onclick="return confirmDelete()"
+                                                                        title="Delete">
+                                                                        <i class="fa-light fa-trash fs-4 me-3"></i>
+                                                                        Delete
+
+                                                                    </a>
+                                                                    {{ Form::close() }}
+                                                                </li>
+                                                                @endif
+                                                            </ul>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -2801,16 +2827,19 @@
                                         aria-hidden="true"><i class="dripicons-cross"></i></span></button>
                             </div>
                             <div class="modal-body scrollbar">
-                                <ul class="nav nav-pills mb-2" role="tablist">
-                                    <li class="nav-item text-bg-success-soft">
-                                        <a class="nav-link active" href="#sale-latest" role="tab"
-                                            data-toggle="tab">{{ trans('file.Sale') }}</a>
-                                    </li>
-                                    <li class="nav-item text-bg-info-soft">
-                                        <a class="nav-link" href="#draft-latest" role="tab"
-                                            data-toggle="tab">Bills/Drafts</a>
-                                    </li>
-                                </ul>
+                                <div class="btn-group">
+                                    <ul class="nav nav-pills mb-2" role="tablist">
+                                        <li class="nav-item text-bg-success-soft">
+                                            <a class="nav-link active" href="#sale-latest" role="tab"
+                                                data-toggle="tab">{{ trans('file.Sale') }}</a>
+                                        </li>
+                                        <li class="nav-item text-bg-info-soft">
+                                            <a class="nav-link" href="#draft-latest" role="tab"
+                                                data-toggle="tab">Bills/Drafts</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane show active" id="sale-latest">
                                         <div class="table-responsive">
@@ -2828,12 +2857,42 @@
                                                     @foreach ($recent_sale as $sale)
                                                         <?php $customer = DB::table('customers')->find($sale->customer_id); ?>
                                                         <tr>
-                                                            <td>{{ date('d-m-Y', strtotime($sale->created_at)) }}</td>
+                                                            <td class="fw-bold">{{ date('d-m-Y', strtotime($sale->created_at)) }}</td>
                                                             <td>{{ $sale->reference_no }}</td>
                                                             <td>{{ $customer->name }}</td>
-                                                            <td>{{ $sale->grand_total }}</td>
+                                                            <td><span class="badge text-bg-success-soft fs-4"><i class="fa-solid fa-check me-3"></i>{{ $sale->grand_total }}</span></td>
                                                             <td>
-                                                                <div class="btn-group">
+                                                                <div class="dropdown">
+                                                                    <a class="btn text-bg-secondary-soft dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        More
+                                                                    </a>
+
+                                                                    <ul class="dropdown-menu">
+                                                                        <li>
+                                                                            @if (in_array('sales-edit', $all_permission))
+                                                                            <a href="{{ route('sales.edit', $sale->id) }}"
+                                                                                class="dropdown-item text-bg-success-soft"
+                                                                                title="Edit">
+                                                                                <i class="fa-light fa-edit fs-4 me-3"></i>
+                                                                                Edit</a>
+                                                                        @endif
+                                                                        @if (in_array('sales-delete', $all_permission))
+                                                                            {{ Form::open(['route' => ['sales.destroy', $sale->id], 'method' => 'DELETE']) }}
+                                                                        <li>
+                                                                            <a type="submit"
+                                                                                class="dropdown-item text-bg-danger-soft"
+                                                                                onclick="return confirmDelete()"
+                                                                                title="Delete">
+                                                                                <i class="fa-light fa-trash fs-4 me-3"></i>
+                                                                                Delete
+
+                                                                            </a>
+                                                                            {{ Form::close() }}
+                                                                        </li>
+                                                                        @endif
+                                                                    </ul>
+                                                                </div>
+                                                                {{-- <div class="btn-group">
                                                                     @if (in_array('sales-edit', $all_permission))
                                                                         <a href="{{ route('sales.edit', $sale->id) }}"
                                                                             class="btn btn-success btn-sm"
@@ -2849,7 +2908,7 @@
                                                                             <i class="dripicons-trash"></i></button>
                                                                         {{ Form::close() }}
                                                                     @endif
-                                                                </div>
+                                                                </div> --}}
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -2873,27 +2932,40 @@
                                                     @foreach ($recent_draft as $draft)
                                                         <?php $customer = DB::table('customers')->find($draft->customer_id); ?>
                                                         <tr>
-                                                            <td>{{ date('d-m-Y', strtotime($draft->created_at)) }}</td>
+                                                            <td class="fw-bold">{{ date('d-m-Y', strtotime($draft->created_at)) }}</td>
                                                             <td>{{ $draft->reference_no }}</td>
                                                             <td>{{ $customer->name }}</td>
                                                             <td>{{ $draft->grand_total }}</td>
                                                             <td>
-                                                                <div class="btn-group">
-                                                                    @if (in_array('sales-edit', $all_permission))
-                                                                        <a href="{{ url('sales/' . $draft->id . '/create') }}"
-                                                                            class="btn btn-success btn-sm"
-                                                                            title="Edit"><i
-                                                                                class="dripicons-document-edit"></i></a>&nbsp;
-                                                                    @endif
-                                                                    @if (in_array('sales-delete', $all_permission))
-                                                                        {{ Form::open(['route' => ['sales.destroy', $draft->id], 'method' => 'DELETE']) }}
-                                                                        <button type="submit"
-                                                                            class="btn btn-danger btn-sm"
-                                                                            onclick="return confirmDelete()"
-                                                                            title="Delete">
-                                                                            <i class="dripicons-trash"></i></button>
-                                                                        {{ Form::close() }}
-                                                                    @endif
+                                                                <div class="dropdown">
+                                                                    <a class="btn text-bg-secondary-soft dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        More
+                                                                    </a>
+
+                                                                    <ul class="dropdown-menu">
+                                                                        <li>
+                                                                            @if (in_array('sales-edit', $all_permission))
+                                                                            <a href="{{ url('sales/' . $draft->id . '/create') }}"
+                                                                                class="dropdown-item text-bg-success-soft"
+                                                                                title="Edit">
+                                                                                <i class="fa-light fa-edit fs-4 me-3"></i>
+                                                                                Pay Bill</a>
+                                                                        @endif
+                                                                        @if (in_array('sales-delete', $all_permission))
+                                                                            {{ Form::open(['route' => ['sales.destroy', $draft->id], 'method' => 'DELETE']) }}
+                                                                        <li>
+                                                                            <a type="submit"
+                                                                                class="dropdown-item text-bg-danger-soft"
+                                                                                onclick="return confirmDelete()"
+                                                                                title="Delete">
+                                                                                <i class="fa-light fa-trash fs-4 me-3"></i>
+                                                                                Delete
+
+                                                                            </a>
+                                                                            {{ Form::close() }}
+                                                                        </li>
+                                                                        @endif
+                                                                    </ul>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -2933,7 +3005,7 @@
                                         <label>{{ trans('file.Warehouse') }} *</strong> </label>
                                         <select required name="warehouse_id" class="selectpicker form-control"
                                             data-live-search="true" data-live-search-style="begins"
-                                            title="Select warehouse...">
+                                            title="Select outlet...">
                                             @foreach ($lims_warehouse_list as $warehouse)
                                                 <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
                                             @endforeach
@@ -3881,7 +3953,7 @@
                 $('table.product-list').hide();
                 $('table.product-list').show(500);
             } else {
-                tableData += '<td class="text-center">No data avaialable</td></tr></tbody></table>'
+                tableData += '<td class="text-center">Products not available </td></tr></tbody></table>'
                 $(".table-container").html(tableData);
             }
         }
