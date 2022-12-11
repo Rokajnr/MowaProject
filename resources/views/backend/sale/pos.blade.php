@@ -1149,7 +1149,7 @@
                     </header>
 
                 </div>
-                <div class="col-md-2 bills-tab hidden-on-mobile hidden-on-tablet">
+                <div class="col-md-2 bills-tab hidden-on-mobile hidden-on-tablet hidden-on-sm-laptop">
                     <div class="bills-header">
                         <div class="row">
                             <h3 class="col-10 title">Bills</h3>
@@ -1203,7 +1203,7 @@
 
 
                 </div>
-                <div class="col-md-7 hidden-on-mobile">
+                <div class="col-sm-7 col-lg-8 col-xl-7 col-xxl-7 hidden-on-mobile">
                     <div class="filter-window mCustomScrollbar">
                         <div class="category mt-3">
                             <div class="row ml-2 mr-2 px-2">
@@ -1479,7 +1479,7 @@
                     </div>
                     <div class="row bg-highlight-2"></div>
                 </div>
-                <div id="purchase-totals" class="col-xs-12 col-sm-5 col-lg-3">
+                <div id="purchase-totals" class="col-xs-12 col-sm-5 col-lg-4 col-xl-3 col-xxl-3">
                     <div class="card purchase-totals">
                         <div class="card-body" style="padding-bottom: 0">
                             {!! Form::open(['route' => 'sales.store', 'method' => 'post', 'files' => true, 'class' => 'payment-form']) !!}
