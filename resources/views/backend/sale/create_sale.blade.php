@@ -1120,7 +1120,7 @@
                         </div>
                     </header>
                 </div>
-                <div class="col-md-9 hidden-on-mobile">
+                <div class="col-sm-7 col-lg-8 hidden-on-mobile">
                     <div class="filter-window mCustomScrollbar">
                         <div class="category mt-3">
                             <div class="row ml-2 mr-2 px-2">
@@ -1402,7 +1402,7 @@
                     </div>
                     <div class="row bg-highlight-2"></div>
                 </div>
-                <div id="purchase-totals" class="col-xs-12 col-sm-5 col-lg-3">
+                <div id="purchase-totals" class="col-xs-12 col-sm-5 col-lg-4">
                     <div class="card purchase-totals">
                         <div class="card-body" style="padding-bottom: 0">
                             {!! Form::open(['route' => 'sales.store', 'method' => 'post', 'files' => true, 'class' => 'payment-form']) !!}
@@ -2420,17 +2420,17 @@
                     $.each(data['name'], function(index) {
                         var product_info = data['code'][index] + ' (' + data['name'][index] + ')';
                         if (index % 5 == 0 && index != 0)
-                            tableData += '</tr><tr><td class="product-img sound-btn" title="' +
+                            tableData += '</tr><tr><td class="listed-product-wrapper product-img sound-btn" title="' +
                             data['name'][index] + '" data-product = "' + product_info +
-                            '"><img  src="public/images/product/' + data['image'][index] +
-                            '" width="100%" /><p>' + data['name'][index] + '</p><span>' + data[
+                            '"><div class="listed-product-content"><button type="button" class="btn btn-default plus" style="border: 1px solid #ccc; padding: 4px 8px;float: right; background: transparent;"><i class="dripicons-plus"></i></button><img  src="../../public/images/product/' + data['image'][index] +
+                            '" width="100%" /><p>' + data['name'][index] + '</p></div><span>' + data[
                                 'code'][index] + '</span></td>';
                         else
-                            tableData += '<td class="product-img sound-btn" title="' + data['name'][
+                            tableData += '<td class="listed-product-wrapper product-img sound-btn" title="' + data['name'][
                                 index
                             ] + '" data-product = "' + product_info +
-                            '"><img  src="public/images/product/' + data['image'][index] +
-                            '" width="100%" /><p>' + data['name'][index] + '</p><span>' + data[
+                            '"><div class="listed-product-content"><button type="button" class="btn btn-default plus" style="border: 1px solid #ccc; padding: 4px 8px;float: right; background: transparent;"><i class="dripicons-plus"></i></button><img  src="../../public/images/product/' + data['image'][index] +
+                            '" width="100%" /><p>' + data['name'][index] + '</p></div><span>' + data[
                                 'code'][index] + '</span></td>';
                     });
 
@@ -2485,16 +2485,16 @@
                     $.each(data['name'], function(index) {
                         var product_info = data['code'][index] + ' (' + data['name'][index] + ')';
                         if (index % 5 == 0 && index != 0) {
-                            tableData += '</tr><tr><td class="product-img sound-btn" title="' +
+                            tableData += '</tr><tr><td class="listed-product-wrapper product-img sound-btn" title="' +
                                 data['name'][index] + '" data-product = "' + product_info +
-                                '"><img  src="../../public/images/product/' + data['image'][index] +
-                                '" width="100%" /><p>' + data['name'][index] + '</p></td>';
+                                '"><div class="listed-product-content"><button type="button" class="btn btn-default plus" style="border: 1px solid #ccc; padding: 4px 8px;float: right; background: transparent;"><i class="dripicons-plus"></i></button><img  src="../../public/images/product/' + data['image'][index] +
+                                '" width="100%" /><p>' + data['name'][index] + '</p></div></td>';
                         } else
-                            tableData += '<td class="product-img sound-btn" title="' + data['name'][
+                            tableData += '<td class="listed-product-wrapper product-img sound-btn" title="' + data['name'][
                                 index
                             ] + '" data-product = "' + product_info +
-                            '"><img  src="../../public/images/product/' + data['image'][index] +
-                            '" width="100%" /><p>' + data['name'][index] + '</p></td>';
+                            '"><div class="listed-product-content"><button type="button" class="btn btn-default plus" style="border: 1px solid #ccc; padding: 4px 8px;float: right; background: transparent;"><i class="dripicons-plus"></i></button><img  src="../../public/images/product/' + data['image'][index] +
+                            '" width="100%" /><p>' + data['name'][index] + '</p></div></td>';
                     });
 
                     if (data['name'].length % 5) {
@@ -2536,16 +2536,16 @@
                     $.each(data['name'], function(index) {
                         var product_info = data['code'][index] + ' (' + data['name'][index] + ')';
                         if (index % 5 == 0 && index != 0) {
-                            tableData += '</tr><tr><td class="product-img sound-btn" title="' +
+                            tableData += '</tr><tr><td class="listed-product-wrapper product-img sound-btn" title="' +
                                 data['name'][index] + '" data-product = "' + product_info +
-                                '"><img  src="../../public/images/product/' + data['image'][index] +
-                                '" width="100%" /><p>' + data['name'][index] + '</p></td>';
+                                '"><div class="listed-product-content"><button type="button" class="btn btn-default plus" style="border: 1px solid #ccc; padding: 4px 8px;float: right; background: transparent;"><i class="dripicons-plus"></i></button><img  src="../../public/images/product/' + data['image'][index] +
+                                '" width="100%" /><p>' + data['name'][index] + '</p></div></td>';
                         } else
-                            tableData += '<td class="product-img sound-btn" title="' + data['name'][
+                            tableData += '<td class="listed-product-wrapper product-img sound-btn" title="' + data['name'][
                                 index
                             ] + '" data-product = "' + product_info +
-                            '"><img  src="../../public/images/product/' + data['image'][index] +
-                            '" width="100%" /><p>' + data['name'][index] + '</p></td>';
+                            '"><div class="listed-product-content"><button type="button" class="btn btn-default plus" style="border: 1px solid #ccc; padding: 4px 8px;float: right; background: transparent;"><i class="dripicons-plus"></i></button><img  src="../../public/images/product/' + data['image'][index] +
+                            '" width="100%" /><p>' + data['name'][index] + '</p></div></td>';
                     });
 
                     if (data['name'].length % 5) {
