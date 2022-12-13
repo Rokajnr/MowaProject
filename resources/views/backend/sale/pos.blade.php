@@ -1165,7 +1165,7 @@
                             <div class="bill-item list-group-item list-group-item-action">
                                 <div class="row">
                                     <div class="square-abrv col-3">
-                                        <h1 class="cc_1">A</h1>
+                                        <h1 class="cc_1 text-truncate text-center"><span class="w-100 p-0 text-truncate truncate-1" style="letter-spacing: 20px;">{{ $customer->name }}</span></h1>
                                     </div>
                                     <div class="col-9">
                                         @if (in_array('sales-edit', $all_permission))
@@ -1191,9 +1191,9 @@
                                                 {{ date('d-m-Y', strtotime($draft->created_at)) }}
                                             </h5>
                                         </div>
-                                        <div class="vr bg-gray-700 mx-2 mx-lg-3"></div>
+                                        <div class="vr bg-gray-700 mx-2 mx-lg-1"></div>
                                         <div class="bill-total">
-                                            <h5>MWK {{ $draft->grand_total }}</h5>
+                                            <h5 class="badge text-bg-success-soft px-1 py-1 fs-5">MWK {{ $draft->grand_total }}</h5>
                                         </div>
                                     </div>
                                 </div>
