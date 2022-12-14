@@ -968,6 +968,13 @@
                                 </span>
                               </div>
                         </form> --}}
+                        <div class="bills-toggle d-none d-md-block d-sm-none d-xl-none d-lg-block">
+                            <span class="" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBills" aria-controls="offcanvasScrolling">
+                                <i class="fa-light fa-clipboard-list-check d-flex fs-2 align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px"></i>
+                            </span>
+                        </div>
+
+
 
                         <!-- Top buttons -->
                         <div class="d-flex align-items-center ms-auto me-n1 me-lg-n2">
@@ -1203,6 +1210,62 @@
 
 
                 </div>
+                <div class="offcanvas offcanvas-start" data-bs-scroll="false" data-bs-backdrop="true" tabindex="-1" id="offcanvasBills" aria-labelledby="offcanvasScrollingLabel">
+                    <div class="offcanvas-header">
+                      <h5 class="offcanvas-title" id="offcanvasScrollingLabel"></h5>
+                      <button type="button" class="btn-close-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <div class="bills-header">
+                            <div class="row">
+                                <h3 class="col-10 title">Bills</h3>
+                                <div class="col-2 add-bill-draft">
+                                    <i class="fa-light fa-clipboard-list-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bills list-group mCustomScrollbar">
+                            @foreach ($recent_draft as $draft)
+                                <?php $customer = DB::table('customers')->find($draft->customer_id); ?>
+                                <div class="bill-item list-group-item list-group-item-action">
+                                    <div class="row">
+                                        <div class="square-abrv col-3">
+                                            <h1 class="cc_1 text-truncate text-center"><span class="w-100 p-0 text-truncate truncate-1" style="letter-spacing: 20px;">{{ $customer->name }}</span></h1>
+                                        </div>
+                                        <div class="col-9">
+                                            @if (in_array('sales-edit', $all_permission))
+                                                <a href="{{ url('sales/' . $draft->id . '/create') }}" class=""
+                                                    title="Edit Bill">
+                                                    <div class="bill-customer-name">
+                                                        <h4>{{ $customer->name }}</h4>
+                                                    </div>
+                                                </a>
+                                            @endif
+                                            <div class="delete-bill">
+                                                @if (in_array('sales-delete', $all_permission))
+                                                    {{ Form::open(['route' => ['sales.destroy', $draft->id], 'method' => 'DELETE']) }}
+                                                    <a type="submit" class="btn btn-sm" onclick="return confirmDelete()"
+                                                        title="Delete"><i class="fa-light fa-trash"></i></a>
+                                                    {{ Form::close() }}
+                                                @endif
+
+                                            </div>
+                                            <div class="bill-date">
+                                                <h5><i class="fa-light fa-calendar-check"
+                                                        style="padding-right: 4px;color: #03a9f4;font-size: 16px;"></i>
+                                                    {{ date('d-m-Y', strtotime($draft->created_at)) }}
+                                                </h5>
+                                            </div>
+                                            <div class="vr bg-gray-700 mx-2 mx-lg-1"></div>
+                                            <div class="bill-total">
+                                                <h5 class="badge text-bg-success-soft px-1 py-1 fs-5">MWK {{ $draft->grand_total }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>                    </div>
+                  </div>
                 <div class="col-sm-7 col-lg-8 col-xl-7 col-xxl-7 hidden-on-mobile">
                     <div class="filter-window mCustomScrollbar">
                         <div class="category mt-3">
@@ -1479,7 +1542,7 @@
                     </div>
                     <div class="row bg-highlight-2"></div>
                 </div>
-                <div id="purchase-totals" class="col-xs-12 col-sm-5 col-lg-4 col-xl-3 col-xxl-3">
+                <div id="purchase-totals" class="col-xs-12 col-sm-auto col-md-5 col-lg-4 col-xl-3 col-xxl-3">
                     <div class="card purchase-totals">
                         <div class="card-body" style="padding-bottom: 0">
                             {!! Form::open(['route' => 'sales.store', 'method' => 'post', 'files' => true, 'class' => 'payment-form']) !!}
@@ -1850,8 +1913,7 @@
                                 </span>
                             </div>
                             <div class="col-3 navigation-item">
-                                <span type="button" class="btn" data-bs-toggle="modal"
-                                    data-bs-target="#billsMobileView">
+                                <span type="button" class="btn"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasBills" aria-controls="offcanvasScrolling">
                                     <span class="menu-icon"> <img
                                             src="{{ url('public/images/icons/streamlinehq-receipt-dollar-shopping-ecommerce-48.png') }}" /></span>
                                     <div class="menu-title">Bills</div>
