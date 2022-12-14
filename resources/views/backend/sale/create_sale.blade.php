@@ -1437,7 +1437,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 pe-md-1">
                                             <div class="input-group input-group-merge mb-3">
                                                 <span class="input-group-text" id="datepicker-icon"><i
                                                         class="fa-light fa-calendar"></i></span>
@@ -1446,7 +1446,7 @@
                                                     onkeyup='saveValue(this);' />
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 ps-md-0">
                                             <div class="input-group input-group-merge mb-3">
                                                 <span class="input-group-text" id="reference-num"><i
                                                         class="fa-light fa-hashtag"></i></span>
@@ -1460,7 +1460,7 @@
                                                 </span>
                                             @endif
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 pe-md-1">
                                             <div class="input-group input-group-merge mb-3">
                                                 @if ($lims_pos_setting_data)
                                                     <span class="input-group-text" id="warehouse-icon"><i
@@ -1480,7 +1480,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 ps-md-0">
                                             <div class="input-group input-group-merge mb-3{{--  biller-info --}}">
                                                 @if ($lims_pos_setting_data)
                                                     <span class="input-group-text" id="biller-icon"><i
@@ -1550,7 +1550,7 @@
                                                     $temp_unit_operation_value = [];
                                                     ?>
                                                     @foreach ($lims_product_sale_data as $product_sale)
-                                                        <tr>
+                                                        <tr class="d-flex">
                                                             <?php
                                                             $product_data = DB::table('products')->find($product_sale->product_id);
                                                             if ($product_sale->variant_id) {
@@ -1610,13 +1610,13 @@
                                                             ?>
                                                             <td class="col-2 item-quantity"><input type="text"
                                                                     name="qty[]"
-                                                                    class="form-control qty numkey input-number"
+                                                                    class="form-control qty numkey input-number p-md-0"
                                                                     step="any" value="{{ $product_sale->qty }}"
                                                                     required></td>
                                                             <td class="col-4 product-title"><button type="button"
                                                                     class="edit-product btn btn-link" data-toggle="modal"
                                                                     data-target="#editModal"><strong><span
-                                                                            class="product-name">{{ $product_data->name }}</strong></span></strong></button>
+                                                                            class="product-name text-start">{{ $product_data->name }}</strong></span></strong></button>
                                                                 <br>
                                                                 <p>In Stock: <span class="in-stock"></span></p>
                                                             </td>
@@ -1640,8 +1640,8 @@
                                                             <td class="hidden col-sm-2 product-price">
                                                                 {{ number_format((float) ($product_sale->total / $product_sale->qty), 2, '.', '') }}
                                                             </td>
-                                                            <td class="col-4 sub-total">
-                                                                {{ number_format((float) $product_sale->total, 2, '.', '') }}
+                                                            <td class="col-4"><span class="sub-total badge text-bg-secondary-soft fs-4">{{ number_format((float) $product_sale->total, 2, '.', '') }}</span>
+
                                                             </td>
                                                             <td class="col-2"><button type="button"
                                                                     class="ibtnDel btn btn-sm"><i

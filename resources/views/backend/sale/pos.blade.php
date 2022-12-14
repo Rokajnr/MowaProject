@@ -1170,9 +1170,9 @@
                         @foreach ($recent_draft as $draft)
                             <?php $customer = DB::table('customers')->find($draft->customer_id); ?>
                             <div class="bill-item list-group-item list-group-item-action">
-                                <div class="row">
-                                    <div class="square-abrv col-3">
-                                        <h1 class="cc_1 text-truncate text-center"><span class="w-100 p-0 text-truncate truncate-1" style="letter-spacing: 20px;">{{ $customer->name }}</span></h1>
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <div class="square-abrv col-3 ps-4">
+                                        <h1 class="cc_1 text-truncate text-center rounded-1"><span class="w-100 p-0 text-truncate truncate-1" style="letter-spacing: 20px;">{{ $customer->name }}</span></h1>
                                     </div>
                                     <div class="col-9">
                                         @if (in_array('sales-edit', $all_permission))
@@ -1210,7 +1210,7 @@
 
 
                 </div>
-                <div class="offcanvas offcanvas-start" data-bs-scroll="false" data-bs-backdrop="true" tabindex="-1" id="offcanvasBills" aria-labelledby="offcanvasScrollingLabel">
+                <div class="offcanvas offcanvas-start" data-bs-scroll="false" data-bs-backdrop="true" tabindex="-1" id="offcanvasBills" aria-labelledby="offcanvasScrollingLabel" style="z-index: 9999">
                     <div class="offcanvas-header">
                       <h5 class="offcanvas-title" id="offcanvasScrollingLabel"></h5>
                       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -1228,9 +1228,9 @@
                             @foreach ($recent_draft as $draft)
                                 <?php $customer = DB::table('customers')->find($draft->customer_id); ?>
                                 <div class="bill-item list-group-item list-group-item-action">
-                                    <div class="row">
-                                        <div class="square-abrv col-3">
-                                            <h1 class="cc_1 text-truncate text-center"><span class="w-100 p-0 text-truncate truncate-1" style="letter-spacing: 20px;">{{ $customer->name }}</span></h1>
+                                    <div class="row d-flex justify-content-center align-items-center">
+                                        <div class="square-abrv col-3 ps-4">
+                                            <h1 class="cc_1 text-truncate text-center rounded-1"><span class="w-100 p-0 text-truncate truncate-1" style="letter-spacing: 20px;">{{ $customer->name }}</span></h1>
                                         </div>
                                         <div class="col-9">
                                             @if (in_array('sales-edit', $all_permission))
@@ -1264,7 +1264,8 @@
                                     </div>
                                 </div>
                             @endforeach
-                        </div>                    </div>
+                        </div>
+                    </div>
                   </div>
                 <div class="col-sm-7 col-lg-8 col-xl-7 col-xxl-7 hidden-on-mobile">
                     <div class="filter-window mCustomScrollbar">
@@ -4557,15 +4558,15 @@
         }
 
         function addNewProduct(data) {
-            var newRow = $("<tr>");
+            var newRow = $('<tr class="d-flex">');
             var cols = '';
             temp_unit_name = (data[6]).split(',');
             pos = product_code.indexOf(data[1]);
             cols +=
-                '<td class="col-2 item-quantity"><input type="text" name="qty[]" class="form-control qty numkey input-number" step="any" value="' +
+                '<td class="col-2 item-quantity"><input type="text" name="qty[]" class="form-control qty numkey input-number p-md-0" step="any" value="' +
                 data[15] + '" required></td>'
             cols +=
-                '<td class="col-4 product-title"><button type="button" class="edit-product btn btn-link" data-toggle="modal" data-target="#editModal"><strong><span class="product-name">' +
+                '<td class="col-4 product-title"><button type="button" class="edit-product btn btn-link" data-toggle="modal" data-target="#editModal"><strong><span class="product-name text-start">' +
                 data[0] + '</span></strong></button><br>' + '<p>In Stock: <span class="in-stock"></span></p></td>';
             if (data[12]) {
                 cols += '<td class="hidden col-sm-2"><input type="text" class="form-control batch-no" value="' + batch_no[
@@ -4577,7 +4578,7 @@
                     '<td class="hidden col-sm-2"><input type="text" class="form-control batch-no" disabled/> <input type="hidden" class="product-batch-id" name="product_batch_id[]"/> </td>';
             }
             cols += '<td class="hidden col-sm-2 product-price"></td>';
-            cols += '<td class="col-4 sub-total"></td>';
+            cols += '<td class="col-4"><span class="sub-total badge text-bg-secondary-soft fs-4"></span> </td>';
             cols +=
                 '<td class="hidden col-sm-3"><div class="input-group"><span class="input-group-btn"><span class="input-group-btn"><button type="button" class="btn btn-default plus"><span class="dripicons-plus"></span></button></span><button type="button" class="btn btn-default minus"><span class="dripicons-minus"></span></button></span></div></td>';
 
