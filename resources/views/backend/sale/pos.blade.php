@@ -1544,7 +1544,7 @@
                     <div class="row bg-highlight-2"></div>
                 </div>
                 <div id="purchase-totals" class="col-xs-12 col-sm-auto col-md-5 col-lg-4 col-xl-3 col-xxl-3">
-                    <div class="card purchase-totals">
+                    <div id="pos-scan-start" class="card purchase-totals">
                         <div class="card-body" style="padding-bottom: 0">
                             {!! Form::open(['route' => 'sales.store', 'method' => 'post', 'files' => true, 'class' => 'payment-form']) !!}
                             @php
@@ -1905,11 +1905,11 @@
                 <div class="mobile-menu-nav nav-tabs" id="myTab" role="tablist">
                     <div class="container">
                         <div class="row justify-content-around navigation-items">
-                            <div class="col-3 navigation-item">
-                                <span type="button" role="tab" class="btn" aria-controls="itemsListTab"
+                            <div class="col-3 navigation-item scrollspy" data-bs-spy="scroll" data-bs-target="#pos-scan-start" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true">
+                                <span type="" role="tab" class="" aria-controls="itemsListTab"
                                     aria-selected="true">
-                                    <span class="menu-icon"> <img
-                                            src="{{ url('public/images/icons/streamlinehq-receipt-register-1-shopping-ecommerce-48.png') }}" /></span>
+                                    <a type="button" href="#pos-scan-start" class="menu-icon"> <img
+                                            src="{{ url('public/images/icons/streamlinehq-receipt-register-1-shopping-ecommerce-48.png') }}" /></a>
                                     <div class="menu-title">POS</div>
                                 </span>
                             </div>
@@ -4563,7 +4563,7 @@
             temp_unit_name = (data[6]).split(',');
             pos = product_code.indexOf(data[1]);
             cols +=
-                '<td class="col-2 item-quantity"><input type="text" name="qty[]" class="form-control qty numkey input-number p-md-0" step="any" value="' +
+                '<td class="col-2 item-quantity"><input type="text" name="qty[]" class="form-control qty numkey input-number p-md-0 p-0" step="any" value="' +
                 data[15] + '" required></td>'
             cols +=
                 '<td class="col-4 product-title"><button type="button" class="edit-product btn btn-link" data-toggle="modal" data-target="#editModal"><strong><span class="product-name text-start">' +

@@ -1610,7 +1610,7 @@
                                                             ?>
                                                             <td class="col-2 item-quantity"><input type="text"
                                                                     name="qty[]"
-                                                                    class="form-control qty numkey input-number p-md-0"
+                                                                    class="form-control qty numkey input-number p-md-0 p-0"
                                                                     step="any" value="{{ $product_sale->qty }}"
                                                                     required></td>
                                                             <td class="col-4 product-title"><button type="button"

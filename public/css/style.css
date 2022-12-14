@@ -306,6 +306,7 @@ table.dataTable img {
 .square-abrv h1 {
     padding: 10px;
     width: 45px;
+    height: 45px;
 }
 
 .bill-item, .bill-item.list-group-item {
