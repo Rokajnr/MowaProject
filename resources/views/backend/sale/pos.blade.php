@@ -1213,7 +1213,7 @@
                 <div class="offcanvas offcanvas-start" data-bs-scroll="false" data-bs-backdrop="true" tabindex="-1" id="offcanvasBills" aria-labelledby="offcanvasScrollingLabel">
                     <div class="offcanvas-header">
                       <h5 class="offcanvas-title" id="offcanvasScrollingLabel"></h5>
-                      <button type="button" class="btn-close-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
                         <div class="bills-header">
@@ -1573,7 +1573,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 pe-md-1">
                                             <div class="input-group input-group-merge mb-3">
                                                 <span class="input-group-text" id="datepicker-icon"><i
                                                         class="fa-light fa-calendar"></i></span>
@@ -1582,7 +1582,7 @@
                                                     onkeyup='saveValue(this);' />
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 ps-md-0">
                                             <div class="input-group input-group-merge mb-3">
                                                 <span class="input-group-text" id="reference-num"><i
                                                         class="fa-light fa-hashtag"></i></span>
@@ -1596,7 +1596,7 @@
                                                 </span>
                                             @endif
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 pe-md-1">
                                             <div class="input-group input-group-merge mb-3">
                                                 @if ($lims_pos_setting_data)
                                                     <span class="input-group-text" id="warehouse-icon"><i
@@ -1616,7 +1616,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 ps-md-0">
                                             <div class="input-group input-group-merge mb-3{{--  biller-info --}}">
                                                 @if ($lims_pos_setting_data)
                                                     <span class="input-group-text" id="biller-icon"><i
