@@ -784,7 +784,9 @@ td.listed-product-wrapper.product-img.sound-btn {
     padding: 0;
     border: none;
 }
-
+.pos-page .ui-helper-hidden-accessible {
+    display: none;
+}
 .payment-modal .modal-content button.close {
     position: absolute;
     top: 0;
