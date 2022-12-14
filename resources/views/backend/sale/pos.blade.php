@@ -149,7 +149,7 @@
                     ?>
                     @if ($index_permission_active)
                         <li class="nav-item dropdown"><a class="nav-link" href="#purchaseCollapse" aria-expanded="false"
-                                data-bs-toggle="collapse" role="button" aria-expanded="false"
+                                data-bs-toggle="collapse" role="button"
                                 aria-controls="purchaseCollapse">
                                 <i class="dripicons-card nav-link-icon"></i><span>{{ trans('file.Purchase') }}</span></a>
                             <div class="collapse" id="purchaseCollapse">
