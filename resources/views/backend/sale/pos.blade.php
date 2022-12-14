@@ -19,925 +19,1088 @@
         </div>
     @endif
     <!-- Side Navbar -->
-    <nav class="side-navbar">
-        <span class="brand-big">
-            @if ($general_setting->site_logo)
-                <a href="{{ url('/') }}"><img src="{{ url('public/logo', $general_setting->site_logo) }}"
-                        width="115"></a>
-            @else
-                <a href="{{ url('/') }}">
-                    <h1 class="d-inline">{{ $general_setting->site_title }}</h1>
-                </a>
-            @endif
-        </span>
+    <nav id="mainNavbar" class="side-navbar navbar navbar-vertical navbar-expand-lg scrollbar bg-white navbar-light">
+        <script>
+            let navigationColor = localStorage.getItem('navigationColor'),
+                navbar = document.getElementById('mainNavbar');
 
-        <ul id="side-main-menu" class="side-menu list-unstyled">
-            <li><a href="{{ url('/') }}"> <i class="dripicons-meter"></i><span>{{ __('file.dashboard') }}</span></a>
-            </li>
-            <?php
-            $role = DB::table('roles')->find(Auth::user()->role_id);
-            $index_permission = DB::table('permissions')
-                ->where('name', 'products-index')
-                ->first();
-            $index_permission_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
-                ->first();
+            if (navigationColor != null && navbar != null) {
+                if (navigationColor == 'inverted') {
+                    navbar.classList.add('bg-dark', 'navbar-dark');
+                    navbar.classList.remove('bg-white', 'navbar-light');
+                } else {
+                    navbar.classList.add('bg-white', 'navbar-light');
+                    navbar.classList.remove('bg-dark', 'navbar-dark');
+                }
+            }
+        </script>
+        <div class="container-fluid">
 
-            $print_barcode = DB::table('permissions')
-                ->where('name', 'print_barcode')
-                ->first();
-            $print_barcode_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $print_barcode->id], ['role_id', $role->id]])
-                ->first();
-
-            $stock_count = DB::table('permissions')
-                ->where('name', 'stock_count')
-                ->first();
-            $stock_count_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $stock_count->id], ['role_id', $role->id]])
-                ->first();
-
-            $adjustment = DB::table('permissions')
-                ->where('name', 'adjustment')
-                ->first();
-            $adjustment_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $adjustment->id], ['role_id', $role->id]])
-                ->first();
-            ?>
-
-            <li><a href="#product" aria-expanded="false" data-toggle="collapse"> <i
-                        class="dripicons-list"></i><span>{{ __('file.product') }}</span><span></a>
-                <ul id="product" class="collapse list-unstyled ">
-                    <li id="category-menu"><a href="{{ route('category.index') }}">{{ __('file.category') }}</a></li>
-                    @if ($index_permission_active)
-                        <li id="product-list-menu"><a
-                                href="{{ route('products.index') }}">{{ __('file.product_list') }}</a>
-                        </li>
-                        <?php
-                        $add_permission = DB::table('permissions')
-                            ->where('name', 'products-add')
-                            ->first();
-                        $add_permission_active = DB::table('role_has_permissions')
-                            ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
-                            ->first();
-                        ?>
-                        @if ($add_permission_active)
-                            <li id="product-create-menu"><a
-                                    href="{{ route('products.create') }}">{{ __('file.add_product') }}</a></li>
-                        @endif
-                    @endif
-                    @if ($print_barcode_active)
-                        <li id="printBarcode-menu"><a
-                                href="{{ route('product.printBarcode') }}">{{ __('file.print_barcode') }}</a></li>
-                    @endif
-                    @if ($adjustment_active)
-                        <li id="adjustment-list-menu"><a
-                                href="{{ route('qty_adjustment.index') }}">{{ trans('file.Adjustment List') }}</a></li>
-                        <li id="adjustment-create-menu"><a
-                                href="{{ route('qty_adjustment.create') }}">{{ trans('file.Add Adjustment') }}</a></li>
-                    @endif
-                    @if ($stock_count_active)
-                        <li id="stock-count-menu"><a
-                                href="{{ route('stock-count.index') }}">{{ trans('file.Stock Count') }}</a></li>
-                    @endif
-                </ul>
-            </li>
-            <?php
-            $index_permission = DB::table('permissions')
-                ->where('name', 'purchases-index')
-                ->first();
-            $index_permission_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
-                ->first();
-            ?>
-            @if ($index_permission_active)
-                <li><a href="#purchase" aria-expanded="false" data-toggle="collapse"> <i
-                            class="dripicons-card"></i><span>{{ trans('file.Purchase') }}</span></a>
-                    <ul id="purchase" class="collapse list-unstyled ">
-                        <li id="purchase-list-menu"><a
-                                href="{{ route('purchases.index') }}">{{ trans('file.Purchase List') }}</a></li>
-                        <?php
-                        $add_permission = DB::table('permissions')
-                            ->where('name', 'purchases-add')
-                            ->first();
-                        $add_permission_active = DB::table('role_has_permissions')
-                            ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
-                            ->first();
-                        ?>
-                        @if ($add_permission_active)
-                            <li id="purchase-create-menu"><a
-                                    href="{{ route('purchases.create') }}">{{ trans('file.Add Purchase') }}</a></li>
-                            <li id="purchase-import-menu"><a
-                                    href="{{ url('purchases/purchase_by_csv') }}">{{ trans('file.Import Purchase By CSV') }}</a>
-                            </li>
-                        @endif
-                    </ul>
-                </li>
-            @endif
-            <?php
-            $index_permission = DB::table('permissions')
-                ->where('name', 'sales-index')
-                ->first();
-            $index_permission_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
-                ->first();
-
-            $gift_card_permission = DB::table('permissions')
-                ->where('name', 'gift_card')
-                ->first();
-            $gift_card_permission_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $gift_card_permission->id], ['role_id', $role->id]])
-                ->first();
-
-            $coupon_permission = DB::table('permissions')
-                ->where('name', 'coupon')
-                ->first();
-            $coupon_permission_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $coupon_permission->id], ['role_id', $role->id]])
-                ->first();
-            ?>
-
-            <li><a href="#sale" aria-expanded="false" data-toggle="collapse"> <i
-                        class="dripicons-cart"></i><span>{{ trans('file.Sale') }}</span></a>
-                <ul id="sale" class="collapse list-unstyled ">
-                    @if ($index_permission_active)
-                        <li id="sale-list-menu"><a href="{{ route('sales.index') }}">{{ trans('file.Sale List') }}</a>
-                        </li>
-                        <?php
-                        $add_permission = DB::table('permissions')
-                            ->where('name', 'sales-add')
-                            ->first();
-                        $add_permission_active = DB::table('role_has_permissions')
-                            ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
-                            ->first();
-                        ?>
-                        @if ($add_permission_active)
-                            <li><a href="{{ route('sale.pos') }}">POS</a></li>
-                            <li id="sale-create-menu"><a
-                                    href="{{ route('sales.create') }}">{{ trans('file.Add Sale') }}</a>
-                            </li>
-                            <li id="sale-import-menu"><a
-                                    href="{{ url('sales/sale_by_csv') }}">{{ trans('file.Import Sale By CSV') }}</a></li>
-                        @endif
-                    @endif
-                    @if ($gift_card_permission_active)
-                        <li id="gift-card-menu"><a
-                                href="{{ route('gift_cards.index') }}">{{ trans('file.Gift Card List') }}</a></li>
-                    @endif
-                    @if ($coupon_permission_active)
-                        <li id="coupon-menu"><a href="{{ route('coupons.index') }}">{{ trans('file.Coupon List') }}</a>
-                        </li>
-                    @endif
-                    <li id="delivery-menu"><a href="{{ route('delivery.index') }}">{{ trans('file.Delivery List') }}</a>
+            <span class=" navbar-brand">
+                @if ($general_setting->site_logo)
+                    <a href="{{ url('/') }}"><img src="{{ url('public/logo', $general_setting->site_logo) }}"
+                            width="115"></a>
+                @else
+                    <a href="{{ url('/') }}">
+                        <h1 class="d-inline">{{ $general_setting->site_title }}</h1>
+                    </a>
+                @endif
+            </span>
+            <div class="navbar-collapse" id="sidenavCollapse">
+                <ul class="navbar-nav mb-lg-7">
+                    <li class="nav-item"><a class="nav-link active" href="{{ url('/') }}"> <i
+                                class="fa-light fa-house"></i><span>{{ __('file.dashboard') }}</span></a>
                     </li>
-                </ul>
-            </li>
-            <?php
-            $index_permission = DB::table('permissions')
-                ->where('name', 'expenses-index')
-                ->first();
-            $index_permission_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
-                ->first();
-            ?>
-            @if ($index_permission_active)
-                <li><a href="#expense" aria-expanded="false" data-toggle="collapse"> <i
-                            class="dripicons-wallet"></i><span>{{ trans('file.Expense') }}</span></a>
-                    <ul id="expense" class="collapse list-unstyled ">
-                        <li id="exp-cat-menu"><a
-                                href="{{ route('expense_categories.index') }}">{{ trans('file.Expense Category') }}</a>
-                        </li>
-                        <li id="exp-list-menu"><a
-                                href="{{ route('expenses.index') }}">{{ trans('file.Expense List') }}</a>
-                        </li>
-                        <?php
-                        $add_permission = DB::table('permissions')
-                            ->where('name', 'expenses-add')
-                            ->first();
-                        $add_permission_active = DB::table('role_has_permissions')
-                            ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
-                            ->first();
-                        ?>
-                        @if ($add_permission_active)
-                            <li><a id="add-expense" href=""> {{ trans('file.Add Expense') }}</a></li>
-                        @endif
-                    </ul>
-                </li>
-            @endif
-            <?php
-            $index_permission = DB::table('permissions')
-                ->where('name', 'quotes-index')
-                ->first();
-            $index_permission_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
-                ->first();
-            ?>
-            @if ($index_permission_active)
-                <li><a href="#quotation" aria-expanded="false" data-toggle="collapse"> <i
-                            class="dripicons-document"></i><span>{{ trans('file.Quotation') }}</span><span></a>
-                    <ul id="quotation" class="collapse list-unstyled ">
-                        <li id="quotation-list-menu"><a
-                                href="{{ route('quotations.index') }}">{{ trans('file.Quotation List') }}</a></li>
-                        <?php
-                        $add_permission = DB::table('permissions')
-                            ->where('name', 'quotes-add')
-                            ->first();
-                        $add_permission_active = DB::table('role_has_permissions')
-                            ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
-                            ->first();
-                        ?>
-                        @if ($add_permission_active)
-                            <li id="quotation-create-menu"><a
-                                    href="{{ route('quotations.create') }}">{{ trans('file.Add Quotation') }}</a></li>
-                        @endif
-                    </ul>
-                </li>
-            @endif
-            <?php
-            $index_permission = DB::table('permissions')
-                ->where('name', 'transfers-index')
-                ->first();
-            $index_permission_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
-                ->first();
-            ?>
-            @if ($index_permission_active)
-                <li><a href="#transfer" aria-expanded="false" data-toggle="collapse"> <i
-                            class="dripicons-export"></i><span>{{ trans('file.Transfer') }}</span></a>
-                    <ul id="transfer" class="collapse list-unstyled ">
-                        <li id="transfer-list-menu"><a
-                                href="{{ route('transfers.index') }}">{{ trans('file.Transfer List') }}</a></li>
-                        <?php
-                        $add_permission = DB::table('permissions')
-                            ->where('name', 'transfers-add')
-                            ->first();
-                        $add_permission_active = DB::table('role_has_permissions')
-                            ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
-                            ->first();
-                        ?>
-                        @if ($add_permission_active)
-                            <li id="transfer-create-menu"><a
-                                    href="{{ route('transfers.create') }}">{{ trans('file.Add Transfer') }}</a></li>
-                            <li id="transfer-import-menu"><a
-                                    href="{{ url('transfers/transfer_by_csv') }}">{{ trans('file.Import Transfer By CSV') }}</a>
-                            </li>
-                        @endif
-                    </ul>
-                </li>
-            @endif
+                    <?php
+                    $role = DB::table('roles')->find(Auth::user()->role_id);
+                    $index_permission = DB::table('permissions')
+                        ->where('name', 'products-index')
+                        ->first();
+                    $index_permission_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
+                        ->first();
 
-            <li><a href="#return" aria-expanded="false" data-toggle="collapse"> <i
-                        class="dripicons-return"></i><span>{{ trans('file.return') }}</span></a>
-                <ul id="return" class="collapse list-unstyled ">
+                    $print_barcode = DB::table('permissions')
+                        ->where('name', 'print_barcode')
+                        ->first();
+                    $print_barcode_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $print_barcode->id], ['role_id', $role->id]])
+                        ->first();
+
+                    $stock_count = DB::table('permissions')
+                        ->where('name', 'stock_count')
+                        ->first();
+                    $stock_count_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $stock_count->id], ['role_id', $role->id]])
+                        ->first();
+
+                    $adjustment = DB::table('permissions')
+                        ->where('name', 'adjustment')
+                        ->first();
+                    $adjustment_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $adjustment->id], ['role_id', $role->id]])
+                        ->first();
+                    ?>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#productCollapse" aria-expanded="false" data-bs-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="productCollapse"> <i
+                                class="dripicons-list nav-link-icon"></i><span>{{ __('file.product') }}</span><span></a>
+                        <div class="collapse" id="productCollapse">
+
+                            <ul class="nav flex-column">
+                                <li class="nav-item" id="category-menu">
+                                    <a class="nav-link" href="{{ route('category.index') }}">{{ __('file.category') }}</a>
+                                </li>
+                                @if ($index_permission_active)
+                                    <li class="nav-item" id="product-list-menu">
+                                        <a class="nav-link"
+                                            href="{{ route('products.index') }}">{{ __('file.product_list') }}</a>
+                                    </li>
+                                    <?php
+                                    $add_permission = DB::table('permissions')
+                                        ->where('name', 'products-add')
+                                        ->first();
+                                    $add_permission_active = DB::table('role_has_permissions')
+                                        ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
+                                        ->first();
+                                    ?>
+                                    @if ($add_permission_active)
+                                        <li class="nav-item" id="product-create-menu">
+                                            <a class="nav-link"
+                                                href="{{ route('products.create') }}">{{ __('file.add_product') }}</a>
+                                        </li>
+                                    @endif
+                                @endif
+                                @if ($print_barcode_active)
+                                    <li class="nav-item" id="printBarcode-menu">
+                                        <a class="nav-link"
+                                            href="{{ route('product.printBarcode') }}">{{ __('file.print_barcode') }}</a>
+                                    </li>
+                                @endif
+                                @if ($adjustment_active)
+                                    <li class="nav-item" id="adjustment-list-menu">
+                                        <a class="nav-link"
+                                            href="{{ route('qty_adjustment.index') }}">{{ trans('file.Adjustment
+                                                                                List') }}</a>
+                                    </li>
+                                    <li class="nav-item" id="adjustment-create-menu">
+                                        <a class="nav-link"
+                                            href="{{ route('qty_adjustment.create') }}">{{ trans('file.Add
+                                                                                Adjustment') }}</a>
+                                    </li>
+                                @endif
+                                @if ($stock_count_active)
+                                    <li class="nav-item" id="stock-count-menu">
+                                        <a class="nav-link"
+                                            href="{{ route('stock-count.index') }}">{{ trans('file.Stock Count') }}</a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
+                    </li>
                     <?php
                     $index_permission = DB::table('permissions')
-                        ->where('name', 'returns-index')
+                        ->where('name', 'purchases-index')
                         ->first();
                     $index_permission_active = DB::table('role_has_permissions')
                         ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
                         ->first();
                     ?>
                     @if ($index_permission_active)
-                        <li id="sale-return-menu"><a
-                                href="{{ route('return-sale.index') }}">{{ trans('file.Sale') }}</a>
+                        <li class="nav-item dropdown"><a class="nav-link" href="#purchaseCollapse" aria-expanded="false"
+                                data-bs-toggle="collapse" role="button" aria-expanded="false"
+                                aria-controls="purchaseCollapse">
+                                <i class="dripicons-card nav-link-icon"></i><span>{{ trans('file.Purchase') }}</span></a>
+                            <div class="collapse" id="purchaseCollapse">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item" id="purchase-list-menu">
+                                        <a class="nav-link"
+                                            href="{{ route('purchases.index') }}">{{ trans('file.Purchase List') }}</a>
+                                    </li>
+                                    <?php
+                                    $add_permission = DB::table('permissions')
+                                        ->where('name', 'purchases-add')
+                                        ->first();
+                                    $add_permission_active = DB::table('role_has_permissions')
+                                        ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
+                                        ->first();
+                                    ?>
+                                    @if ($add_permission_active)
+                                        <li class="nav-item" id="purchase-create-menu"><a class="nav-link"
+                                                href="{{ route('purchases.create') }}">{{ trans('file.Add Purchase') }}</a>
+                                        </li>
+                                        <li class="nav-item" id="purchase-import-menu"><a class="nav-link"
+                                                href="{{ url('purchases/purchase_by_csv') }}">{{ trans('file.Import Purchase By CSV') }}</a>
+                                        </li>
+                                    @endif
+                                </ul>
+
+                            </div>
                         </li>
                     @endif
                     <?php
                     $index_permission = DB::table('permissions')
-                        ->where('name', 'purchase-return-index')
+                        ->where('name', 'sales-index')
+                        ->first();
+                    $index_permission_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
+                        ->first();
+
+                    $gift_card_permission = DB::table('permissions')
+                        ->where('name', 'gift_card')
+                        ->first();
+                    $gift_card_permission_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $gift_card_permission->id], ['role_id', $role->id]])
+                        ->first();
+
+                    $coupon_permission = DB::table('permissions')
+                        ->where('name', 'coupon')
+                        ->first();
+                    $coupon_permission_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $coupon_permission->id], ['role_id', $role->id]])
+                        ->first();
+                    ?>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#saleCollapse" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="saleCollapse">
+                            <i class="dripicons-cart nav-link-icon"></i><span>{{ trans('file.Sale') }}</span></a>
+                        <div class="collapse" id="saleCollapse">
+                            <ul class="nav flex-column">
+                                @if ($index_permission_active)
+                                    <li class="nav-item" id="sale-list-menu">
+                                        <a class="nav-link"
+                                            href="{{ route('sales.index') }}">{{ trans('file.Sale List') }}</a>
+                                    </li>
+                                    <?php
+                                    $add_permission = DB::table('permissions')
+                                        ->where('name', 'sales-add')
+                                        ->first();
+                                    $add_permission_active = DB::table('role_has_permissions')
+                                        ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
+                                        ->first();
+                                    ?>
+                                    @if ($add_permission_active)
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('sale.pos') }}">POS</a>
+                                        </li>
+                                        <li class="nav-item" id="sale-create-menu">
+                                            <a class="nav-link"
+                                                href="{{ route('sales.create') }}">{{ trans('file.Add Sale') }}</a>
+                                        </li>
+                                        <li class="nav-item" id="sale-import-menu"><a class="nav-link"
+                                                href="{{ url('sales/sale_by_csv') }}">{{ trans('file.Import Sale By CSV') }}</a>
+                                        </li>
+                                    @endif
+                                @endif
+                                @if ($gift_card_permission_active)
+                                    <li class="nav-item" id="gift-card-menu"><a class="nav-link"
+                                            href="{{ route('gift_cards.index') }}">{{ trans('file.Gift Card List') }}</a>
+                                    </li>
+                                @endif
+                                @if ($coupon_permission_active)
+                                    <li class="nav-item" id="coupon-menu"><a class="nav-link"
+                                            href="{{ route('coupons.index') }}">{{ trans('file.Coupon List') }}</a>
+                                    </li>
+                                @endif
+                                <li class="nav-item" id="delivery-menu"><a class="nav-link"
+                                        href="{{ route('delivery.index') }}">{{ trans('file.Delivery List') }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <?php
+                    $index_permission = DB::table('permissions')
+                        ->where('name', 'expenses-index')
                         ->first();
                     $index_permission_active = DB::table('role_has_permissions')
                         ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
                         ->first();
                     ?>
                     @if ($index_permission_active)
-                        <li id="purchase-return-menu"><a
-                                href="{{ route('return-purchase.index') }}">{{ trans('file.Purchase') }}</a></li>
-                    @endif
-                </ul>
-            </li>
-            <?php
-            $index_permission = DB::table('permissions')
-                ->where('name', 'account-index')
-                ->first();
-            $index_permission_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
-                ->first();
+                        <li class="nav-item dropdown"><a class="nav-link" href="#expenseCollapse"
+                                data-bs-toggle="collapse" role="button" aria-expanded="false"
+                                aria-controls="expenseCollapse"> <i
+                                    class="dripicons-wallet nav-link-icon"></i><span>{{ trans('file.Expense') }}</span></a>
+                            <div class="collapse" id="expenseCollapse">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item" id="exp-cat-menu"><a class="nav-link"
+                                            href="{{ route('expense_categories.index') }}">{{ trans('file.Expense Category') }}</a>
+                                    </li>
+                                    <li class="nav-item" id="exp-list-menu"><a class="nav-link"
+                                            href="{{ route('expenses.index') }}">{{ trans('file.Expense List') }}</a>
+                                    </li>
+                                    <?php
+                                    $add_permission = DB::table('permissions')
+                                        ->where('name', 'expenses-add')
+                                        ->first();
+                                    $add_permission_active = DB::table('role_has_permissions')
+                                        ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
+                                        ->first();
+                                    ?>
+                                    @if ($add_permission_active)
+                                        <li class="nav-item"><a class="nav-link" id="add-expense" href="">
+                                                {{ trans('file.Add Expense') }}</a></li>
+                                    @endif
+                                </ul>
 
-            $money_transfer_permission = DB::table('permissions')
-                ->where('name', 'money-transfer')
-                ->first();
-            $money_transfer_permission_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $money_transfer_permission->id], ['role_id', $role->id]])
-                ->first();
-
-            $balance_sheet_permission = DB::table('permissions')
-                ->where('name', 'balance-sheet')
-                ->first();
-            $balance_sheet_permission_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $balance_sheet_permission->id], ['role_id', $role->id]])
-                ->first();
-
-            $account_statement_permission = DB::table('permissions')
-                ->where('name', 'account-statement')
-                ->first();
-            $account_statement_permission_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $account_statement_permission->id], ['role_id', $role->id]])
-                ->first();
-
-            ?>
-            @if ($index_permission_active || $balance_sheet_permission_active || $account_statement_permission_active)
-                <li class=""><a href="#account" aria-expanded="false" data-toggle="collapse"> <i
-                            class="dripicons-briefcase"></i><span>{{ trans('file.Accounting') }}</span></a>
-                    <ul id="account" class="collapse list-unstyled ">
-                        @if ($index_permission_active)
-                            <li id="account-list-menu"><a
-                                    href="{{ route('accounts.index') }}">{{ trans('file.Account List') }}</a></li>
-                            <li><a id="add-account" href="">{{ trans('file.Add Account') }}</a></li>
-                        @endif
-                        @if ($money_transfer_permission_active)
-                            <li id="money-transfer-menu"><a
-                                    href="{{ route('money-transfers.index') }}">{{ trans('file.Money Transfer') }}</a>
-                            </li>
-                        @endif
-                        @if ($balance_sheet_permission_active)
-                            <li id="balance-sheet-menu"><a
-                                    href="{{ route('accounts.balancesheet') }}">{{ trans('file.Balance Sheet') }}</a>
-                            </li>
-                        @endif
-                        @if ($account_statement_permission_active)
-                            <li id="account-statement-menu"><a id="account-statement"
-                                    href="">{{ trans('file.Account Statement') }}</a></li>
-                        @endif
-                    </ul>
-                </li>
-            @endif
-            <?php
-            $department = DB::table('permissions')
-                ->where('name', 'department')
-                ->first();
-            $department_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $department->id], ['role_id', $role->id]])
-                ->first();
-            $index_employee = DB::table('permissions')
-                ->where('name', 'employees-index')
-                ->first();
-            $index_employee_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $index_employee->id], ['role_id', $role->id]])
-                ->first();
-            $attendance = DB::table('permissions')
-                ->where('name', 'attendance')
-                ->first();
-            $attendance_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $attendance->id], ['role_id', $role->id]])
-                ->first();
-            $payroll = DB::table('permissions')
-                ->where('name', 'payroll')
-                ->first();
-            $payroll_active = DB::table('role_has_permissions')
-                ->where([['permission_id', $payroll->id], ['role_id', $role->id]])
-                ->first();
-            ?>
-
-            <li class=""><a href="#hrm" aria-expanded="false" data-toggle="collapse"> <i
-                        class="dripicons-user-group"></i><span>HRM</span></a>
-                <ul id="hrm" class="collapse list-unstyled ">
-                    @if ($department_active)
-                        <li id="dept-menu"><a href="{{ route('departments.index') }}">{{ trans('file.Department') }}</a>
+                            </div>
                         </li>
                     @endif
-                    @if ($index_employee_active)
-                        <li id="employee-menu"><a href="{{ route('employees.index') }}">{{ trans('file.Employee') }}</a>
-                        </li>
-                    @endif
-                    @if ($attendance_active)
-                        <li id="attendance-menu"><a
-                                href="{{ route('attendance.index') }}">{{ trans('file.Attendance') }}</a></li>
-                    @endif
-                    @if ($payroll_active)
-                        <li id="payroll-menu"><a href="{{ route('payroll.index') }}">{{ trans('file.Payroll') }}</a>
-                        </li>
-                    @endif
-                    <li id="holiday-menu"><a href="{{ route('holidays.index') }}">{{ trans('file.Holiday') }}</a></li>
-                </ul>
-            </li>
-
-            <li><a href="#people" aria-expanded="false" data-toggle="collapse"> <i
-                        class="dripicons-user"></i><span>{{ trans('file.People') }}</span></a>
-                <ul id="people" class="collapse list-unstyled ">
-                    <?php $index_permission_active = DB::table('permissions')
-                        ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                        ->where([['permissions.name', 'users-index'], ['role_id', $role->id]])
+                    <?php
+                    $index_permission = DB::table('permissions')
+                        ->where('name', 'quotes-index')
+                        ->first();
+                    $index_permission_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
                         ->first();
                     ?>
                     @if ($index_permission_active)
-                        <li id="user-list-menu"><a href="{{ route('user.index') }}">{{ trans('file.User List') }}</a>
+                        <li class="nav-item dropdown"><a class="nav-link" href="#quotationCollapse"
+                                data-bs-toggle="collapse" role="button" aria-expanded="false"
+                                aria-controls="quotationCollapse"> <i
+                                    class="dripicons-document nav-link-icon"></i><span>{{ trans('file.Quotation') }}</span><span></a>
+                            <div class="collapse" id="quotationCollapse">
+                                <ul class="nav flex-colum">
+                                    <li class="nav-item" id="quotation-list-menu"><a class="nav-link"
+                                            href="{{ route('quotations.index') }}">{{ trans('file.Quotation List') }}</a>
+                                    </li>
+                                    <?php
+                                    $add_permission = DB::table('permissions')
+                                        ->where('name', 'quotes-add')
+                                        ->first();
+                                    $add_permission_active = DB::table('role_has_permissions')
+                                        ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
+                                        ->first();
+                                    ?>
+                                    @if ($add_permission_active)
+                                        <li class="nav-item" id="quotation-create-menu"><a class="nav-link"
+                                                href="{{ route('quotations.create') }}">{{ trans('file.Add Quotation') }}</a>
+                                        </li>
+                                    @endif
+                                </ul>
+
+                            </div>
                         </li>
-                        <?php $add_permission_active = DB::table('permissions')
+                    @endif
+                    <?php
+                    $index_permission = DB::table('permissions')
+                        ->where('name', 'transfers-index')
+                        ->first();
+                    $index_permission_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
+                        ->first();
+                    ?>
+                    @if ($index_permission_active)
+                        <li class="nav-item dropdown"><a class="nav-link" href="#transferCollapse"
+                                data-bs-toggle="collapse" role="button" aria-expanded="false"
+                                aria-controls="transferCollapse"> <i
+                                    class="dripicons-export nav-link-icon"></i><span>{{ trans('file.Transfer') }}</span></a>
+                            <div class="collapse" id="transferCollapse">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item" id="transfer-list-menu"><a class="nav-link"
+                                            href="{{ route('transfers.index') }}">{{ trans('file.Transfer List') }}</a>
+                                    </li>
+                                    <?php
+                                    $add_permission = DB::table('permissions')
+                                        ->where('name', 'transfers-add')
+                                        ->first();
+                                    $add_permission_active = DB::table('role_has_permissions')
+                                        ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
+                                        ->first();
+                                    ?>
+                                    @if ($add_permission_active)
+                                        <li class="nav-item" id="transfer-create-menu"><a class="nav-link"
+                                                href="{{ route('transfers.create') }}">{{ trans('file.Add Transfer') }}</a>
+                                        </li>
+                                        <li class="nav-item" id="transfer-import-menu"><a class="nav-link"
+                                                href="{{ url('transfers/transfer_by_csv') }}">{{ trans('file.Import Transfer By CSV') }}</a>
+                                        </li>
+                                    @endif
+                                </ul>
+
+                            </div>
+                        </li>
+                    @endif
+
+                    <li class="nav-item dropdown"><a class="nav-link" href="#returnCollapse" data-bs-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="returnCollapse"> <i
+                                class="dripicons-return nav-link-icon"></i><span>{{ trans('file.return') }}</span></a>
+                        <div class="collapse" id="returnCollapse">
+                            <ul class="nav flex-column">
+                                <?php
+                                $index_permission = DB::table('permissions')
+                                    ->where('name', 'returns-index')
+                                    ->first();
+                                $index_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
+                                    ->first();
+                                ?>
+                                @if ($index_permission_active)
+                                    <li class="nav-item" id="sale-return-menu"><a class="nav-link"
+                                            href="{{ route('return-sale.index') }}">{{ trans('file.Sale') }}</a>
+                                    </li>
+                                @endif
+                                <?php
+                                $index_permission = DB::table('permissions')
+                                    ->where('name', 'purchase-return-index')
+                                    ->first();
+                                $index_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
+                                    ->first();
+                                ?>
+                                @if ($index_permission_active)
+                                    <li class="nav-item" id="purchase-return-menu"><a class="nav-link"
+                                            href="{{ route('return-purchase.index') }}">{{ trans('file.Purchase') }}</a>
+                                    </li>
+                                @endif
+                            </ul>
+
+                        </div>
+                    </li>
+                    <?php
+                    $index_permission = DB::table('permissions')
+                        ->where('name', 'account-index')
+                        ->first();
+                    $index_permission_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
+                        ->first();
+
+                    $money_transfer_permission = DB::table('permissions')
+                        ->where('name', 'money-transfer')
+                        ->first();
+                    $money_transfer_permission_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $money_transfer_permission->id], ['role_id', $role->id]])
+                        ->first();
+
+                    $balance_sheet_permission = DB::table('permissions')
+                        ->where('name', 'balance-sheet')
+                        ->first();
+                    $balance_sheet_permission_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $balance_sheet_permission->id], ['role_id', $role->id]])
+                        ->first();
+
+                    $account_statement_permission = DB::table('permissions')
+                        ->where('name', 'account-statement')
+                        ->first();
+                    $account_statement_permission_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $account_statement_permission->id], ['role_id', $role->id]])
+                        ->first();
+
+                    ?>
+                    @if ($index_permission_active || $balance_sheet_permission_active || $account_statement_permission_active)
+                        <li class="nav-item dropdown"><a class="nav-link" href="#accountCollapse"
+                                data-bs-toggle="collapse" role="button" aria-expanded="false"
+                                aria-controls="accountCollapse"> <i
+                                    class="dripicons-briefcase nav-link-icon"></i><span>{{ trans('file.Accounting') }}</span></a>
+                            <div class="collapse" id="accountCollapse">
+                                <ul class="nav flex-column">
+                                    @if ($index_permission_active)
+                                        <li class="nav-item" id="account-list-menu"><a class="nav-link"
+                                                href="{{ route('accounts.index') }}">{{ trans('file.Account List') }}</a>
+                                        </li>
+                                        <li class="nav-item"><a class="nav-link" id="add-account"
+                                                href="">{{ trans('file.Add Account') }}</a></li>
+                                    @endif
+                                    @if ($money_transfer_permission_active)
+                                        <li class="nav-item" id="money-transfer-menu"><a class="nav-link"
+                                                href="{{ route('money-transfers.index') }}">{{ trans('file.Money Transfer') }}</a>
+                                        </li>
+                                    @endif
+                                    @if ($balance_sheet_permission_active)
+                                        <li class="nav-item" id="balance-sheet-menu"><a class="nav-link"
+                                                href="{{ route('accounts.balancesheet') }}">{{ trans('file.Balance Sheet') }}</a>
+                                        </li>
+                                    @endif
+                                    @if ($account_statement_permission_active)
+                                        <li class="nav-item" id="account-statement-menu"><a class="nav-link"
+                                                id="account-statement"
+                                                href="">{{ trans('file.Account Statement') }}</a></li>
+                                    @endif
+                                </ul>
+
+                            </div>
+                        </li>
+                    @endif
+                    <?php
+                    $department = DB::table('permissions')
+                        ->where('name', 'department')
+                        ->first();
+                    $department_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $department->id], ['role_id', $role->id]])
+                        ->first();
+                    $index_employee = DB::table('permissions')
+                        ->where('name', 'employees-index')
+                        ->first();
+                    $index_employee_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $index_employee->id], ['role_id', $role->id]])
+                        ->first();
+                    $attendance = DB::table('permissions')
+                        ->where('name', 'attendance')
+                        ->first();
+                    $attendance_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $attendance->id], ['role_id', $role->id]])
+                        ->first();
+                    $payroll = DB::table('permissions')
+                        ->where('name', 'payroll')
+                        ->first();
+                    $payroll_active = DB::table('role_has_permissions')
+                        ->where([['permission_id', $payroll->id], ['role_id', $role->id]])
+                        ->first();
+                    ?>
+
+                    <li class="nav-item dropdown"><a class="nav-link" href="#hrmCollapse" data-bs-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="hrmCollapse"> <i
+                                class="dripicons-user-group nav-link-icon"></i><span>HRM</span></a>
+                        <div class="collapse" id="hrmCollapse">
+                            <ul class="nav flex-column">
+                                @if ($department_active)
+                                    <li class="nav-item" id="dept-menu"><a class="nav-link"
+                                            href="{{ route('departments.index') }}">{{ trans('file.Department') }}</a>
+                                    </li>
+                                @endif
+                                @if ($index_employee_active)
+                                    <li class="nav-item" id="employee-menu"><a class="nav-link"
+                                            href="{{ route('employees.index') }}">{{ trans('file.Employee') }}</a>
+                                    </li>
+                                @endif
+                                @if ($attendance_active)
+                                    <li class="nav-item" id="attendance-menu"><a class="nav-link"
+                                            href="{{ route('attendance.index') }}">{{ trans('file.Attendance') }}</a>
+                                    </li>
+                                @endif
+                                @if ($payroll_active)
+                                    <li class="nav-item" id="payroll-menu"><a class="nav-link"
+                                            href="{{ route('payroll.index') }}">{{ trans('file.Payroll') }}</a>
+                                    </li>
+                                @endif
+                                <li class="nav-item" id="holiday-menu"><a class="nav-link"
+                                        href="{{ route('holidays.index') }}">{{ trans('file.Holiday') }}</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown"><a class="nav-link" href="#peopleCollapse" data-bs-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="peopleCollapse"> <i
+                                class="dripicons-user nav-link-icon"></i><span>{{ trans('file.People') }}</span></a>
+                        <div class="collapse" id="peopleCollapse">
+                            <ul class="nav flex-column">
+                                <?php $index_permission_active = DB::table('permissions')
+                                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                                    ->where([['permissions.name', 'users-index'], ['role_id', $role->id]])
+                                    ->first();
+                                ?>
+                                @if ($index_permission_active)
+                                    <li class="nav-item" id="user-list-menu"><a class="nav-link"
+                                            href="{{ route('user.index') }}">{{ trans('file.User List') }}</a>
+                                    </li>
+                                    <?php $add_permission_active = DB::table('permissions')
+                                        ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                                        ->where([['permissions.name', 'users-add'], ['role_id', $role->id]])
+                                        ->first();
+                                    ?>
+                                    @if ($add_permission_active)
+                                        <li class="nav-item" id="user-create-menu"><a class="nav-link"
+                                                href="{{ route('user.create') }}">{{ trans('file.Add User') }}</a>
+                                        </li>
+                                    @endif
+                                @endif
+                                <?php
+                                $index_permission = DB::table('permissions')
+                                    ->where('name', 'customers-index')
+                                    ->first();
+                                $index_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
+                                    ->first();
+                                ?>
+                                @if ($index_permission_active)
+                                    <li class="nav-item" id="customer-list-menu"><a class="nav-link"
+                                            href="{{ route('customer.index') }}">{{ trans('file.Customer List') }}</a>
+                                    </li>
+                                    <?php
+                                    $add_permission = DB::table('permissions')
+                                        ->where('name', 'customers-add')
+                                        ->first();
+                                    $add_permission_active = DB::table('role_has_permissions')
+                                        ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
+                                        ->first();
+                                    ?>
+                                    @if ($add_permission_active)
+                                        <li class="nav-item" id="customer-create-menu"><a class="nav-link"
+                                                href="{{ route('customer.create') }}">{{ trans('file.Add Customer') }}</a>
+                                        </li>
+                                    @endif
+                                @endif
+                                <?php
+                                $index_permission = DB::table('permissions')
+                                    ->where('name', 'billers-index')
+                                    ->first();
+                                $index_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
+                                    ->first();
+                                ?>
+                                @if ($index_permission_active)
+                                    <li class="nav-item" id="biller-list-menu"><a class="nav-link"
+                                            href="{{ route('biller.index') }}">{{ trans('file.Biller List') }}</a>
+                                    </li>
+                                    <?php
+                                    $add_permission = DB::table('permissions')
+                                        ->where('name', 'billers-add')
+                                        ->first();
+                                    $add_permission_active = DB::table('role_has_permissions')
+                                        ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
+                                        ->first();
+                                    ?>
+                                    @if ($add_permission_active)
+                                        <li class="nav-item" id="biller-create-menu"><a class="nav-link"
+                                                href="{{ route('biller.create') }}">{{ trans('file.Add Biller') }}</a>
+                                        </li>
+                                    @endif
+                                @endif
+                                <?php
+                                $index_permission = DB::table('permissions')
+                                    ->where('name', 'suppliers-index')
+                                    ->first();
+                                $index_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
+                                    ->first();
+                                ?>
+                                @if ($index_permission_active)
+                                    <li class="nav-item" id="supplier-list-menu"><a class="nav-link"
+                                            href="{{ route('supplier.index') }}">{{ trans('file.Supplier List') }}</a>
+                                    </li>
+                                    <?php
+                                    $add_permission = DB::table('permissions')
+                                        ->where('name', 'suppliers-add')
+                                        ->first();
+                                    $add_permission_active = DB::table('role_has_permissions')
+                                        ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
+                                        ->first();
+                                    ?>
+                                    @if ($add_permission_active)
+                                        <li class="nav-item" id="supplier-create-menu"><a class="nav-link"
+                                                href="{{ route('supplier.create') }}">{{ trans('file.Add Supplier') }}</a>
+                                        </li>
+                                    @endif
+                                @endif
+                            </ul>
+
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown"><a class="nav-link" href="#reportCollapse" data-bs-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="reportCollapse"> <i
+                                class="dripicons-document-remove nav-link-icon"></i><span>{{ trans('file.Reports') }}</span></a>
+
+                        <?php
+                        $profit_loss_active = DB::table('permissions')
                             ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                            ->where([['permissions.name', 'users-add'], ['role_id', $role->id]])
+                            ->where([['permissions.name', 'profit-loss'], ['role_id', $role->id]])
+                            ->first();
+                        $best_seller_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'best-seller'], ['role_id', $role->id]])
+                            ->first();
+                        $warehouse_report_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'warehouse-report'], ['role_id', $role->id]])
+                            ->first();
+                        $warehouse_stock_report_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'warehouse-stock-report'], ['role_id', $role->id]])
+                            ->first();
+                        $product_report_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'product-report'], ['role_id', $role->id]])
+                            ->first();
+                        $daily_sale_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'daily-sale'], ['role_id', $role->id]])
+                            ->first();
+                        $monthly_sale_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'monthly-sale'], ['role_id', $role->id]])
+                            ->first();
+                        $daily_purchase_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'daily-purchase'], ['role_id', $role->id]])
+                            ->first();
+                        $monthly_purchase_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'monthly-purchase'], ['role_id', $role->id]])
+                            ->first();
+                        $purchase_report_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'purchase-report'], ['role_id', $role->id]])
+                            ->first();
+                        $sale_report_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'sale-report'], ['role_id', $role->id]])
+                            ->first();
+                        $sale_report_chart_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'sale-report-chart'], ['role_id', $role->id]])
+                            ->first();
+                        $payment_report_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'payment-report'], ['role_id', $role->id]])
+                            ->first();
+                        $product_qty_alert_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'product-qty-alert'], ['role_id', $role->id]])
+                            ->first();
+                        $dso_report_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'dso-report'], ['role_id', $role->id]])
+                            ->first();
+                        $user_report_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'user-report'], ['role_id', $role->id]])
+                            ->first();
+
+                        $customer_report_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'customer-report'], ['role_id', $role->id]])
+                            ->first();
+                        $supplier_report_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'supplier-report'], ['role_id', $role->id]])
+                            ->first();
+                        $due_report_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'due-report'], ['role_id', $role->id]])
+                            ->first();
+                        $supplier_due_report_active = DB::table('permissions')
+                            ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                            ->where([['permissions.name', 'supplier-due-report'], ['role_id', $role->id]])
                             ->first();
                         ?>
-                        @if ($add_permission_active)
-                            <li id="user-create-menu"><a
-                                    href="{{ route('user.create') }}">{{ trans('file.Add User') }}</a>
-                            </li>
-                        @endif
-                    @endif
-                    <?php
-                    $index_permission = DB::table('permissions')
-                        ->where('name', 'customers-index')
-                        ->first();
-                    $index_permission_active = DB::table('role_has_permissions')
-                        ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
-                        ->first();
-                    ?>
-                    @if ($index_permission_active)
-                        <li id="customer-list-menu"><a
-                                href="{{ route('customer.index') }}">{{ trans('file.Customer List') }}</a></li>
-                        <?php
-                        $add_permission = DB::table('permissions')
-                            ->where('name', 'customers-add')
-                            ->first();
-                        $add_permission_active = DB::table('role_has_permissions')
-                            ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
-                            ->first();
-                        ?>
-                        @if ($add_permission_active)
-                            <li id="customer-create-menu"><a
-                                    href="{{ route('customer.create') }}">{{ trans('file.Add Customer') }}</a></li>
-                        @endif
-                    @endif
-                    <?php
-                    $index_permission = DB::table('permissions')
-                        ->where('name', 'billers-index')
-                        ->first();
-                    $index_permission_active = DB::table('role_has_permissions')
-                        ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
-                        ->first();
-                    ?>
-                    @if ($index_permission_active)
-                        <li id="biller-list-menu"><a
-                                href="{{ route('biller.index') }}">{{ trans('file.Biller List') }}</a>
-                        </li>
-                        <?php
-                        $add_permission = DB::table('permissions')
-                            ->where('name', 'billers-add')
-                            ->first();
-                        $add_permission_active = DB::table('role_has_permissions')
-                            ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
-                            ->first();
-                        ?>
-                        @if ($add_permission_active)
-                            <li id="biller-create-menu"><a
-                                    href="{{ route('biller.create') }}">{{ trans('file.Add Biller') }}</a></li>
-                        @endif
-                    @endif
-                    <?php
-                    $index_permission = DB::table('permissions')
-                        ->where('name', 'suppliers-index')
-                        ->first();
-                    $index_permission_active = DB::table('role_has_permissions')
-                        ->where([['permission_id', $index_permission->id], ['role_id', $role->id]])
-                        ->first();
-                    ?>
-                    @if ($index_permission_active)
-                        <li id="supplier-list-menu"><a
-                                href="{{ route('supplier.index') }}">{{ trans('file.Supplier List') }}</a></li>
-                        <?php
-                        $add_permission = DB::table('permissions')
-                            ->where('name', 'suppliers-add')
-                            ->first();
-                        $add_permission_active = DB::table('role_has_permissions')
-                            ->where([['permission_id', $add_permission->id], ['role_id', $role->id]])
-                            ->first();
-                        ?>
-                        @if ($add_permission_active)
-                            <li id="supplier-create-menu"><a
-                                    href="{{ route('supplier.create') }}">{{ trans('file.Add Supplier') }}</a></li>
-                        @endif
-                    @endif
-                </ul>
-            </li>
-            <li><a href="#report" aria-expanded="false" data-toggle="collapse"> <i
-                        class="dripicons-document-remove"></i><span>{{ trans('file.Reports') }}</span></a>
-                <?php
-                $profit_loss_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'profit-loss'], ['role_id', $role->id]])
-                    ->first();
-                $best_seller_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'best-seller'], ['role_id', $role->id]])
-                    ->first();
-                $warehouse_report_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'warehouse-report'], ['role_id', $role->id]])
-                    ->first();
-                $warehouse_stock_report_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'warehouse-stock-report'], ['role_id', $role->id]])
-                    ->first();
-                $product_report_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'product-report'], ['role_id', $role->id]])
-                    ->first();
-                $daily_sale_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'daily-sale'], ['role_id', $role->id]])
-                    ->first();
-                $monthly_sale_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'monthly-sale'], ['role_id', $role->id]])
-                    ->first();
-                $daily_purchase_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'daily-purchase'], ['role_id', $role->id]])
-                    ->first();
-                $monthly_purchase_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'monthly-purchase'], ['role_id', $role->id]])
-                    ->first();
-                $purchase_report_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'purchase-report'], ['role_id', $role->id]])
-                    ->first();
-                $sale_report_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'sale-report'], ['role_id', $role->id]])
-                    ->first();
-                $sale_report_chart_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'sale-report-chart'], ['role_id', $role->id]])
-                    ->first();
-                $payment_report_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'payment-report'], ['role_id', $role->id]])
-                    ->first();
-                $product_qty_alert_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'product-qty-alert'], ['role_id', $role->id]])
-                    ->first();
-                $dso_report_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'dso-report'], ['role_id', $role->id]])
-                    ->first();
-                $user_report_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'user-report'], ['role_id', $role->id]])
-                    ->first();
+                        <div class="collapse" id="reportCollapse">
+                            <ul class="nav flex-column">
+                                @if ($profit_loss_active)
+                                    <li class="nav-item" id="profit-loss-report-menu">
+                                        {!! Form::open(['route' => 'report.profitLoss', 'method' => 'post', 'id' => 'profitLoss-report-form']) !!}
+                                        <input type="hidden" name="start_date"
+                                            value="{{ date('Y-m') . '-' . '01' }}" />
+                                        <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
+                                        <a class="nav-link" id="profitLoss-link"
+                                            href="">{{ trans('file.Summary Report') }}</a>
+                                        {!! Form::close() !!}
+                                    </li>
+                                @endif
+                                @if ($best_seller_active)
+                                    <li class="nav-item" id="best-seller-report-menu">
+                                        <a class="nav-link"
+                                            href="{{ url('report/best_seller') }}">{{ trans('file.Best Seller') }}</a>
+                                    </li>
+                                @endif
+                                @if ($product_report_active)
+                                    <li class="nav-item" id="product-report-menu">
+                                        {!! Form::open(['route' => 'report.product', 'method' => 'get', 'id' => 'product-report-form']) !!}
+                                        <input type="hidden" name="start_date"
+                                            value="{{ date('Y-m') . '-' . '01' }}" />
+                                        <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
+                                        <input type="hidden" name="warehouse_id" value="0" />
+                                        <a class="nav-link" id="report-link"
+                                            href="">{{ trans('file.Product Report') }}</a>
+                                        {!! Form::close() !!}
+                                    </li>
+                                @endif
+                                @if ($daily_sale_active)
+                                    <li class="nav-item" id="daily-sale-report-menu">
+                                        <a class="nav-link"
+                                            href="{{ url('report/daily_sale/' . date('Y') . '/' . date('m')) }}">{{ trans('file.Daily Sale') }}</a>
+                                    </li>
+                                @endif
+                                @if ($monthly_sale_active)
+                                    <li class="nav-item" id="monthly-sale-report-menu">
+                                        <a class="nav-link"
+                                            href="{{ url('report/monthly_sale/' . date('Y')) }}">{{ trans('file.Monthly Sale') }}</a>
+                                    </li>
+                                @endif
+                                @if ($daily_purchase_active)
+                                    <li class="nav-item" id="daily-purchase-report-menu">
+                                        <a class="nav-link"
+                                            href="{{ url('report/daily_purchase/' . date('Y') . '/' . date('m')) }}">{{ trans('file.Daily Purchase') }}</a>
+                                    </li>
+                                @endif
+                                @if ($monthly_purchase_active)
+                                    <li class="nav-item" id="monthly-purchase-report-menu">
+                                        <a class="nav-link"
+                                            href="{{ url('report/monthly_purchase/' . date('Y')) }}">{{ trans('file.Monthly Purchase') }}</a>
+                                    </li>
+                                @endif
+                                @if ($sale_report_active)
+                                    <li class="nav-item" id="sale-report-menu">
+                                        {!! Form::open(['route' => 'report.sale', 'method' => 'post', 'id' => 'sale-report-form']) !!}
+                                        <input type="hidden" name="start_date"
+                                            value="{{ date('Y-m') . '-' . '01' }}" />
+                                        <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
+                                        <input type="hidden" name="warehouse_id" value="0" />
+                                        <a class="nav-link" id="sale-report-link"
+                                            href="">{{ trans('file.Sale Report') }}</a>
+                                        {!! Form::close() !!}
+                                    </li>
+                                @endif
+                                @if ($sale_report_chart_active)
+                                    <li class="nav-item" id="sale-report-chart-menu">
+                                        {!! Form::open(['route' => 'report.saleChart', 'method' => 'post', 'id' => 'sale-report-chart-form']) !!}
+                                        <input type="hidden" name="start_date"
+                                            value="{{ date('Y-m') . '-' . '01' }}" />
+                                        <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
+                                        <input type="hidden" name="warehouse_id" value="0" />
+                                        <input type="hidden" name="time_period" value="weekly" />
+                                        <a class="nav-link" id="sale-report-chart-link"
+                                            href="">{{ trans('file.Sale Report Chart') }}</a>
+                                        {!! Form::close() !!}
+                                    </li>
+                                @endif
+                                @if ($payment_report_active)
+                                    <li class="nav-item" id="payment-report-menu">
+                                        {!! Form::open(['route' => 'report.paymentByDate', 'method' => 'post', 'id' => 'payment-report-form']) !!}
+                                        <input type="hidden" name="start_date"
+                                            value="{{ date('Y-m') . '-' . '01' }}" />
+                                        <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
+                                        <a class="nav-link" id="payment-report-link"
+                                            href="">{{ trans('file.Payment Report') }}</a>
+                                        {!! Form::close() !!}
+                                    </li>
+                                @endif
+                                @if ($purchase_report_active)
+                                    <li class="nav-item" id="purchase-report-menu">
+                                        {!! Form::open(['route' => 'report.purchase', 'method' => 'post', 'id' => 'purchase-report-form']) !!}
+                                        <input type="hidden" name="start_date"
+                                            value="{{ date('Y-m') . '-' . '01' }}" />
+                                        <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
+                                        <input type="hidden" name="warehouse_id" value="0" />
+                                        <a class="nav-link" id="purchase-report-link"
+                                            href="">{{ trans('file.Purchase Report') }}</a>
+                                        {!! Form::close() !!}
+                                    </li>
+                                @endif
+                                @if ($customer_report_active)
+                                    <li class="nav-item" id="customer-report-menu">
+                                        <a class="nav-link" id="customer-report-link"
+                                            href="">{{ trans('file.Customer Report') }}</a>
+                                    </li>
+                                @endif
+                                @if ($due_report_active)
+                                    <li class="nav-item" id="due-report-menu">
+                                        {!! Form::open(['route' => 'report.customerDueByDate', 'method' => 'post', 'id' => 'customer-due-report-form']) !!}
+                                        <input type="hidden" name="start_date"
+                                            value="{{ date('Y-m-d', strtotime('-1 year')) }}" />
+                                        <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
+                                        <a class="nav-link" id="due-report-link"
+                                            href="">{{ trans('file.Customer Due Report') }}</a>
+                                        {!! Form::close() !!}
+                                    </li>
+                                @endif
+                                @if ($supplier_report_active)
+                                    <li class="nav-item" id="supplier-report-menu">
+                                        <a class="nav-link" id="supplier-report-link"
+                                            href="">{{ trans('file.Supplier Report') }}</a>
+                                    </li>
+                                @endif
+                                @if ($supplier_due_report_active)
+                                    <li class="nav-item" id="supplier-due-report-menu">
+                                        {!! Form::open(['route' => 'report.supplierDueByDate', 'method' => 'post', 'id' => 'supplier-due-report-form']) !!}
+                                        <input type="hidden" name="start_date"
+                                            value="{{ date('Y-m-d', strtotime('-1 year')) }}" />
+                                        <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
+                                        <a class="nav-link" id="supplier-due-report-link"
+                                            href="">{{ trans('file.Supplier Due
+                                                                                Report') }}</a>
+                                        {!! Form::close() !!}
+                                    </li>
+                                @endif
+                                @if ($warehouse_report_active)
+                                    <li class="nav-item" id="warehouse-report-menu">
+                                        <a class="nav-link" id="warehouse-report-link"
+                                            href="">{{ trans('file.Warehouse Report') }}</a>
+                                    </li>
+                                @endif
+                                @if ($warehouse_stock_report_active)
+                                    <li class="nav-item" id="warehouse-stock-report-menu">
+                                        <a class="nav-link"
+                                            href="{{ route('report.warehouseStock') }}">{{ trans('file.Warehouse
+                                                                                Stock Chart') }}</a>
+                                    </li>
+                                @endif
+                                @if ($product_qty_alert_active)
+                                    <li class="nav-item" id="qtyAlert-report-menu">
+                                        <a class="nav-link"
+                                            href="{{ route('report.qtyAlert') }}">{{ trans('file.Product Quantity
+                                                                                Alert') }}</a>
+                                    </li>
+                                @endif
+                                @if ($dso_report_active)
+                                    <li class="nav-item" id="daily-sale-objective-menu">
+                                        <a class="nav-link"
+                                            href="{{ route('report.dailySaleObjective') }}">{{ trans('file.Daily
+                                                                                Sale Objective Report') }}</a>
+                                    </li>
+                                @endif
+                                @if ($user_report_active)
+                                    <li class="nav-item" id="user-report-menu">
+                                        <a class="nav-link" id="user-report-link"
+                                            href="">{{ trans('file.User Report') }}</a>
+                                    </li>
+                                @endif
+                            </ul>
 
-                $customer_report_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'customer-report'], ['role_id', $role->id]])
-                    ->first();
-                $supplier_report_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'supplier-report'], ['role_id', $role->id]])
-                    ->first();
-                $due_report_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'due-report'], ['role_id', $role->id]])
-                    ->first();
-                $supplier_due_report_active = DB::table('permissions')
-                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                    ->where([['permissions.name', 'supplier-due-report'], ['role_id', $role->id]])
-                    ->first();
-                ?>
-                <ul id="report" class="collapse list-unstyled ">
-                    @if ($profit_loss_active)
-                        <li id="profit-loss-report-menu">
-                            {!! Form::open(['route' => 'report.profitLoss', 'method' => 'post', 'id' => 'profitLoss-report-form']) !!}
-                            <input type="hidden" name="start_date" value="{{ date('Y-m') . '-' . '01' }}" />
-                            <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
-                            <a id="profitLoss-link" href="">{{ trans('file.Summary Report') }}</a>
-                            {!! Form::close() !!}
-                        </li>
-                    @endif
-                    @if ($best_seller_active)
-                        <li id="best-seller-report-menu">
-                            <a href="{{ url('report/best_seller') }}">{{ trans('file.Best Seller') }}</a>
-                        </li>
-                    @endif
-                    @if ($product_report_active)
-                        <li id="product-report-menu">
-                            {!! Form::open(['route' => 'report.product', 'method' => 'get', 'id' => 'product-report-form']) !!}
-                            <input type="hidden" name="start_date" value="{{ date('Y-m') . '-' . '01' }}" />
-                            <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
-                            <input type="hidden" name="warehouse_id" value="0" />
-                            <a id="report-link" href="">{{ trans('file.Product Report') }}</a>
-                            {!! Form::close() !!}
-                        </li>
-                    @endif
-                    @if ($daily_sale_active)
-                        <li id="daily-sale-report-menu">
-                            <a
-                                href="{{ url('report/daily_sale/' . date('Y') . '/' . date('m')) }}">{{ trans('file.Daily Sale') }}</a>
-                        </li>
-                    @endif
-                    @if ($monthly_sale_active)
-                        <li id="monthly-sale-report-menu">
-                            <a
-                                href="{{ url('report/monthly_sale/' . date('Y')) }}">{{ trans('file.Monthly Sale') }}</a>
-                        </li>
-                    @endif
-                    @if ($daily_purchase_active)
-                        <li id="daily-purchase-report-menu">
-                            <a
-                                href="{{ url('report/daily_purchase/' . date('Y') . '/' . date('m')) }}">{{ trans('file.Daily Purchase') }}</a>
-                        </li>
-                    @endif
-                    @if ($monthly_purchase_active)
-                        <li id="monthly-purchase-report-menu">
-                            <a
-                                href="{{ url('report/monthly_purchase/' . date('Y')) }}">{{ trans('file.Monthly Purchase') }}</a>
-                        </li>
-                    @endif
-                    @if ($sale_report_active)
-                        <li id="sale-report-menu">
-                            {!! Form::open(['route' => 'report.sale', 'method' => 'post', 'id' => 'sale-report-form']) !!}
-                            <input type="hidden" name="start_date" value="{{ date('Y-m') . '-' . '01' }}" />
-                            <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
-                            <input type="hidden" name="warehouse_id" value="0" />
-                            <a id="sale-report-link" href="">{{ trans('file.Sale Report') }}</a>
-                            {!! Form::close() !!}
-                        </li>
-                    @endif
-                    @if ($sale_report_chart_active)
-                        <li id="sale-report-chart-menu">
-                            {!! Form::open(['route' => 'report.saleChart', 'method' => 'post', 'id' => 'sale-report-chart-form']) !!}
-                            <input type="hidden" name="start_date" value="{{ date('Y-m') . '-' . '01' }}" />
-                            <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
-                            <input type="hidden" name="warehouse_id" value="0" />
-                            <input type="hidden" name="time_period" value="weekly" />
-                            <a id="sale-report-chart-link" href="">{{ trans('file.Sale Report Chart') }}</a>
-                            {!! Form::close() !!}
-                        </li>
-                    @endif
-                    @if ($payment_report_active)
-                        <li id="payment-report-menu">
-                            {!! Form::open(['route' => 'report.paymentByDate', 'method' => 'post', 'id' => 'payment-report-form']) !!}
-                            <input type="hidden" name="start_date" value="{{ date('Y-m') . '-' . '01' }}" />
-                            <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
-                            <a id="payment-report-link" href="">{{ trans('file.Payment Report') }}</a>
-                            {!! Form::close() !!}
-                        </li>
-                    @endif
-                    @if ($purchase_report_active)
-                        <li id="purchase-report-menu">
-                            {!! Form::open(['route' => 'report.purchase', 'method' => 'post', 'id' => 'purchase-report-form']) !!}
-                            <input type="hidden" name="start_date" value="{{ date('Y-m') . '-' . '01' }}" />
-                            <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
-                            <input type="hidden" name="warehouse_id" value="0" />
-                            <a id="purchase-report-link" href="">{{ trans('file.Purchase Report') }}</a>
-                            {!! Form::close() !!}
-                        </li>
-                    @endif
-                    @if ($customer_report_active)
-                        <li id="customer-report-menu">
-                            <a id="customer-report-link" href="">{{ trans('file.Customer Report') }}</a>
-                        </li>
-                    @endif
-                    @if ($due_report_active)
-                        <li id="due-report-menu">
-                            {!! Form::open(['route' => 'report.customerDueByDate', 'method' => 'post', 'id' => 'customer-due-report-form']) !!}
-                            <input type="hidden" name="start_date"
-                                value="{{ date('Y-m-d', strtotime('-1 year')) }}" />
-                            <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
-                            <a id="due-report-link" href="">{{ trans('file.Customer Due Report') }}</a>
-                            {!! Form::close() !!}
-                        </li>
-                    @endif
-                    @if ($supplier_report_active)
-                        <li id="supplier-report-menu">
-                            <a id="supplier-report-link" href="">{{ trans('file.Supplier Report') }}</a>
-                        </li>
-                    @endif
-                    @if ($supplier_due_report_active)
-                        <li id="supplier-due-report-menu">
-                            {!! Form::open(['route' => 'report.supplierDueByDate', 'method' => 'post', 'id' => 'supplier-due-report-form']) !!}
-                            <input type="hidden" name="start_date"
-                                value="{{ date('Y-m-d', strtotime('-1 year')) }}" />
-                            <input type="hidden" name="end_date" value="{{ date('Y-m-d') }}" />
-                            <a id="supplier-due-report-link" href="">{{ trans('file.Supplier Due Report') }}</a>
-                            {!! Form::close() !!}
-                        </li>
-                    @endif
-                    @if ($warehouse_report_active)
-                        <li id="warehouse-report-menu">
-                            <a id="warehouse-report-link" href="">{{ trans('file.Warehouse Report') }}</a>
-                        </li>
-                    @endif
-                    @if ($warehouse_stock_report_active)
-                        <li id="warehouse-stock-report-menu">
-                            <a
-                                href="{{ route('report.warehouseStock') }}">{{ trans('file.Warehouse Stock Chart') }}</a>
-                        </li>
-                    @endif
-                    @if ($product_qty_alert_active)
-                        <li id="qtyAlert-report-menu">
-                            <a href="{{ route('report.qtyAlert') }}">{{ trans('file.Product Quantity Alert') }}</a>
-                        </li>
-                    @endif
-                    @if ($dso_report_active)
-                        <li id="daily-sale-objective-menu">
-                            <a
-                                href="{{ route('report.dailySaleObjective') }}">{{ trans('file.Daily Sale Objective Report') }}</a>
-                        </li>
-                    @endif
-                    @if ($user_report_active)
-                        <li id="user-report-menu">
-                            <a id="user-report-link" href="">{{ trans('file.User Report') }}</a>
-                        </li>
-                    @endif
-                </ul>
-            </li>
-            <li><a href="#setting" aria-expanded="false" data-toggle="collapse"> <i
-                        class="dripicons-gear"></i><span>{{ trans('file.settings') }}</span></a>
-                <ul id="setting" class="collapse list-unstyled ">
-                    <?php
-                    $all_notification_permission_active = DB::table('permissions')
-                        ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                        ->where([['permissions.name', 'all_notification'], ['role_id', $role->id]])
-                        ->first();
-                    $send_notification_permission_active = DB::table('permissions')
-                        ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                        ->where([['permissions.name', 'send_notification'], ['role_id', $role->id]])
-                        ->first();
-                    $warehouse_permission = DB::table('permissions')
-                        ->where('name', 'warehouse')
-                        ->first();
-                    $warehouse_permission_active = DB::table('role_has_permissions')
-                        ->where([['permission_id', $warehouse_permission->id], ['role_id', $role->id]])
-                        ->first();
-
-                    $customer_group_permission = DB::table('permissions')
-                        ->where('name', 'customer_group')
-                        ->first();
-                    $customer_group_permission_active = DB::table('role_has_permissions')
-                        ->where([['permission_id', $customer_group_permission->id], ['role_id', $role->id]])
-                        ->first();
-
-                    $brand_permission = DB::table('permissions')
-                        ->where('name', 'brand')
-                        ->first();
-                    $brand_permission_active = DB::table('role_has_permissions')
-                        ->where([['permission_id', $brand_permission->id], ['role_id', $role->id]])
-                        ->first();
-
-                    $unit_permission = DB::table('permissions')
-                        ->where('name', 'unit')
-                        ->first();
-                    $unit_permission_active = DB::table('role_has_permissions')
-                        ->where([['permission_id', $unit_permission->id], ['role_id', $role->id]])
-                        ->first();
-
-                    $tax_permission = DB::table('permissions')
-                        ->where('name', 'tax')
-                        ->first();
-                    $tax_permission_active = DB::table('role_has_permissions')
-                        ->where([['permission_id', $tax_permission->id], ['role_id', $role->id]])
-                        ->first();
-
-                    $general_setting_permission = DB::table('permissions')
-                        ->where('name', 'general_setting')
-                        ->first();
-                    $general_setting_permission_active = DB::table('role_has_permissions')
-                        ->where([['permission_id', $general_setting_permission->id], ['role_id', $role->id]])
-                        ->first();
-
-                    $mail_setting_permission = DB::table('permissions')
-                        ->where('name', 'mail_setting')
-                        ->first();
-                    $mail_setting_permission_active = DB::table('role_has_permissions')
-                        ->where([['permission_id', $mail_setting_permission->id], ['role_id', $role->id]])
-                        ->first();
-
-                    $sms_setting_permission = DB::table('permissions')
-                        ->where('name', 'sms_setting')
-                        ->first();
-                    $sms_setting_permission_active = DB::table('role_has_permissions')
-                        ->where([['permission_id', $sms_setting_permission->id], ['role_id', $role->id]])
-                        ->first();
-
-                    $create_sms_permission = DB::table('permissions')
-                        ->where('name', 'create_sms')
-                        ->first();
-                    $create_sms_permission_active = DB::table('role_has_permissions')
-                        ->where([['permission_id', $create_sms_permission->id], ['role_id', $role->id]])
-                        ->first();
-
-                    $pos_setting_permission = DB::table('permissions')
-                        ->where('name', 'pos_setting')
-                        ->first();
-                    $pos_setting_permission_active = DB::table('role_has_permissions')
-                        ->where([['permission_id', $pos_setting_permission->id], ['role_id', $role->id]])
-                        ->first();
-
-                    $hrm_setting_permission = DB::table('permissions')
-                        ->where('name', 'hrm_setting')
-                        ->first();
-                    $hrm_setting_permission_active = DB::table('role_has_permissions')
-                        ->where([['permission_id', $hrm_setting_permission->id], ['role_id', $role->id]])
-                        ->first();
-
-                    $reward_point_setting_permission = DB::table('permissions')
-                        ->where('name', 'reward_point_setting')
-                        ->first();
-                    $reward_point_setting_permission_active = DB::table('role_has_permissions')
-                        ->where([['permission_id', $reward_point_setting_permission->id], ['role_id', $role->id]])
-                        ->first();
-                    $discount_plan_permission_active = DB::table('permissions')
-                        ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                        ->where([['permissions.name', 'discount_plan'], ['role_id', $role->id]])
-                        ->first();
-                    $discount_permission_active = DB::table('permissions')
-                        ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                        ->where([['permissions.name', 'discount'], ['role_id', $role->id]])
-                        ->first();
-                    ?>
-                    @if ($role->id <= 2)
-                        <li id="role-menu"><a href="{{ route('role.index') }}">{{ trans('file.Role Permission') }}</a>
-                        </li>
-                    @endif
-                    @if ($discount_plan_permission_active)
-                        <li id="discount-plan-list-menu"><a
-                                href="{{ route('discount-plans.index') }}">{{ trans('file.Discount Plan') }}</a></li>
-                    @endif
-                    @if ($discount_permission_active)
-                        <li id="discount-list-menu"><a
-                                href="{{ route('discounts.index') }}">{{ trans('file.Discount') }}</a></li>
-                    @endif
-                    @if ($all_notification_permission_active)
-                        <li id="notification-list-menu">
-                            <a href="{{ route('notifications.index') }}">{{ trans('file.All Notification') }}</a>
-                        </li>
-                    @endif
-                    @if ($send_notification_permission_active)
-                        <li id="notification-menu">
-                            <a href="" id="send-notification">{{ trans('file.Send Notification') }}</a>
-                        </li>
-                    @endif
-                    @if ($warehouse_permission_active)
-                        <li id="warehouse-menu"><a
-                                href="{{ route('warehouse.index') }}">{{ trans('file.Warehouse') }}</a>
-                        </li>
-                    @endif
-                    @if ($customer_group_permission_active)
-                        <li id="customer-group-menu"><a
-                                href="{{ route('customer_group.index') }}">{{ trans('file.Customer Group') }}</a></li>
-                    @endif
-                    @if ($brand_permission_active)
-                        <li id="brand-menu"><a href="{{ route('brand.index') }}">{{ trans('file.Brand') }}</a></li>
-                    @endif
-                    @if ($unit_permission_active)
-                        <li id="unit-menu"><a href="{{ route('unit.index') }}">{{ trans('file.Unit') }}</a></li>
-                    @endif
-                    @if ($tax_permission_active)
-                        <li id="tax-menu"><a href="{{ route('tax.index') }}">{{ trans('file.Tax') }}</a></li>
-                    @endif
-                    <li id="user-menu"><a
-                            href="{{ route('user.profile', ['id' => Auth::id()]) }}">{{ trans('file.User Profile') }}</a>
+                        </div>
                     </li>
-                    @if ($create_sms_permission_active)
-                        <li id="create-sms-menu"><a
-                                href="{{ route('setting.createSms') }}">{{ trans('file.Create SMS') }}</a></li>
-                    @endif
-                    @if ($general_setting_permission_active)
-                        <li id="general-setting-menu"><a
-                                href="{{ route('setting.general') }}">{{ trans('file.General Setting') }}</a></li>
-                    @endif
-                    @if ($mail_setting_permission_active)
-                        <li id="mail-setting-menu"><a
-                                href="{{ route('setting.mail') }}">{{ trans('file.Mail Setting') }}</a></li>
-                    @endif
-                    @if ($reward_point_setting_permission_active)
-                        <li id="reward-point-setting-menu"><a
-                                href="{{ route('setting.rewardPoint') }}">{{ trans('file.Reward Point Setting') }}</a>
-                        </li>
-                    @endif
-                    @if ($sms_setting_permission_active)
-                        <li id="sms-setting-menu"><a
-                                href="{{ route('setting.sms') }}">{{ trans('file.SMS Setting') }}</a>
-                        </li>
-                    @endif
-                    @if ($pos_setting_permission_active)
-                        <li id="pos-setting-menu"><a href="{{ route('setting.pos') }}">POS
-                                {{ trans('file.settings') }}</a>
-                        </li>
-                    @endif
-                    @if ($hrm_setting_permission_active)
-                        <li id="hrm-setting-menu"><a href="{{ route('setting.hrm') }}">
-                                {{ trans('file.HRM Setting') }}</a>
-                        </li>
+                    <li class="nav-item dropdown"><a class="nav-link" href="#settingCollapse" data-bs-toggle="collapse"
+                            role="button" aria-expanded="false" aria-controls="settingCollapse"> <i
+                                class="dripicons-gear nav-link-icon"></i><span>{{ trans('file.settings') }}</span></a>
+                        <div class="collapse" id="settingCollapse">
+                            <ul class="nav flex-column">
+                                <?php
+                                $all_notification_permission_active = DB::table('permissions')
+                                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                                    ->where([['permissions.name', 'all_notification'], ['role_id', $role->id]])
+                                    ->first();
+                                $send_notification_permission_active = DB::table('permissions')
+                                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                                    ->where([['permissions.name', 'send_notification'], ['role_id', $role->id]])
+                                    ->first();
+                                $warehouse_permission = DB::table('permissions')
+                                    ->where('name', 'warehouse')
+                                    ->first();
+                                $warehouse_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $warehouse_permission->id], ['role_id', $role->id]])
+                                    ->first();
+
+                                $customer_group_permission = DB::table('permissions')
+                                    ->where('name', 'customer_group')
+                                    ->first();
+                                $customer_group_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $customer_group_permission->id], ['role_id', $role->id]])
+                                    ->first();
+
+                                $brand_permission = DB::table('permissions')
+                                    ->where('name', 'brand')
+                                    ->first();
+                                $brand_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $brand_permission->id], ['role_id', $role->id]])
+                                    ->first();
+
+                                $unit_permission = DB::table('permissions')
+                                    ->where('name', 'unit')
+                                    ->first();
+                                $unit_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $unit_permission->id], ['role_id', $role->id]])
+                                    ->first();
+
+                                $tax_permission = DB::table('permissions')
+                                    ->where('name', 'tax')
+                                    ->first();
+                                $tax_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $tax_permission->id], ['role_id', $role->id]])
+                                    ->first();
+
+                                $general_setting_permission = DB::table('permissions')
+                                    ->where('name', 'general_setting')
+                                    ->first();
+                                $general_setting_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $general_setting_permission->id], ['role_id', $role->id]])
+                                    ->first();
+
+                                $mail_setting_permission = DB::table('permissions')
+                                    ->where('name', 'mail_setting')
+                                    ->first();
+                                $mail_setting_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $mail_setting_permission->id], ['role_id', $role->id]])
+                                    ->first();
+
+                                $sms_setting_permission = DB::table('permissions')
+                                    ->where('name', 'sms_setting')
+                                    ->first();
+                                $sms_setting_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $sms_setting_permission->id], ['role_id', $role->id]])
+                                    ->first();
+
+                                $create_sms_permission = DB::table('permissions')
+                                    ->where('name', 'create_sms')
+                                    ->first();
+                                $create_sms_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $create_sms_permission->id], ['role_id', $role->id]])
+                                    ->first();
+
+                                $pos_setting_permission = DB::table('permissions')
+                                    ->where('name', 'pos_setting')
+                                    ->first();
+                                $pos_setting_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $pos_setting_permission->id], ['role_id', $role->id]])
+                                    ->first();
+
+                                $hrm_setting_permission = DB::table('permissions')
+                                    ->where('name', 'hrm_setting')
+                                    ->first();
+                                $hrm_setting_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $hrm_setting_permission->id], ['role_id', $role->id]])
+                                    ->first();
+
+                                $reward_point_setting_permission = DB::table('permissions')
+                                    ->where('name', 'reward_point_setting')
+                                    ->first();
+                                $reward_point_setting_permission_active = DB::table('role_has_permissions')
+                                    ->where([['permission_id', $reward_point_setting_permission->id], ['role_id', $role->id]])
+                                    ->first();
+                                $discount_plan_permission_active = DB::table('permissions')
+                                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                                    ->where([['permissions.name', 'discount_plan'], ['role_id', $role->id]])
+                                    ->first();
+                                $discount_permission_active = DB::table('permissions')
+                                    ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                                    ->where([['permissions.name', 'discount'], ['role_id', $role->id]])
+                                    ->first();
+                                ?>
+                                @if ($role->id <= 2)
+                                    <li class="nav-item" id="role-menu"><a class="nav-link"
+                                            href="{{ route('role.index') }}">{{ trans('file.Role Permission') }}</a>
+                                    </li>
+                                @endif
+                                @if ($discount_plan_permission_active)
+                                    <li class="nav-item" id="discount-plan-list-menu"><a class="nav-link"
+                                            href="{{ route('discount-plans.index') }}">{{ trans('file.Discount Plan') }}</a>
+                                    </li>
+                                @endif
+                                @if ($discount_permission_active)
+                                    <li class="nav-item" id="discount-list-menu"><a class="nav-link"
+                                            href="{{ route('discounts.index') }}">{{ trans('file.Discount') }}</a></li>
+                                @endif
+                                @if ($all_notification_permission_active)
+                                    <li class="nav-item" id="notification-list-menu">
+                                        <a class="nav-link"
+                                            href="{{ route('notifications.index') }}">{{ trans('file.All Notification') }}</a>
+                                    </li>
+                                @endif
+                                @if ($send_notification_permission_active)
+                                    <li class="nav-item" id="notification-menu">
+                                        <a class="nav-link" href=""
+                                            id="send-notification">{{ trans('file.Send Notification') }}</a>
+                                    </li>
+                                @endif
+                                @if ($warehouse_permission_active)
+                                    <li class="nav-item" id="warehouse-menu"><a class="nav-link"
+                                            href="{{ route('warehouse.index') }}">{{ trans('file.Warehouse') }}</a>
+                                    </li>
+                                @endif
+                                @if ($customer_group_permission_active)
+                                    <li class="nav-item" id="customer-group-menu"><a class="nav-link"
+                                            href="{{ route('customer_group.index') }}">{{ trans('file.Customer Group') }}</a>
+                                    </li>
+                                @endif
+                                @if ($brand_permission_active)
+                                    <li class="nav-item" id="brand-menu"><a class="nav-link"
+                                            href="{{ route('brand.index') }}">{{ trans('file.Brand') }}</a>
+                                    </li>
+                                @endif
+                                @if ($unit_permission_active)
+                                    <li class="nav-item" id="unit-menu"><a class="nav-link"
+                                            href="{{ route('unit.index') }}">{{ trans('file.Unit') }}</a></li>
+                                @endif
+                                @if ($tax_permission_active)
+                                    <li class="nav-item" id="tax-menu"><a class="nav-link"
+                                            href="{{ route('tax.index') }}">{{ trans('file.Tax') }}</a></li>
+                                @endif
+                                <li class="nav-item" id="user-menu"><a class="nav-link"
+                                        href="{{ route('user.profile', ['id' => Auth::id()]) }}">{{ trans('file.User Profile') }}</a>
+                                </li>
+                                @if ($create_sms_permission_active)
+                                    <li class="nav-item" id="create-sms-menu"><a class="nav-link"
+                                            href="{{ route('setting.createSms') }}">{{ trans('file.Create SMS') }}</a>
+                                    </li>
+                                @endif
+                                @if ($general_setting_permission_active)
+                                    <li class="nav-item" id="general-setting-menu"><a class="nav-link"
+                                            href="{{ route('setting.general') }}">{{ trans('file.General Setting') }}</a>
+                                    </li>
+                                @endif
+                                @if ($mail_setting_permission_active)
+                                    <li class="nav-item" id="mail-setting-menu"><a class="nav-link"
+                                            href="{{ route('setting.mail') }}">{{ trans('file.Mail Setting') }}</a>
+                                    </li>
+                                @endif
+                                @if ($reward_point_setting_permission_active)
+                                    <li class="nav-item" id="reward-point-setting-menu"><a class="nav-link"
+                                            href="{{ route('setting.rewardPoint') }}">{{ trans('file.Reward Point Setting') }}</a>
+                                    </li>
+                                @endif
+                                @if ($sms_setting_permission_active)
+                                    <li class="nav-item" id="sms-setting-menu"><a class="nav-link"
+                                            href="{{ route('setting.sms') }}">{{ trans('file.SMS Setting') }}</a>
+                                    </li>
+                                @endif
+                                @if ($pos_setting_permission_active)
+                                    <li class="nav-item" id="pos-setting-menu"><a class="nav-link"
+                                            href="{{ route('setting.pos') }}">POS
+                                            {{ trans('file.settings') }}</a>
+                                    </li>
+                                @endif
+                                @if ($hrm_setting_permission_active)
+                                    <li class="nav-item" id="hrm-setting-menu"><a class="nav-link"
+                                            href="{{ route('setting.hrm') }}">
+                                            {{ trans('file.HRM Setting') }}</a>
+                                    </li>
+                                @endif
+                            </ul>
+
+                        </div>
+                    </li>
+                    @if (Auth::user()->role_id != 5)
+                        {{-- <li><a href="{{url('public/read_me')}}"> <i
+            class="dripicons-information"></i><span>{{trans('file.Documentation')}}</span></a></li> --}}
                     @endif
                 </ul>
-            </li>
-            @if (Auth::user()->role_id != 5)
-                {{-- <li><a href="{{url('public/read_me')}}"> <i class="dripicons-information"></i><span>{{trans('file.Documentation')}}</span></a></li> --}}
-            @endif
-        </ul>
+            </div>
+        </div>
+
     </nav>
+
     <section class="forms pos-section">
         <div class="container-fluid">
             <div class="row">
@@ -969,8 +1132,10 @@
                               </div>
                         </form> --}}
                         <div class="bills-toggle d-none d-md-block d-sm-none d-xl-none d-lg-block">
-                            <span class="" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBills" aria-controls="offcanvasScrolling">
-                                <i class="fa-light fa-clipboard-list-check d-flex fs-2 align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px"></i>
+                            <span class="" type="button" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasBills" aria-controls="offcanvasScrolling">
+                                <i
+                                    class="fa-light fa-clipboard-list-check d-flex fs-2 align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px"></i>
                             </span>
                         </div>
 
@@ -1006,7 +1171,8 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="notification-icon">
                                         <li><a href="{{ route('report.qtyAlert') }}" class="dropdown-item"><span
-                                                    class="green-badge"></span> {{ $alert_product }} Products are running low in stock</a>
+                                                    class="green-badge"></span> {{ $alert_product }} Products are running
+                                                low in stock</a>
                                         </li>
                                         @foreach (\Auth::user()->unreadNotifications as $key => $notification)
                                             <li> <a href="#"
@@ -1172,7 +1338,9 @@
                             <div class="bill-item list-group-item list-group-item-action">
                                 <div class="row d-flex justify-content-center align-items-center">
                                     <div class="square-abrv col-3 ps-4">
-                                        <h1 class="cc_1 text-truncate text-center rounded-1"><span class="w-100 p-0 text-truncate truncate-1" style="letter-spacing: 20px;">{{ $customer->name }}</span></h1>
+                                        <h1 class="cc_1 text-truncate text-center rounded-1"><span
+                                                class="w-100 p-0 text-truncate truncate-1"
+                                                style="letter-spacing: 20px;">{{ $customer->name }}</span></h1>
                                     </div>
                                     <div class="col-9">
                                         @if (in_array('sales-edit', $all_permission))
@@ -1200,7 +1368,8 @@
                                         </div>
                                         <div class="vr bg-gray-700 mx-2 mx-lg-1"></div>
                                         <div class="bill-total">
-                                            <h5 class="badge text-bg-success-soft px-1 py-1 fs-5">MWK {{ $draft->grand_total }}</h5>
+                                            <h5 class="badge text-bg-success-soft px-1 py-1 fs-5">MWK
+                                                {{ $draft->grand_total }}</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -1210,10 +1379,12 @@
 
 
                 </div>
-                <div class="offcanvas offcanvas-start" data-bs-scroll="false" data-bs-backdrop="true" tabindex="-1" id="offcanvasBills" aria-labelledby="offcanvasScrollingLabel" style="z-index: 9999">
+                <div class="offcanvas offcanvas-start" data-bs-scroll="false" data-bs-backdrop="true" tabindex="-1"
+                    id="offcanvasBills" aria-labelledby="offcanvasScrollingLabel" style="z-index: 9999">
                     <div class="offcanvas-header">
-                      <h5 class="offcanvas-title" id="offcanvasScrollingLabel"></h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        <h5 class="offcanvas-title" id="offcanvasScrollingLabel"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
                         <div class="bills-header">
@@ -1230,7 +1401,9 @@
                                 <div class="bill-item list-group-item list-group-item-action">
                                     <div class="row d-flex justify-content-center align-items-center">
                                         <div class="square-abrv col-3 ps-4">
-                                            <h1 class="cc_1 text-truncate text-center rounded-1"><span class="w-100 p-0 text-truncate truncate-1" style="letter-spacing: 20px;">{{ $customer->name }}</span></h1>
+                                            <h1 class="cc_1 text-truncate text-center rounded-1"><span
+                                                    class="w-100 p-0 text-truncate truncate-1"
+                                                    style="letter-spacing: 20px;">{{ $customer->name }}</span></h1>
                                         </div>
                                         <div class="col-9">
                                             @if (in_array('sales-edit', $all_permission))
@@ -1258,7 +1431,8 @@
                                             </div>
                                             <div class="vr bg-gray-700 mx-2 mx-lg-1"></div>
                                             <div class="bill-total">
-                                                <h5 class="badge text-bg-success-soft px-1 py-1 fs-5">MWK {{ $draft->grand_total }}</h5>
+                                                <h5 class="badge text-bg-success-soft px-1 py-1 fs-5">MWK
+                                                    {{ $draft->grand_total }}</h5>
                                             </div>
                                         </div>
                                     </div>
@@ -1266,7 +1440,7 @@
                             @endforeach
                         </div>
                     </div>
-                  </div>
+                </div>
                 <div class="col-sm-7 col-lg-8 col-xl-7 col-xxl-7 hidden-on-mobile">
                     <div class="filter-window mCustomScrollbar">
                         <div class="category mt-3">
@@ -1280,15 +1454,15 @@
                             </div>
                             <div class="row ml-2 mt-3">
                                 @foreach ($lims_category_list as $category)
-                                <div class="col-2 mowa-card brand-img" data-category="{{ $category->id }}">
-                                    <div class="card cc_4">
-                                        <a class="btn btn-link">
-                                            <div class="card-body">
-                                                <h5 class="card-title"> {{ $category->name }}</h5>
-                                            </div>
-                                        </a>
+                                    <div class="col-2 mowa-card brand-img" data-category="{{ $category->id }}">
+                                        <div class="card cc_4">
+                                            <a class="btn btn-link">
+                                                <div class="card-body">
+                                                    <h5 class="card-title"> {{ $category->name }}</h5>
+                                                </div>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
                                 @endforeach
                             </div>
                         </div>
@@ -1346,7 +1520,8 @@
                                 </div>
                             </div>
                             @foreach ($lims_category_list as $category)
-                                <div class="col-sm-4 col-lg-3 mowa-card px-1 category-img" data-category="{{ $category->id }}">
+                                <div class="col-sm-4 col-lg-3 mowa-card px-1 category-img"
+                                    data-category="{{ $category->id }}">
                                     <div class="card cc_8">
                                         <a class="btn btn-link">
                                             <div class="card-body">
@@ -1505,7 +1680,8 @@
 
                                     </div>
                                     <div class="col-8">
-                                        <h5 class="card-title"><span id="cash_in_hand" class="badge text-bg-success-soft"></span></h5>
+                                        <h5 class="card-title"><span id="cash_in_hand"
+                                                class="badge text-bg-success-soft"></span></h5>
                                     </div>
                                 </div>
                                 <div class="row profits">
@@ -1516,18 +1692,21 @@
                                         <h6 class="text-muted text-uppercase">Profits</h6>
                                     </div>
                                     <div class="col-8">
-                                        <h5 class="card-title"><span class="today_profit badge text-bg-success-soft">0</span></h5>
+                                        <h5 class="card-title"><span
+                                                class="today_profit badge text-bg-success-soft">0</span></h5>
                                     </div>
                                 </div>
                                 <div class="row sales">
                                     <div class="col-4">
                                         <span class="sales-icon">
-                                            <img src="{{ url('public/images/icons/cash-payments.png') }}" alt="">
+                                            <img src="{{ url('public/images/icons/cash-payments.png') }}"
+                                                alt="">
                                         </span>
                                         <h6 class="text-muted text-uppercase">Cash Sales</h6>
                                     </div>
                                     <div class="col-8">
-                                        <h5 class="card-title"><span class="cash_payment badge text-bg-success-soft">0</span></h5>
+                                        <h5 class="card-title"><span
+                                                class="cash_payment badge text-bg-success-soft">0</span></h5>
                                     </div>
                                 </div>
                                 <div class="row cash">
@@ -1535,7 +1714,8 @@
                                         <h6 class="text-muted text-uppercase">Total Sales</h6>
                                     </div>
                                     <div class="col-8">
-                                        <h5 class="card-title"><span class="total_sale_amount badge text-bg-success-soft">0</span></h5>
+                                        <h5 class="card-title"><span
+                                                class="total_sale_amount badge text-bg-success-soft">0</span></h5>
                                     </div>
                                 </div>
                             </div>
@@ -1788,7 +1968,8 @@
                             </div>
                         </div>
                         <div class="payment-amount">
-                            <a class="btn payment-btn" data-toggle="modal" data-target="#add-payment" id="cash-btn">
+                            <a class="btn payment-btn" data-toggle="modal" data-target="#add-payment"
+                                id="cash-btn">
                                 <h2 class="fw-bold">Pay <span id="grand-total">0.00</span></h2>
                             </a>
                             <span class="dropup" style="vertical-align: middle;">
@@ -1854,34 +2035,36 @@
                                     class="fa fa-money"></i> {{ trans('file.Cash') }}</button>
                         </div>
                         <div class="column-5 hidden">
-                            <button style="background-color: #213170" type="button" class="btn btn-custom payment-btn"
-                                data-toggle="modal" data-target="#add-payment" id="paypal-btn"><i
-                                    class="fa fa-paypal"></i> {{ trans('file.PayPal') }}</button>
+                            <button style="background-color: #213170" type="button"
+                                class="btn btn-custom payment-btn" data-toggle="modal" data-target="#add-payment"
+                                id="paypal-btn"><i class="fa fa-paypal"></i> {{ trans('file.PayPal') }}</button>
                         </div>
                         <div class="column-5">
                             <button style="background-color: #e28d02" type="button" class="btn btn-custom"
                                 id="draft-btn"><i class="dripicons-flag"></i> {{ trans('file.Draft') }}</button>
                         </div>
                         <div class="column-5 hidden">
-                            <button style="background-color: #fd7272" type="button" class="btn btn-custom payment-btn"
-                                data-toggle="modal" data-target="#add-payment" id="cheque-btn"><i
-                                    class="fa fa-money"></i> {{ trans('file.Cheque') }}</button>
+                            <button style="background-color: #fd7272" type="button"
+                                class="btn btn-custom payment-btn" data-toggle="modal" data-target="#add-payment"
+                                id="cheque-btn"><i class="fa fa-money"></i> {{ trans('file.Cheque') }}</button>
                         </div>
                         <div class="column-5 hidden">
-                            <button style="background-color: #5f27cd" type="button" class="btn btn-custom payment-btn"
-                                data-toggle="modal" data-target="#add-payment" id="gift-card-btn"><i
-                                    class="fa fa-credit-card-alt"></i> {{ trans('file.Gift Card') }}</button>
+                            <button style="background-color: #5f27cd" type="button"
+                                class="btn btn-custom payment-btn" data-toggle="modal" data-target="#add-payment"
+                                id="gift-card-btn"><i class="fa fa-credit-card-alt"></i>
+                                {{ trans('file.Gift Card') }}</button>
                         </div>
                         <div class="column-5 hidden">
-                            <button style="background-color: #b33771" type="button" class="btn btn-custom payment-btn"
-                                data-toggle="modal" data-target="#add-payment" id="deposit-btn"><i
-                                    class="fa fa-university"></i> {{ trans('file.Deposit') }}</button>
+                            <button style="background-color: #b33771" type="button"
+                                class="btn btn-custom payment-btn" data-toggle="modal" data-target="#add-payment"
+                                id="deposit-btn"><i class="fa fa-university"></i> {{ trans('file.Deposit') }}</button>
                         </div>
                         @if ($lims_reward_point_setting_data->is_active)
                             <div class="column-5 hidden">
                                 <button style="background-color: #319398" type="button"
                                     class="btn btn-custom payment-btn" data-toggle="modal" data-target="#add-payment"
-                                    id="point-btn"><i class="dripicons-rocket"></i> {{ trans('file.Points') }}</button>
+                                    id="point-btn"><i class="dripicons-rocket"></i>
+                                    {{ trans('file.Points') }}</button>
                             </div>
                         @endif
                         <div class="column-5">
@@ -1905,7 +2088,9 @@
                 <div class="mobile-menu-nav nav-tabs" id="myTab" role="tablist">
                     <div class="container">
                         <div class="row justify-content-around navigation-items">
-                            <div class="col-3 navigation-item scrollspy" data-bs-spy="scroll" data-bs-target="#pos-scan-start" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true">
+                            <div class="col-3 navigation-item scrollspy" data-bs-spy="scroll"
+                                data-bs-target="#pos-scan-start" data-bs-root-margin="0px 0px -40%"
+                                data-bs-smooth-scroll="true">
                                 <span type="" role="tab" class="" aria-controls="itemsListTab"
                                     aria-selected="true">
                                     <a type="button" href="#pos-scan-start" class="menu-icon"> <img
@@ -1914,7 +2099,8 @@
                                 </span>
                             </div>
                             <div class="col-3 navigation-item">
-                                <span type="button" class="btn"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasBills" aria-controls="offcanvasScrolling">
+                                <span type="button" class="btn" data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasBills" aria-controls="offcanvasScrolling">
                                     <span class="menu-icon"> <img
                                             src="{{ url('public/images/icons/streamlinehq-receipt-dollar-shopping-ecommerce-48.png') }}" /></span>
                                     <div class="menu-title">Bills</div>
@@ -2075,15 +2261,16 @@
                                     </div>
                                     <div class="row ml-2 mt-3">
                                         @foreach ($lims_category_list as $category)
-                                        <div class="col-2 mowa-card brand-img" data-category="{{ $category->id }}">
-                                            <div class="card cc_4">
-                                                <a class="btn btn-link">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title"> {{ $category->name }}</h5>
-                                                    </div>
-                                                </a>
+                                            <div class="col-2 mowa-card brand-img"
+                                                data-category="{{ $category->id }}">
+                                                <div class="card cc_4">
+                                                    <a class="btn btn-link">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title"> {{ $category->name }}</h5>
+                                                        </div>
+                                                    </a>
+                                                </div>
                                             </div>
-                                        </div>
                                             {{-- <div class="col-md-3 category-img text-center"
                                                 data-category="{{ $category->id }}">
                                                 @if ($category->image)
@@ -2309,10 +2496,31 @@
                             </div>
                             <div class="row no-gutters">
                                 <div class="col-md-6 px-0 d-flex">
-                                    <div class="modal-body p-5 img d-flex color-1 text-center d-flex justify-content-center align-items-center">
+                                    <div
+                                        class="modal-body p-5 img d-flex color-1 text-center d-flex justify-content-center align-items-center">
                                         {{-- <h2 class="modal-title">{{ trans('file.Finalize Sale') }}</h2> --}}
                                         <div class="receipt-icon-long ">
-                                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 140px;fill: #4aa4c6;text-align: center;" xml:space="preserve" id="Capa_1" enable-background="new 0 0 60 60" version="1.1" viewBox="0 0 60 60"><path d="M60,4.293c0-2.206-1.794-4-4-4H4c-2.206,0-4,1.794-4,4c0,1.859,1.28,3.411,3,3.858v48.556l3-3l6,6l6-6l6,6l6-6l6,6l6-6l6,6 l6-6l3,3V8.151C58.72,7.704,60,6.152,60,4.293z M55,51.879l-1-1l-6,6l-6-6l-6,6l-6-6l-6,6l-6-6l-6,6l-6-6l-1,1V8.293v-3h50v3 V51.879z M57,6.024V3.293H3v2.731C2.403,5.679,2,5.032,2,4.293c0-1.103,0.897-2,2-2h52c1.103,0,2,0.897,2,2 C58,5.032,57.597,5.679,57,6.024z"/><path d="M44 40.293H29c-.552 0-1 .447-1 1s.448 1 1 1h15c.552 0 1-.447 1-1S44.552 40.293 44 40.293zM48.29 40.583c-.18.189-.29.439-.29.71 0 .26.11.52.29.71.19.18.45.29.71.29.26 0 .52-.11.71-.29.18-.19.29-.45.29-.71 0-.271-.11-.521-.29-.71C49.33 40.213 48.67 40.213 48.29 40.583zM49 26.293H34c-.552 0-1 .447-1 1s.448 1 1 1h15c.552 0 1-.447 1-1S49.552 26.293 49 26.293zM49 33.293H39c-.552 0-1 .447-1 1s.448 1 1 1h10c.552 0 1-.447 1-1S49.552 33.293 49 33.293zM28 34.293c0 .553.448 1 1 1h2c.552 0 1-.447 1-1s-.448-1-1-1h-2C28.448 33.293 28 33.74 28 34.293zM45 20.293c0-.553-.448-1-1-1H29c-.552 0-1 .447-1 1s.448 1 1 1h15C44.552 21.293 45 20.846 45 20.293zM48.29 19.583c-.18.189-.29.439-.29.71 0 .26.11.52.29.71.19.18.45.29.71.29.27 0 .52-.11.71-.29.18-.19.29-.45.29-.71s-.11-.521-.29-.71C49.34 19.213 48.66 19.213 48.29 19.583zM30.71 28.003c.18-.19.29-.44.29-.71 0-.271-.11-.521-.29-.71-.37-.37-1.04-.37-1.42 0-.18.189-.29.439-.29.71 0 .27.11.52.29.71.19.18.45.29.71.29C30.26 28.293 30.52 28.183 30.71 28.003zM35.71 35.003c.18-.19.29-.44.29-.71 0-.271-.11-.53-.29-.71-.37-.37-1.04-.37-1.42 0-.18.189-.29.45-.29.71s.11.52.29.71c.19.18.45.29.71.29C35.26 35.293 35.52 35.183 35.71 35.003zM17 21.394v-1.101c0-.553-.448-1-1-1s-1 .447-1 1v1.104c-1.091.222-2.085.801-2.818 1.668-.611.722-.894 1.646-.794 2.603.102.979.606 1.887 1.383 2.491L15 29.893v5.438c-1.161-.414-2-1.514-2-2.816 0-.553-.448-1-1-1s-1 .447-1 1c0 2.414 1.721 4.434 4 4.899v.878c0 .553.448 1 1 1s1-.447 1-1v-.882c1.091-.222 2.085-.801 2.819-1.668.611-.724.893-1.648.793-2.605-.103-.978-.606-1.885-1.383-2.488L17 28.916v-5.438c1.161.414 2 1.514 2 2.816 0 .553.448 1 1 1s1-.447 1-1C21 23.879 19.279 21.859 17 21.394zM18.001 32.228c.349.271.576.68.622 1.118.043.41-.075.803-.331 1.105-.348.411-.798.699-1.292.875v-3.878L18.001 32.228zM13.999 26.581c-.35-.272-.576-.681-.622-1.12-.042-.409.075-.801.331-1.104.348-.411.798-.699 1.292-.875v3.877L13.999 26.581z"/><circle cx="40" cy="11.293" r="1"/><circle cx="36" cy="11.293" r="1"/><circle cx="44" cy="11.293" r="1"/><circle cx="32" cy="11.293" r="1"/><circle cx="48" cy="11.293" r="1"/><circle cx="20" cy="11.293" r="1"/><circle cx="24" cy="11.293" r="1"/><circle cx="28" cy="11.293" r="1"/><circle cx="52" cy="11.293" r="1"/><circle cx="16" cy="11.293" r="1"/><circle cx="12" cy="11.293" r="1"/><circle cx="8" cy="11.293" r="1"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                style="width: 140px;fill: #4aa4c6;text-align: center;"
+                                                xml:space="preserve" id="Capa_1" enable-background="new 0 0 60 60"
+                                                version="1.1" viewBox="0 0 60 60">
+                                                <path
+                                                    d="M60,4.293c0-2.206-1.794-4-4-4H4c-2.206,0-4,1.794-4,4c0,1.859,1.28,3.411,3,3.858v48.556l3-3l6,6l6-6l6,6l6-6l6,6l6-6l6,6 l6-6l3,3V8.151C58.72,7.704,60,6.152,60,4.293z M55,51.879l-1-1l-6,6l-6-6l-6,6l-6-6l-6,6l-6-6l-6,6l-6-6l-1,1V8.293v-3h50v3 V51.879z M57,6.024V3.293H3v2.731C2.403,5.679,2,5.032,2,4.293c0-1.103,0.897-2,2-2h52c1.103,0,2,0.897,2,2 C58,5.032,57.597,5.679,57,6.024z" />
+                                                <path
+                                                    d="M44 40.293H29c-.552 0-1 .447-1 1s.448 1 1 1h15c.552 0 1-.447 1-1S44.552 40.293 44 40.293zM48.29 40.583c-.18.189-.29.439-.29.71 0 .26.11.52.29.71.19.18.45.29.71.29.26 0 .52-.11.71-.29.18-.19.29-.45.29-.71 0-.271-.11-.521-.29-.71C49.33 40.213 48.67 40.213 48.29 40.583zM49 26.293H34c-.552 0-1 .447-1 1s.448 1 1 1h15c.552 0 1-.447 1-1S49.552 26.293 49 26.293zM49 33.293H39c-.552 0-1 .447-1 1s.448 1 1 1h10c.552 0 1-.447 1-1S49.552 33.293 49 33.293zM28 34.293c0 .553.448 1 1 1h2c.552 0 1-.447 1-1s-.448-1-1-1h-2C28.448 33.293 28 33.74 28 34.293zM45 20.293c0-.553-.448-1-1-1H29c-.552 0-1 .447-1 1s.448 1 1 1h15C44.552 21.293 45 20.846 45 20.293zM48.29 19.583c-.18.189-.29.439-.29.71 0 .26.11.52.29.71.19.18.45.29.71.29.27 0 .52-.11.71-.29.18-.19.29-.45.29-.71s-.11-.521-.29-.71C49.34 19.213 48.66 19.213 48.29 19.583zM30.71 28.003c.18-.19.29-.44.29-.71 0-.271-.11-.521-.29-.71-.37-.37-1.04-.37-1.42 0-.18.189-.29.439-.29.71 0 .27.11.52.29.71.19.18.45.29.71.29C30.26 28.293 30.52 28.183 30.71 28.003zM35.71 35.003c.18-.19.29-.44.29-.71 0-.271-.11-.53-.29-.71-.37-.37-1.04-.37-1.42 0-.18.189-.29.45-.29.71s.11.52.29.71c.19.18.45.29.71.29C35.26 35.293 35.52 35.183 35.71 35.003zM17 21.394v-1.101c0-.553-.448-1-1-1s-1 .447-1 1v1.104c-1.091.222-2.085.801-2.818 1.668-.611.722-.894 1.646-.794 2.603.102.979.606 1.887 1.383 2.491L15 29.893v5.438c-1.161-.414-2-1.514-2-2.816 0-.553-.448-1-1-1s-1 .447-1 1c0 2.414 1.721 4.434 4 4.899v.878c0 .553.448 1 1 1s1-.447 1-1v-.882c1.091-.222 2.085-.801 2.819-1.668.611-.724.893-1.648.793-2.605-.103-.978-.606-1.885-1.383-2.488L17 28.916v-5.438c1.161.414 2 1.514 2 2.816 0 .553.448 1 1 1s1-.447 1-1C21 23.879 19.279 21.859 17 21.394zM18.001 32.228c.349.271.576.68.622 1.118.043.41-.075.803-.331 1.105-.348.411-.798.699-1.292.875v-3.878L18.001 32.228zM13.999 26.581c-.35-.272-.576-.681-.622-1.12-.042-.409.075-.801.331-1.104.348-.411.798-.699 1.292-.875v3.877L13.999 26.581z" />
+                                                <circle cx="40" cy="11.293" r="1" />
+                                                <circle cx="36" cy="11.293" r="1" />
+                                                <circle cx="44" cy="11.293" r="1" />
+                                                <circle cx="32" cy="11.293" r="1" />
+                                                <circle cx="48" cy="11.293" r="1" />
+                                                <circle cx="20" cy="11.293" r="1" />
+                                                <circle cx="24" cy="11.293" r="1" />
+                                                <circle cx="28" cy="11.293" r="1" />
+                                                <circle cx="52" cy="11.293" r="1" />
+                                                <circle cx="16" cy="11.293" r="1" />
+                                                <circle cx="12" cy="11.293" r="1" />
+                                                <circle cx="8" cy="11.293" r="1" />
+                                            </svg>
                                         </div>
                                     </div>
                                 </div>
@@ -2320,13 +2528,17 @@
                                     <div class="modal-body p-5 img align-items-center color-2">
                                         <div class="col-md-12">
                                             <div class="col-md-12 mt-1">
-                                                <label class="text-uppercase">{{ trans('file.Recieved Amount') }} *</label>
-                                                <input type="text" name="paying_amount" class="form-control form-lg-text form-control-lg numkey"
-                                                    required step="any">
+                                                <label class="text-uppercase">{{ trans('file.Recieved Amount') }}
+                                                    *</label>
+                                                <input type="text" name="paying_amount"
+                                                    class="form-control form-lg-text form-control-lg numkey" required
+                                                    step="any">
                                             </div>
                                             <div class="col-md-12 mt-1">
-                                                <label class="text-uppercase">{{ trans('file.Paying Amount') }} *</label>
-                                                <input type="text" name="paid_amount" class="form-control form-lg-text form-control-lg numkey"
+                                                <label class="text-uppercase">{{ trans('file.Paying Amount') }}
+                                                    *</label>
+                                                <input type="text" name="paid_amount"
+                                                    class="form-control form-lg-text form-control-lg numkey"
                                                     step="any">
                                             </div>
                                             <div class="col-md-12 mt-1">
@@ -2353,14 +2565,6 @@
                                                 </div>
                                                 <div class="card-errors" role="alert"></div>
                                             </div>
-                                            <div class="form-group col-md-12 gift-card">
-                                                <label> {{ trans('file.Gift Card') }} *</label>
-                                                <input type="hidden" name="gift_card_id">
-                                                <select id="gift_card_id_select" name="gift_card_id_select"
-                                                    class="selectpicker form-control" data-live-search="true"
-                                                    data-live-search-style="begins"
-                                                    title="Select Gift Card..."></select>
-                                            </div>
                                             <div class="form-group col-md-12 cheque">
                                                 <label>{{ trans('file.Cheque Number') }} *</label>
                                                 <input type="text" name="cheque_no" class="form-control">
@@ -2369,7 +2573,9 @@
                                         </div>
                                         <div class="col-md-12">
                                             <p>
-                                                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                                <button class="btn btn-primary" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                                                    aria-expanded="false" aria-controls="collapseExample">
                                                     Add Note
                                                 </button>
                                             </p>
@@ -2396,8 +2602,8 @@
 
                                         </div>
                                         <div class="col-md-12 mt-3">
-                                            <button id="submit-btn" type="button"
-                                                class="btn btn-primary">Process Payment</button>
+                                            <button id="submit-btn" type="button" class="btn btn-primary">Process
+                                                Payment</button>
                                         </div>
                                     </div>
                                 </div>
@@ -2818,121 +3024,134 @@
                                             @foreach ($recent_sale as $sale)
                                                 <?php $customer = DB::table('customers')->find($sale->customer_id); ?>
                                                 <tr>
-                                                    <td class="fw-bold">{{ date('d-m-Y', strtotime($sale->created_at)) }}</td>
+                                                    <td class="fw-bold">
+                                                        {{ date('d-m-Y', strtotime($sale->created_at)) }}</td>
                                                     {{-- <td>{{ $sale->reference_no }}</td> --}}
                                                     <td>{{ $customer->name }}</td>
-                                                    <td><span class="badge text-bg-success-soft fs-4"><i class="fa-solid fa-check me-3"></i>{{ $sale->grand_total }}</span></td>
+                                                    <td><span class="badge text-bg-success-soft fs-4"><i
+                                                                class="fa-solid fa-check me-3"></i>{{ $sale->grand_total }}</span>
+                                                    </td>
                                                     <td>
                                                         <div class="dropdown">
-                                                            <a class="btn text-bg-secondary-soft dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <a class="btn text-bg-secondary-soft dropdown-toggle"
+                                                                type="button" data-bs-toggle="dropdown"
+                                                                aria-expanded="false">
                                                                 More
                                                             </a>
 
                                                             <ul class="dropdown-menu">
                                                                 <li>
                                                                     <span class="dropdown-item">
-                                                                        <div class="col-md-12 label"><h5 class="fs-4 fw-bold">Sale Reference Number</h5></div>
+                                                                        <div class="col-md-12 label">
+                                                                            <h5 class="fs-4 fw-bold">Sale Reference Number
+                                                                            </h5>
+                                                                        </div>
                                                                     </span>
                                                                 </li>
                                                                 <li>
                                                                     <span class="dropdown-item">
-                                                                        <div class="col-md-12">{{ $sale->reference_no }}</div>
+                                                                        <div class="col-md-12">{{ $sale->reference_no }}
+                                                                        </div>
                                                                     </span>
                                                                 </li>
                                                                 <li>
                                                                     @if (in_array('sales-edit', $all_permission))
-                                                                    <a href="{{ route('sales.edit', $sale->id) }}"
-                                                                        class="dropdown-item text-bg-success-soft"
-                                                                        title="Edit">
-                                                                        <i class="fa-light fa-edit fs-4 me-3"></i>
-                                                                        Edit</a>
-                                                                @endif
-                                                                @if (in_array('sales-delete', $all_permission))
-                                                                    {{ Form::open(['route' => ['sales.destroy', $sale->id], 'method' => 'DELETE']) }}
+                                                                        <a href="{{ route('sales.edit', $sale->id) }}"
+                                                                            class="dropdown-item text-bg-success-soft"
+                                                                            title="Edit">
+                                                                            <i class="fa-light fa-edit fs-4 me-3"></i>
+                                                                            Edit</a>
+                                                                    @endif
+                                                                    @if (in_array('sales-delete', $all_permission))
+                                                                        {{ Form::open(['route' => ['sales.destroy', $sale->id], 'method' => 'DELETE']) }}
                                                                 <li>
                                                                     <a type="submit"
                                                                         class="dropdown-item text-bg-danger-soft"
-                                                                        onclick="return confirmDelete()"
-                                                                        title="Delete">
+                                                                        onclick="return confirmDelete()" title="Delete">
                                                                         <i class="fa-light fa-trash fs-4 me-3"></i>
                                                                         Delete
 
                                                                     </a>
                                                                     {{ Form::close() }}
                                                                 </li>
-                                                                @endif
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            @endif
+                                            </ul>
                                 </div>
+                                </td>
+                                </tr>
+                                @endforeach
+                                </tbody>
+                                </table>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- recent transaction modal -->
-                <div id="recentTransaction" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-                    class="modal fade text-left">
-                    <div class="modal-dialog modal-dialog-scrollable">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 id="exampleModalLabel" class="modal-title">{{ trans('file.Recent Transaction') }}
-                                    <div class="badge badge-primary">{{ trans('file.latest') }} 10</div>
-                                </h5>
-                                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span
-                                        aria-hidden="true"><i class="dripicons-cross"></i></span></button>
+            <!-- recent transaction modal -->
+            <div id="recentTransaction" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+                class="modal fade text-left">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 id="exampleModalLabel" class="modal-title">{{ trans('file.Recent Transaction') }}
+                                <div class="badge badge-primary">{{ trans('file.latest') }} 10</div>
+                            </h5>
+                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span
+                                    aria-hidden="true"><i class="dripicons-cross"></i></span></button>
+                        </div>
+                        <div class="modal-body scrollbar">
+                            <div class="btn-group">
+                                <ul class="nav nav-pills mb-2" role="tablist">
+                                    <li class="nav-item text-bg-success-soft">
+                                        <a class="nav-link active" href="#sale-latest" role="tab"
+                                            data-toggle="tab">{{ trans('file.Sale') }}</a>
+                                    </li>
+                                    <li class="nav-item text-bg-info-soft">
+                                        <a class="nav-link" href="#draft-latest" role="tab"
+                                            data-toggle="tab">Bills/Drafts</a>
+                                    </li>
+                                </ul>
                             </div>
-                            <div class="modal-body scrollbar">
-                                <div class="btn-group">
-                                    <ul class="nav nav-pills mb-2" role="tablist">
-                                        <li class="nav-item text-bg-success-soft">
-                                            <a class="nav-link active" href="#sale-latest" role="tab"
-                                                data-toggle="tab">{{ trans('file.Sale') }}</a>
-                                        </li>
-                                        <li class="nav-item text-bg-info-soft">
-                                            <a class="nav-link" href="#draft-latest" role="tab"
-                                                data-toggle="tab">Bills/Drafts</a>
-                                        </li>
-                                    </ul>
-                                </div>
 
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane show active" id="sale-latest">
-                                        <div class="table-responsive">
-                                            <table class="table table-nowrap">
-                                                <thead>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane show active" id="sale-latest">
+                                    <div class="table-responsive">
+                                        <table class="table table-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th>{{ trans('file.date') }}</th>
+                                                    <th>{{ trans('file.reference') }}</th>
+                                                    <th>{{ trans('file.customer') }}</th>
+                                                    <th>{{ trans('file.grand total') }}</th>
+                                                    <th>{{ trans('file.action') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($recent_sale as $sale)
+                                                    <?php $customer = DB::table('customers')->find($sale->customer_id); ?>
                                                     <tr>
-                                                        <th>{{ trans('file.date') }}</th>
-                                                        <th>{{ trans('file.reference') }}</th>
-                                                        <th>{{ trans('file.customer') }}</th>
-                                                        <th>{{ trans('file.grand total') }}</th>
-                                                        <th>{{ trans('file.action') }}</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($recent_sale as $sale)
-                                                        <?php $customer = DB::table('customers')->find($sale->customer_id); ?>
-                                                        <tr>
-                                                            <td class="fw-bold">{{ date('d-m-Y', strtotime($sale->created_at)) }}</td>
-                                                            <td>{{ $sale->reference_no }}</td>
-                                                            <td>{{ $customer->name }}</td>
-                                                            <td><span class="badge text-bg-success-soft fs-4"><i class="fa-solid fa-check me-3"></i>{{ $sale->grand_total }}</span></td>
-                                                            <td>
-                                                                <div class="dropdown">
-                                                                    <a class="btn text-bg-secondary-soft dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                        More
-                                                                    </a>
+                                                        <td class="fw-bold">
+                                                            {{ date('d-m-Y', strtotime($sale->created_at)) }}</td>
+                                                        <td>{{ $sale->reference_no }}</td>
+                                                        <td>{{ $customer->name }}</td>
+                                                        <td><span class="badge text-bg-success-soft fs-4"><i
+                                                                    class="fa-solid fa-check me-3"></i>{{ $sale->grand_total }}</span>
+                                                        </td>
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <a class="btn text-bg-secondary-soft dropdown-toggle"
+                                                                    type="button" data-bs-toggle="dropdown"
+                                                                    aria-expanded="false">
+                                                                    More
+                                                                </a>
 
-                                                                    <ul class="dropdown-menu">
-                                                                        <li>
-                                                                            @if (in_array('sales-edit', $all_permission))
+                                                                <ul class="dropdown-menu">
+                                                                    <li>
+                                                                        @if (in_array('sales-edit', $all_permission))
                                                                             <a href="{{ route('sales.edit', $sale->id) }}"
                                                                                 class="dropdown-item text-bg-success-soft"
                                                                                 title="Edit">
@@ -2941,21 +3160,21 @@
                                                                         @endif
                                                                         @if (in_array('sales-delete', $all_permission))
                                                                             {{ Form::open(['route' => ['sales.destroy', $sale->id], 'method' => 'DELETE']) }}
-                                                                        <li>
-                                                                            <a type="submit"
-                                                                                class="dropdown-item text-bg-danger-soft"
-                                                                                onclick="return confirmDelete()"
-                                                                                title="Delete">
-                                                                                <i class="fa-light fa-trash fs-4 me-3"></i>
-                                                                                Delete
+                                                                    <li>
+                                                                        <a type="submit"
+                                                                            class="dropdown-item text-bg-danger-soft"
+                                                                            onclick="return confirmDelete()"
+                                                                            title="Delete">
+                                                                            <i class="fa-light fa-trash fs-4 me-3"></i>
+                                                                            Delete
 
-                                                                            </a>
-                                                                            {{ Form::close() }}
-                                                                        </li>
-                                                                        @endif
-                                                                    </ul>
-                                                                </div>
-                                                                {{-- <div class="btn-group">
+                                                                        </a>
+                                                                        {{ Form::close() }}
+                                                                    </li>
+                                                @endif
+                                                </ul>
+                                    </div>
+                                    {{-- <div class="btn-group">
                                                                     @if (in_array('sales-edit', $all_permission))
                                                                         <a href="{{ route('sales.edit', $sale->id) }}"
                                                                             class="btn btn-success btn-sm"
@@ -2972,328 +3191,325 @@
                                                                         {{ Form::close() }}
                                                                     @endif
                                                                 </div> --}}
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane fade" id="draft-latest">
-                                        <div class="table-responsive">
-                                            <table class="table table-nowrap">
-                                                <thead>
-                                                    <tr>
-                                                        <th>{{ trans('file.date') }}</th>
-                                                        <th>{{ trans('file.reference') }}</th>
-                                                        <th>{{ trans('file.customer') }}</th>
-                                                        <th>{{ trans('file.grand total') }}</th>
-                                                        <th>{{ trans('file.action') }}</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($recent_draft as $draft)
-                                                        <?php $customer = DB::table('customers')->find($draft->customer_id); ?>
-                                                        <tr>
-                                                            <td class="fw-bold">{{ date('d-m-Y', strtotime($draft->created_at)) }}</td>
-                                                            <td>{{ $draft->reference_no }}</td>
-                                                            <td>{{ $customer->name }}</td>
-                                                            <td>{{ $draft->grand_total }}</td>
-                                                            <td>
-                                                                <div class="dropdown">
-                                                                    <a class="btn text-bg-secondary-soft dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                        More
+                                    </td>
+                                    </tr>
+                                    @endforeach
+                                    </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="draft-latest">
+                                <div class="table-responsive">
+                                    <table class="table table-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th>{{ trans('file.date') }}</th>
+                                                <th>{{ trans('file.reference') }}</th>
+                                                <th>{{ trans('file.customer') }}</th>
+                                                <th>{{ trans('file.grand total') }}</th>
+                                                <th>{{ trans('file.action') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($recent_draft as $draft)
+                                                <?php $customer = DB::table('customers')->find($draft->customer_id); ?>
+                                                <tr>
+                                                    <td class="fw-bold">
+                                                        {{ date('d-m-Y', strtotime($draft->created_at)) }}</td>
+                                                    <td>{{ $draft->reference_no }}</td>
+                                                    <td>{{ $customer->name }}</td>
+                                                    <td>{{ $draft->grand_total }}</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <a class="btn text-bg-secondary-soft dropdown-toggle"
+                                                                type="button" data-bs-toggle="dropdown"
+                                                                aria-expanded="false">
+                                                                More
+                                                            </a>
+
+                                                            <ul class="dropdown-menu">
+                                                                <li>
+                                                                    @if (in_array('sales-edit', $all_permission))
+                                                                        <a href="{{ url('sales/' . $draft->id . '/create') }}"
+                                                                            class="dropdown-item text-bg-success-soft"
+                                                                            title="Edit">
+                                                                            <i class="fa-light fa-edit fs-4 me-3"></i>
+                                                                            Pay Bill</a>
+                                                                    @endif
+                                                                    @if (in_array('sales-delete', $all_permission))
+                                                                        {{ Form::open(['route' => ['sales.destroy', $draft->id], 'method' => 'DELETE']) }}
+                                                                <li>
+                                                                    <a type="submit"
+                                                                        class="dropdown-item text-bg-danger-soft"
+                                                                        onclick="return confirmDelete()" title="Delete">
+                                                                        <i class="fa-light fa-trash fs-4 me-3"></i>
+                                                                        Delete
+
                                                                     </a>
-
-                                                                    <ul class="dropdown-menu">
-                                                                        <li>
-                                                                            @if (in_array('sales-edit', $all_permission))
-                                                                            <a href="{{ url('sales/' . $draft->id . '/create') }}"
-                                                                                class="dropdown-item text-bg-success-soft"
-                                                                                title="Edit">
-                                                                                <i class="fa-light fa-edit fs-4 me-3"></i>
-                                                                                Pay Bill</a>
-                                                                        @endif
-                                                                        @if (in_array('sales-delete', $all_permission))
-                                                                            {{ Form::open(['route' => ['sales.destroy', $draft->id], 'method' => 'DELETE']) }}
-                                                                        <li>
-                                                                            <a type="submit"
-                                                                                class="dropdown-item text-bg-danger-soft"
-                                                                                onclick="return confirmDelete()"
-                                                                                title="Delete">
-                                                                                <i class="fa-light fa-trash fs-4 me-3"></i>
-                                                                                Delete
-
-                                                                            </a>
-                                                                            {{ Form::close() }}
-                                                                        </li>
-                                                                        @endif
-                                                                    </ul>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                                                    {{ Form::close() }}
+                                                                </li>
+                                            @endif
+                                            </ul>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn text-bg-success-soft"
-                                    data-dismiss="modal">Close</button>
+                                </td>
+                                </tr>
+                                @endforeach
+                                </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- add cash register modal -->
-                <div id="cash-register-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true" class="modal fade text-left">
-                    <div role="document" class="modal-dialog">
-                        <div class="modal-content">
-                            {!! Form::open(['route' => 'cashRegister.store', 'method' => 'post']) !!}
-                            <div class="modal-header">
-                                <h5 id="exampleModalLabel" class="modal-title">{{ trans('file.Add Cash Register') }}
-                                </h5>
-                                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span
-                                        aria-hidden="true"><i class="dripicons-cross"></i></span></button>
-                            </div>
-                            <div class="modal-body">
-                                <p class="italic">
-                                    <small>{{ trans('file.The field labels marked with * are required input fields') }}
-                                        .</small>
-                                </p>
-                                <div class="row">
-                                    <div class="col-md-6 form-group warehouse-section">
-                                        <label>{{ trans('file.Warehouse') }} *</strong> </label>
-                                        <select required name="warehouse_id" class="selectpicker form-control"
-                                            data-live-search="true" data-live-search-style="begins"
-                                            title="Select outlet...">
-                                            @foreach ($lims_warehouse_list as $warehouse)
-                                                <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <label>{{ trans('file.Cash in Hand') }} *</strong> </label>
-                                        <input type="number" name="cash_in_hand" required class="form-control">
-                                    </div>
-                                    <div class="col-md-12 form-group">
-                                        <button type="submit"
-                                            class="btn btn-primary">{{ trans('file.submit') }}</button>
-                                    </div>
-                                </div>
-                            </div>
-                            {{ Form::close() }}
-                        </div>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn text-bg-success-soft" data-dismiss="modal">Close</button>
                 </div>
-                <!-- cash register details modal -->
-                <div id="register-details-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true" class="modal fade text-left">
-                    <div role="document" class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 id="exampleModalLabel" class="modal-title">
-                                    {{ trans('file.Cash Register Details') }}
-                                </h5>
-                                <button type="button" data-bs-dismiss="modal" aria-label="Close"
-                                    class="close"><span aria-hidden="true"><i
-                                            class="dripicons-cross"></i></span></button>
+            </div>
+        </div>
+        </div>
+        <!-- add cash register modal -->
+        <div id="cash-register-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" class="modal fade text-left">
+            <div role="document" class="modal-dialog">
+                <div class="modal-content">
+                    {!! Form::open(['route' => 'cashRegister.store', 'method' => 'post']) !!}
+                    <div class="modal-header">
+                        <h5 id="exampleModalLabel" class="modal-title">{{ trans('file.Add Cash Register') }}
+                        </h5>
+                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span
+                                aria-hidden="true"><i class="dripicons-cross"></i></span></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="italic">
+                            <small>{{ trans('file.The field labels marked with * are required input fields') }}
+                                .</small>
+                        </p>
+                        <div class="row">
+                            <div class="col-md-6 form-group warehouse-section">
+                                <label>{{ trans('file.Warehouse') }} *</strong> </label>
+                                <select required name="warehouse_id" class="selectpicker form-control"
+                                    data-live-search="true" data-live-search-style="begins" title="Select outlet...">
+                                    @foreach ($lims_warehouse_list as $warehouse)
+                                        <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            <div class="modal-body">
-                                <p>{{ trans('file.Please review the transaction and payments.') }}</p>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <table class="table table-hover">
-                                            <tbody>
-                                                <tr>
-                                                    <td>{{ trans('file.Cash in Hand') }}:</td>
-                                                    <td id="cash_in_hand" class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Total Sale Amount') }}:</td>
-                                                    <td id="total_sale_amount" class="text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Total Payment') }}:</td>
-                                                    <td id="total_payment" class="text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Cash Payment') }}:</td>
-                                                    <td id="cash_payment" class="text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Credit Card Payment') }}:</td>
-                                                    <td id="credit_card_payment" class="text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Cheque Payment') }}:</td>
-                                                    <td id="cheque_payment" class="text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Gift Card Payment') }}:</td>
-                                                    <td id="gift_card_payment" class="text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Deposit Payment') }}:</td>
-                                                    <td id="deposit_payment" class="text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Paypal Payment') }}:</td>
-                                                    <td id="paypal_payment" class="text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Total Sale Return') }}:</td>
-                                                    <td id="total_sale_return" class="text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Total Expense') }}:</td>
-                                                    <td id="total_expense" class="text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>{{ trans('file.Total Cash') }}:</strong></td>
-                                                    <td id="total_cash" class="text-right"></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="col-md-6" id="closing-section">
-                                        <form action="{{ route('cashRegister.close') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="cash_register_id">
-                                            <button type="submit"
-                                                class="btn btn-primary">{{ trans('file.Close Register') }}</button>
-                                        </form>
-                                    </div>
-                                </div>
+                            <div class="col-md-6 form-group">
+                                <label>{{ trans('file.Cash in Hand') }} *</strong> </label>
+                                <input type="number" name="cash_in_hand" required class="form-control">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <button type="submit" class="btn btn-primary">{{ trans('file.submit') }}</button>
                             </div>
                         </div>
                     </div>
+                    {{ Form::close() }}
                 </div>
-                <!-- today sale modal -->
-                <div id="today-sale-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true" class="modal fade text-left">
-                    <div role="document" class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 id="exampleModalLabel" class="modal-title">{{ trans('file.Today Sale') }}</h5>
-                                <button type="button" data-bs-dismiss="modal" aria-label="Close"
-                                    class="close"><span aria-hidden="true"><i
-                                            class="dripicons-cross"></i></span></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>{{ trans('file.Please review the transaction and payments.') }}</p>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <table class="table table-hover">
-                                            <tbody>
-                                                <tr>
-                                                    <td>{{ trans('file.Total Sale Amount') }}:</td>
-                                                    <td class="total_sale_amount text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Cash Payment') }}:</td>
-                                                    <td class="cash_payment text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Credit Card Payment') }}:</td>
-                                                    <td class="credit_card_payment text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Cheque Payment') }}:</td>
-                                                    <td class="cheque_payment text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Gift Card Payment') }}:</td>
-                                                    <td class="gift_card_payment text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Deposit Payment') }}:</td>
-                                                    <td class="deposit_payment text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Paypal Payment') }}:</td>
-                                                    <td class="paypal_payment text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Total Payment') }}:</td>
-                                                    <td class="total_payment text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Total Sale Return') }}:</td>
-                                                    <td class="total_sale_return text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Total Expense') }}:</td>
-                                                    <td class="total_expense text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>{{ trans('file.Total Cash') }}:</strong></td>
-                                                    <td class="total_cash text-right"></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            </div>
+        </div>
+        <!-- cash register details modal -->
+        <div id="register-details-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" class="modal fade text-left">
+            <div role="document" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 id="exampleModalLabel" class="modal-title">
+                            {{ trans('file.Cash Register Details') }}
+                        </h5>
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" class="close"><span
+                                aria-hidden="true"><i class="dripicons-cross"></i></span></button>
                     </div>
-                </div>
-                <!-- today profit modal -->
-                <div id="today-profit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true" class="modal fade text-left">
-                    <div role="document" class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 id="exampleModalLabel" class="modal-title">{{ trans('file.Today Profit') }}</h5>
-                                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span
-                                        aria-hidden="true"><i class="dripicons-cross"></i></span></button>
+                    <div class="modal-body">
+                        <p>{{ trans('file.Please review the transaction and payments.') }}</p>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ trans('file.Cash in Hand') }}:</td>
+                                            <td id="cash_in_hand" class="text-right">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Total Sale Amount') }}:</td>
+                                            <td id="total_sale_amount" class="text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Total Payment') }}:</td>
+                                            <td id="total_payment" class="text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Cash Payment') }}:</td>
+                                            <td id="cash_payment" class="text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Credit Card Payment') }}:</td>
+                                            <td id="credit_card_payment" class="text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Cheque Payment') }}:</td>
+                                            <td id="cheque_payment" class="text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Gift Card Payment') }}:</td>
+                                            <td id="gift_card_payment" class="text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Deposit Payment') }}:</td>
+                                            <td id="deposit_payment" class="text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Paypal Payment') }}:</td>
+                                            <td id="paypal_payment" class="text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Total Sale Return') }}:</td>
+                                            <td id="total_sale_return" class="text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Total Expense') }}:</td>
+                                            <td id="total_expense" class="text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>{{ trans('file.Total Cash') }}:</strong></td>
+                                            <td id="total_cash" class="text-right"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <select required name="warehouseId" class="form-control">
-                                            <option value="0">{{ trans('file.All Warehouse') }}</option>
-                                            @foreach ($lims_warehouse_list as $warehouse)
-                                                <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-md-12 mt-2">
-                                        <table class="table table-hover">
-                                            <tbody>
-                                                <tr>
-                                                    <td>{{ trans('file.Product Revenue') }}:</td>
-                                                    <td class="product_revenue text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Product Cost') }}:</td>
-                                                    <td class="product_cost text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ trans('file.Expense') }}:</td>
-                                                    <td class="expense_amount text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>{{ trans('file.Profit') }}:</strong></td>
-                                                    <td class="profit text-right"></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                            <div class="col-md-6" id="closing-section">
+                                <form action="{{ route('cashRegister.close') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="cash_register_id">
+                                    <button type="submit"
+                                        class="btn btn-primary">{{ trans('file.Close Register') }}</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- today sale modal -->
+        <div id="today-sale-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" class="modal fade text-left">
+            <div role="document" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 id="exampleModalLabel" class="modal-title">{{ trans('file.Today Sale') }}</h5>
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" class="close"><span
+                                aria-hidden="true"><i class="dripicons-cross"></i></span></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ trans('file.Please review the transaction and payments.') }}</p>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ trans('file.Total Sale Amount') }}:</td>
+                                            <td class="total_sale_amount text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Cash Payment') }}:</td>
+                                            <td class="cash_payment text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Credit Card Payment') }}:</td>
+                                            <td class="credit_card_payment text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Cheque Payment') }}:</td>
+                                            <td class="cheque_payment text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Gift Card Payment') }}:</td>
+                                            <td class="gift_card_payment text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Deposit Payment') }}:</td>
+                                            <td class="deposit_payment text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Paypal Payment') }}:</td>
+                                            <td class="paypal_payment text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Total Payment') }}:</td>
+                                            <td class="total_payment text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Total Sale Return') }}:</td>
+                                            <td class="total_sale_return text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Total Expense') }}:</td>
+                                            <td class="total_expense text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>{{ trans('file.Total Cash') }}:</strong></td>
+                                            <td class="total_cash text-right"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- today profit modal -->
+        <div id="today-profit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" class="modal fade text-left">
+            <div role="document" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 id="exampleModalLabel" class="modal-title">{{ trans('file.Today Profit') }}</h5>
+                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span
+                                aria-hidden="true"><i class="dripicons-cross"></i></span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select required name="warehouseId" class="form-control">
+                                    <option value="0">{{ trans('file.All Warehouse') }}</option>
+                                    @foreach ($lims_warehouse_list as $warehouse)
+                                        <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ trans('file.Product Revenue') }}:</td>
+                                            <td class="product_revenue text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Product Cost') }}:</td>
+                                            <td class="product_cost text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('file.Expense') }}:</td>
+                                            <td class="expense_amount text-right"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>{{ trans('file.Profit') }}:</strong></td>
+                                            <td class="profit text-right"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
         {{-- Toast Alert Messages --}}
         <div aria-live="polite" aria-atomic="true">
             <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999 !important">
-                <div id="addProductToast" class="toast text-bg-danger-soft fade" role="alert" aria-live="assertive"
-                    data-bs-autohide="true" aria-atomic="true">
+                <div id="addProductToast" class="toast text-bg-danger-soft fade" role="alert"
+                    aria-live="assertive" data-bs-autohide="true" aria-atomic="true">
                     <div class="toast-header">
                         <i class="fa-light fa-triangle-exclamation text-bg-warning-soft me-2"></i><strong
                             class="me-auto">Add Product</strong><small>just Now</small>
