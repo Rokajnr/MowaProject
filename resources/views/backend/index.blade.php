@@ -31,65 +31,236 @@
             <div class="brand-text float-left mt-4">
                 <h3>{{trans('file.welcome')}} <span>{{Auth::user()->name}}</span> </h3>
             </div>
-            @if(in_array("revenue_profit_summary", $all_permission))
-            <div class="filter-toggle btn-group">
-              <button class="btn btn-secondary date-btn" data-start_date="{{date('Y-m-d')}}" data-end_date="{{date('Y-m-d')}}">{{trans('file.Today')}}</button>
-              <button class="btn btn-secondary date-btn" data-start_date="{{date('Y-m-d', strtotime(' -7 day'))}}" data-end_date="{{date('Y-m-d')}}">{{trans('file.Last 7 Days')}}</button>
-              <button class="btn btn-secondary date-btn active" data-start_date="{{date('Y').'-'.date('m').'-'.'01'}}" data-end_date="{{date('Y-m-d')}}">{{trans('file.This Month')}}</button>
-              <button class="btn btn-secondary date-btn" data-start_date="{{date('Y').'-01'.'-01'}}" data-end_date="{{date('Y').'-12'.'-31'}}">{{trans('file.This Year')}}</button>
-            </div>
-            @endif
           </div>
         </div>
       </div>
+
+      <div class="container">
+        @if(in_array("revenue_profit_summary", $all_permission))
+        <div class="row">
+            <div class="col-lg-6 col-xxl-3 d-flex">
+
+                <!-- Card -->
+                <div class="card border-0 flex-fill w-100">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+
+                                <!-- Title -->
+                                <h5 class="text-uppercase text-muted fw-semibold mb-2">
+                                    Revenue This </br>Month
+                                </h5>
+
+                                <!-- Subtitle -->
+                                <h2 class="mb-0 revenue-data-monthly">
+                                    MWK {{number_format((float)$revenue, 2, '.', '')}}
+                                </h2>
+                            </div>
+                            <div class="col-auto">
+
+                                <!-- Icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="30" width="30" class="text-primary"><defs><style>.a{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style></defs><title>monitor-graph-line</title><polygon class="a" points="15 23.253 9 23.253 9.75 18.753 14.25 18.753 15 23.253"></polygon><line class="a" x1="6.75" y1="23.253" x2="17.25" y2="23.253"></line><rect class="a" x="0.75" y="0.753" width="22.5" height="18" rx="3" ry="3"></rect><path class="a" d="M18.75,5.253H16.717a1.342,1.342,0,0,0-.5,2.588l2.064.825a1.342,1.342,0,0,1-.5,2.587H15.75"></path><line class="a" x1="17.25" y1="5.253" x2="17.25" y2="4.503"></line><line class="a" x1="17.25" y1="12.003" x2="17.25" y2="11.253"></line><path class="a" d="M.75,11.253,4.72,7.284a.749.749,0,0,1,1.06,0L7.72,9.223a.749.749,0,0,0,1.06,0l3.97-3.97"></path><line class="a" x1="0.75" y1="15.753" x2="23.25" y2="15.753"></line></svg>                            </div>
+                        </div> <!-- / .row -->
+                    </div>
+                    <div class="card-footer">
+                        <div class="row justify-content-between">
+                            <div class="col-auto">
+
+                                <!-- Label -->
+                                <p class="fs-6 text-muted text-uppercase mb-0">
+                                    Today Revenue
+                                </p>
+
+                                <!-- Comment -->
+                                <p class="fs-5 fw-bold mb-0 revenue-data-today">
+                                    {{number_format((float)$revenue, 2, '.', '')}}
+                                </p>
+                            </div>
+                            <div class="col text-end text-truncate">
+
+                                <!-- Label -->
+                                <p class="fs-6 text-muted text-uppercase mb-0">
+                                    Last 7 Days
+                                </p>
+
+                                <!-- Comment -->
+                                <p class="fs-5 fw-bold mb-0 revenue-data-last7days">
+                                    {{number_format((float)$revenue, 2, '.', '')}}
+                                </p>
+                            </div>
+                        </div> <!-- / .row -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xxl-3 d-flex">
+
+                <!-- Card -->
+                <div class="card border-0 flex-fill w-100">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+
+                                <!-- Title -->
+                                <h5 class="text-uppercase text-muted fw-semibold mb-2">
+                                    Sale Returns This </br>Month
+                                </h5>
+
+                                <!-- Subtitle -->
+                                <h2 class="mb-0 return-data-monthly">
+                                    MWK {{number_format((float)$return, 2, '.', '')}}
+                                </h2>
+                            </div>
+                            <div class="col-auto">
+
+                                <!-- Icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="30" width="30" class="text-primary"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 19.1249H15.921C16.2753 19.125 16.6182 18.9996 16.889 18.7709C17.1597 18.5423 17.3407 18.2253 17.4 17.8759L20.037 2.37593C20.0965 2.02678 20.2776 1.70994 20.5483 1.48153C20.819 1.25311 21.1618 1.12785 21.516 1.12793H22.5"></path><path stroke="currentColor" stroke-width="1.5" d="M7.875 22.125C7.66789 22.125 7.5 21.9571 7.5 21.75C7.5 21.5429 7.66789 21.375 7.875 21.375"></path><path stroke="currentColor" stroke-width="1.5" d="M7.875 22.125C8.08211 22.125 8.25 21.9571 8.25 21.75C8.25 21.5429 8.08211 21.375 7.875 21.375"></path><path stroke="currentColor" stroke-width="1.5" d="M15.375 22.125C15.1679 22.125 15 21.9571 15 21.75C15 21.5429 15.1679 21.375 15.375 21.375"></path><path stroke="currentColor" stroke-width="1.5" d="M15.375 22.125C15.5821 22.125 15.75 21.9571 15.75 21.75C15.75 21.5429 15.5821 21.375 15.375 21.375"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.9529 14.6251H5.88193C5.21301 14.625 4.5633 14.4014 4.03605 13.9897C3.5088 13.5781 3.13425 13.002 2.97193 12.3531L1.52193 6.55309C1.49426 6.44248 1.49218 6.32702 1.51583 6.21548C1.53949 6.10394 1.58827 5.99927 1.65846 5.90941C1.72864 5.81955 1.81839 5.74688 1.92089 5.69692C2.02338 5.64696 2.13591 5.62103 2.24993 5.62109H19.4839"></path></svg>
+                            </div>
+                        </div> <!-- / .row -->
+                    </div>
+                    <div class="card-footer">
+                        <div class="row justify-content-between">
+                            <div class="col-auto">
+
+                                <!-- Label -->
+                                <p class="fs-6 text-muted text-uppercase mb-0">
+                                    Today Returns
+                                </p>
+
+                                <!-- Comment -->
+                                <p class="fs-5 fw-bold mb-0 return-data-today">
+                                    {{number_format((float)$return, 2, '.', '')}}
+                                </p>
+                            </div>
+                            <div class="col text-end text-truncate">
+
+                                <!-- Label -->
+                                <p class="fs-6 text-muted text-uppercase mb-0">
+                                    Last 7 Days
+                                </p>
+
+                                <!-- Comment -->
+                                <p class="fs-5 fw-bold mb-0 return-data-last7days">
+                                    {{number_format((float)$return, 2, '.', '')}}
+                                </p>
+                            </div>
+                        </div> <!-- / .row -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xxl-3 d-flex">
+
+                <!-- Card -->
+                <div class="card border-0 flex-fill w-100">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+
+                                <!-- Title -->
+                                <h5 class="text-uppercase text-muted fw-semibold mb-2">
+                                    Purchase Returns </br>This Month
+                                </h5>
+
+                                <!-- Subtitle -->
+                                <h2 class="mb-0 purchase-return-data-monthly">MWK {{number_format((float)$purchase_return, 2, '.', '')}}
+                                </h2>
+                            </div>
+                            <div class="col-auto">
+
+                                <!-- Icon -->
+                                <svg viewBox="0 0 24 24" class="text-primary" height="30" width="30" xmlns="http://www.w3.org/2000/svg"><path d="M20.25,9.75v-3a1.5,1.5,0,0,0-1.5-1.5H8.25V3.75a1.5,1.5,0,0,0-1.5-1.5H2.25a1.5,1.5,0,0,0-1.5,1.5v16.3a1.7,1.7,0,0,0,3.336.438l2.351-9.657A1.5,1.5,0,0,1,7.879,9.75H21.75A1.5,1.5,0,0,1,23.2,11.636l-2.2,9A1.5,1.5,0,0,1,19.55,21.75H2.447" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+                            </div>
+                        </div> <!-- / .row -->
+                    </div>
+                    <div class="card-footer">
+                        <div class="row justify-content-between">
+                            <div class="col-auto">
+
+                                <!-- Label -->
+                                <p class="fs-6 text-muted text-uppercase mb-0">
+                                    Today
+                                </p>
+
+                                <!-- Comment -->
+                                <p class="fs-5 fw-bold mb-0 purchase-return-data-today">
+                                    {{number_format((float)$purchase_return, 2, '.', '')}}
+                                </p>
+                            </div>
+                            <div class="col text-end text-truncate">
+
+                                <!-- Label -->
+                                <p class="fs-6 text-muted text-uppercase mb-0">
+                                    Last 7 Days
+                                </p>
+
+                                <!-- Comment -->
+                                <p class="fs-5 fw-bold mb-0 purchase-return-data-last7days">
+                                    {{number_format((float)$purchase_return, 2, '.', '')}}
+                                </p>
+                            </div>
+                        </div> <!-- / .row -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xxl-3 d-flex">
+
+                <!-- Card -->
+                <div class="card border-0 text-bg-primary-soft flex-fill w-100">
+                    <div class="card-body">
+
+                        <!-- Title -->
+                        <h4 class="text-uppercase fw-semibold mb-2">
+                            Profits This </br>Month
+                        </h4>
+
+                        <!-- Subtitle -->
+                        <h2 class="mb-0 profit-data">MWK {{number_format((float)$profit, 2, '.', '')}}
+                        </h2>
+
+                        <!-- Chart -->
+                        <div class="chart-container h-70px">
+                            <canvas id="currentBalanceChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card-footer text-bg-primary-soft">
+                        <div class="row justify-content-between">
+                            <div class="col-auto">
+
+                                <!-- Label -->
+                                <p class="fs-6 text-whitw text-uppercase mb-0">
+                                    Today
+                                </p>
+
+                                <!-- Comment -->
+                                <p class="fs-5 fw-bold mb-0 profits-data-today">
+                                    {{number_format((float)$profit, 2, '.', '')}}
+                                </p>
+                            </div>
+                            <div class="col text-end text-truncate">
+
+                                <!-- Label -->
+                                <p class="fs-6 text-uppercase mb-0">
+                                    Last 7 Days
+                                </p>
+
+                                <!-- Comment -->
+                                <p class="fs-5 fw-bold mb-0 profits-data-last7days">
+                                    {{number_format((float)$profit, 2, '.', '')}}
+                                </p>
+                            </div>
+                        </div> <!-- / .row -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        @endif
+    </div>
       <!-- Counts Section -->
       <section class="dashboard-counts">
         <div class="container-fluid">
           <div class="row">
             @if(in_array("revenue_profit_summary", $all_permission))
             <div class="col-md-12 form-group">
-              <div class="row">
-                <!-- Count item widget-->
-                <div class="col-sm-3">
-                  <div class="wrapper count-title">
-                    <div class="icon"><i class="dripicons-graph-bar" style="color: #733686"></i></div>
-                    <div>
-                        <div class="count-number revenue-data">{{number_format((float)$revenue, 2, '.', '')}}</div>
-                        <div class="name"><strong style="color: #733686">{{ trans('file.revenue') }}</strong></div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Count item widget-->
-                <div class="col-sm-3">
-                  <div class="wrapper count-title">
-                    <div class="icon"><i class="dripicons-return" style="color: #ff8952"></i></div>
-                    <div>
-                        <div class="count-number return-data">{{number_format((float)$return, 2, '.', '')}}</div>
-                        <div class="name"><strong style="color: #ff8952">{{trans('file.Sale Return')}}</strong></div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Count item widget-->
-                <div class="col-sm-3">
-                  <div class="wrapper count-title">
-                    <div class="icon"><i class="dripicons-media-loop" style="color: #00c689"></i></div>
-                    <div>
-                        <div class="count-number purchase_return-data">{{number_format((float)$purchase_return, 2, '.', '')}}</div>
-                        <div class="name"><strong style="color: #00c689">{{trans('file.Purchase Return')}}</strong></div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Count item widget-->
-                <div class="col-sm-3">
-                  <div class="wrapper count-title">
-                    <div class="icon"><i class="dripicons-trophy" style="color: #297ff9"></i></div>
-                    <div>
-                        <div class="count-number profit-data">{{number_format((float)$profit, 2, '.', '')}}</div>
-                        <div class="name"><strong style="color: #297ff9">{{trans('file.profit')}}</strong></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
             @endif
             @if(in_array("cash_flow", $all_permission))
@@ -380,6 +551,7 @@
 
 @push('scripts')
 <script type="text/javascript">
+
     // Show and hide color-switcher
     $(".color-switcher .switcher-button").on('click', function() {
         $(".color-switcher").toggleClass("show-color-switcher", "hide-color-switcher", 300);
@@ -406,6 +578,7 @@
         });
     });
 
+
     function dashboardFilter(data){
         $('.revenue-data').hide();
         $('.revenue-data').html(parseFloat(data[0]).toFixed(2));
@@ -423,5 +596,76 @@
         $('.purchase_return-data').html(parseFloat(data[3]).toFixed(2));
         $('.purchase_return-data').show(500);
     }
+    $(document).ready(function() {
+        var start_date_today = "{{ date('Y-m-d') }}";
+        var start_date_7days = "{{date('Y-m-d', strtotime(' -7 day'))}}";
+        var start_date_month = "{{date('Y').'-01'.'-01'}}";
+        // var end_date_year = "{{date('Y').'-12'.'-31'}}";
+        var end_date = "{{date('Y-m-d')}}";
+        $.get('dashboard-filter/' + start_date_today + '/' + end_date, function(data) {
+            today(data);
+        });
+        $.get('dashboard-filter/' + start_date_7days + '/' + end_date, function(data) {
+            last7days(data);
+        });
+        $.get('dashboard-filter/' + start_date_month + '/' + end_date, function(data) {
+            thismonth(data);
+        });
+
+    });
+
+    function today(data){
+        $('.revenue-data-today').hide();
+        $('.revenue-data-today').html(parseFloat(data[0]).toFixed(2));
+        $('.revenue-data-today').show(500);
+
+        $('.return-data-today').hide();
+        $('.return-data-today').html(parseFloat(data[1]).toFixed(2));
+        $('.return-data-today').show(500);
+
+        $('.profits-data-today').hide();
+        $('.profits-data-today').html(parseFloat(data[2]).toFixed(2));
+        $('.profits-data-today').show(500);
+
+        $('.purchase-return-data-today').hide();
+        $('.purchase-return-data-today').html(parseFloat(data[3]).toFixed(2));
+        $('.purchase-return-data-today').show(500);
+
+    }
+    function last7days(data){
+        $('.revenue-data-last7days').hide();
+        $('.revenue-data-last7days').html(parseFloat(data[0]).toFixed(2));
+        $('.revenue-data-last7days').show(500);
+
+        $('.return-data-last7days').hide();
+        $('.return-data-last7days').html(parseFloat(data[1]).toFixed(2));
+        $('.return-data-last7days').show(500);
+
+        $('.profits-data-last7days').hide();
+        $('.profits-data-last7days').html(parseFloat(data[2]).toFixed(2));
+        $('.profits-data-last7days').show(500);
+
+        $('.purchase-return-data-last7days').hide();
+        $('.purchase-return-data-last7days').html(parseFloat(data[3]).toFixed(2));
+        $('.purchase-return-data-last7days').show(500);
+
+
+    }
+
+    // function thismonth(data){
+    //     $('.revenue-data-monthly').hide();
+    //     $('.revenue-data-monthly').html(parseFloat(data[0]).toFixed(2));
+    //     $('.revenue-data-monthly').show(500);
+
+    //     $('.return-data-monthly').hide();
+    //     $('.return-data-monthly').html(parseFloat(data[1]).toFixed(2));
+    //     $('.return-data-monthly').show(500);
+
+    //     $('.purchase-return-data-monthly').hide();
+    //     $('.purchase-return-data-monthly').html(parseFloat(data[3]).toFixed(2));
+    //     $('.purchase-return-data-monthly').show(500);
+    // }
+
+
 </script>
 @endpush
