@@ -193,9 +193,9 @@
                 @endif
             </span>
             <div class="navbar-collapse" id="sidenavCollapse">
-                <ul class="navbar-nav mb-lg-7">
+                <ul class="side-main-menu navbar-nav mb-lg-7">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ url('/') }}"> <i class="fa-light fa-house"></i><span>{{ __('file.dashboard') }}</span></a>
+                        <a class="nav-link" href="{{ url('/') }}"> <i class="fa-light fa-house"></i><span>{{ __('file.dashboard') }}</span></a>
                     </li>
                     <?php
                     $role = DB::table('roles')->find(Auth::user()->role_id);
@@ -1110,116 +1110,131 @@
     </nav>
 <main>
         <!-- navbar-->
+        <header class="navbar-header dashly container-fluid d-flex py-6 mb-4">
+
+            <!-- Search -->
+            {{-- <form class="d-none d-md-inline-block me-auto">
+                <div class="input-group input-group-merge">
+
+                    <!-- Input -->
+                    <input type="text" class="form-control bg-light-green border-light-green w-250px" placeholder="Search..." aria-label="Search for any term">
+
+                    <!-- Button -->
+                    <span class="input-group-text bg-light-green border-light-green p-0">
+
+                        <!-- Button -->
+                        <button class="btn btn-primary rounded-2 w-30px h-30px p-0 mx-1" type="button" aria-label="Search button">
+                            <svg viewBox="0 0 24 24" height="16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M0.750 9.812 A9.063 9.063 0 1 0 18.876 9.812 A9.063 9.063 0 1 0 0.750 9.812 Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(-3.056 4.62) rotate(-23.025)"></path><path d="M16.221 16.22L23.25 23.25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+                        </button>
+                    </span>
+                  </div>
+            </form> --}}
+
+            <!-- Top buttons -->
+            <div class="d-flex align-items-center ms-auto me-n1 me-lg-n2">
+                <!-- Dropdown -->
+                <a id="btnFullscreen" data-toggle="tooltip" title="Full Screen"><i
+                        class="dripicons-expand no-arrow d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px link-secondary"></i></a>
+
+                <!-- Separator -->
+                @if ($sale_add_permission_active)
+                            <div class="vr bg-gray-700 mx-2 mx-lg-3"></div>
+                            <a href="{{ route('sale.pos') }}" class="btn btn-primary position-relative">
+
+                                POS
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                  <i class="dripicons-shopping-bag"></i>
+                                  <span class="visually-hidden">unread messages</span>
+                                </span>
+                              </a>
+                @endif
 
 
-        <header class="container-fluid">
-            <nav class="navbar">
-                <a id="toggle-btn" href="#" class="menu-btn"><i class="fa fa-bars"> </i></a>
 
+                @if (\Auth::user()->role_id <= 2)
+                <a class="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px link-secondary" href="{{ route('cashRegister.index') }}" data-toggle="tooltip" title="{{ trans('file.Cash Register List') }}"><i class="dripicons-archive"></i></a>
+                @endif
 
-                <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-                    <?php
-                    $empty_database_permission_active = DB::table('permissions')
-                        ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-                        ->where([['permissions.name', 'empty_database'], ['role_id', $role->id]])
-                        ->first();
-                    ?>
-                    @if ($sale_add_permission_active)
-                    <li class="nav-item"><a class="dropdown-item btn-pos btn-sm" href="{{ route('sale.pos') }}"><i class="dripicons-shopping-bag"></i><span>
-                                POS</span></a></li>
-                    @endif
-                    <li class="nav-item"><a id="switch-theme" data-toggle="tooltip" title="{{ trans('file.Switch Theme') }}"><i class="dripicons-brightness-max"></i></a>
-                    </li>
-                    <li class="nav-item"><a id="btnFullscreen" data-toggle="tooltip" title="{{ trans('file.Full Screen') }}"><i class="dripicons-expand"></i></a></li>
-                    @if (\Auth::user()->role_id <= 2) <li class="nav-item"><a href="{{ route('cashRegister.index') }}" data-toggle="tooltip" title="{{ trans('file.Cash Register List') }}"><i class="dripicons-archive"></i></a>
+                @if ($alert_product + count(\Auth::user()->unreadNotifications) > 0)
+                    <div class="dropdown">
+                        <a class="dropdown-toggle no-arrow d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px link-secondary"
+                            href="#" title="{{ __('Notifications') }}" id="notification-icon"
+                            title="{{ __('Notifications') }}" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <svg viewBox="0 0 24 24" height="18" width="18"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10,21.75a2.087,2.087,0,0,0,4.005,0" fill="none"
+                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5"></path>
+                                <path d="M12 3L12 0.75" fill="none" stroke="currentColor"
+                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                                <path
+                                    d="M12,3a7.5,7.5,0,0,1,7.5,7.5c0,7.046,1.5,8.25,1.5,8.25H3s1.5-1.916,1.5-8.25A7.5,7.5,0,0,1,12,3Z"
+                                    fill="none" stroke="currentColor" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="1.5"></path>
+                            </svg><span
+                                class="badge badge-danger notification-number">{{ $alert_product + count(\Auth::user()->unreadNotifications) }}</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="notification-icon">
+                            <li><a href="{{ route('report.qtyAlert') }}" class="dropdown-item"><span
+                                        class="green-badge"></span> {{ $alert_product }} Products are running
+                                    low in stock</a>
+                            </li>
+                            @foreach (\Auth::user()->unreadNotifications as $key => $notification)
+                                <li> <a href="#"
+                                        class="dropdown-item">{{ $notification->data['message'] }}</a>
+                                </li>
+                            @endforeach
+                        </div>
+                    </div>
+
+                @endif
+                <!-- Separator -->
+                <div class="vr bg-gray-700 mx-2 mx-lg-3"></div>
+                <div class="dropdown"><a id="toggle-btn" href="#"
+                        class="menu-btn no-arrow d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px link-secondary"><i
+                            class="fa fa-bars"> </i></a></div>
+
+                <div class="dropdown">
+                    <span class="dropdown-toggle no-arrow" href="#" id="adminDropDownMenu"
+                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i
+                            class="fa-regular fa-user no-arrow d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px link-secondary"></i>
+                        {{ ucfirst(Auth::user()->name) }}
+                    </span>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="adminDropDownMenu">
+                        <li><a class="dropdown-item"
+                                href="{{ route('user.profile', ['id' => Auth::id()]) }}"><i
+                                    class="dripicons-user"></i> {{ trans('file.profile') }}</a>
                         </li>
+                        @if ($general_setting_permission_active)
+                            <li> <a class="dropdown-item" href="{{ route('setting.general') }}"><i
+                                        class="dripicons-gear"></i> {{ trans('file.settings') }}</a>
+                            </li>
                         @endif
-                        @if ($product_qty_alert_active &&
-                        $alert_product + $dso_alert_product_no + count(\Auth::user()->unreadNotifications) > 0)
-                        <li class="nav-item" id="notification-icon">
-                            <a rel="nofollow" data-toggle="tooltip" title="{{ __('Notifications') }}" class="nav-link dropdown-item"><i class="dripicons-bell"></i><span class="badge badge-danger notification-number">{{ $alert_product + $dso_alert_product_no + count(\Auth::user()->unreadNotifications) }}</span>
-                            </a>
-                            <ul class="right-sidebar">
-                                <li class="notifications">
-                                    <a href="{{ route('report.qtyAlert') }}" class="btn btn-link">
-                                        {{ $alert_product }} product exceeds alert quantity</a>
-                                </li>
-                                @if ($dso_alert_product_no)
-                                <li class="notifications">
-                                    <a href="{{ route('report.dailySaleObjective') }}" class="btn btn-link">
-                                        {{ $dso_alert_product_no }} product could not fulfill daily sale
-                                        objective</a>
-                                </li>
-                                @endif
-                                @foreach (\Auth::user()->unreadNotifications as $key => $notification)
-                                <li class="notifications">
-                                    @if ($notification->data['document_name'])
-                                    <a target="_blank" href="{{ url('public/documents/notification', $notification->data['document_name']) }}" class="btn btn-link">{{ $notification->data['message'] }}</a>
-                                    @else
-                                    <a href="#" class="btn btn-link">{{ $notification->data['message'] }}</a>
-                                    @endif
-                                </li>
-                                @endforeach
-                            </ul>
+                        <li><a class="dropdown-item"
+                                href="{{ url('my-transactions/' . date('Y') . '/' . date('m')) }}"><i
+                                    class="dripicons-swap"></i> {{ trans('file.My Transaction') }}</a>
                         </li>
+                        @if (Auth::user()->role_id != 5)
+                            <li> <a class="dropdown-item"
+                                    href="{{ url('holidays/my-holiday/' . date('Y') . '/' . date('m')) }}"><i
+                                        class="dripicons-vibrate"></i> {{ trans('file.My Holiday') }}</a>
+                            </li>
                         @endif
-                        @if (count(\Auth::user()->unreadNotifications) > 0)
-                        <li class="nav-item" id="notification-icon">
-                            <a rel="nofollow" data-toggle="tooltip" title="{{ __('Notifications') }}" class="nav-link dropdown-item"><i class="dripicons-bell"></i><span class="badge badge-danger notification-number">{{ count(\Auth::user()->unreadNotifications) }}</span>
+                        <li><a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                    class="dripicons-power"></i>
+                                {{ trans('file.logout') }}
                             </a>
-                            <ul class="right-sidebar">
-                                @foreach (\Auth::user()->unreadNotifications as $key => $notification)
-                                <li class="notifications">
-                                    @if ($notification->data['document_name'])
-                                    <a target="_blank" href="{{ url('public/documents/notification', $notification->data['document_name']) }}" class="btn btn-link">{{ $notification->data['message'] }}</a>
-                                    @else
-                                    <a href="#" class="btn btn-link">{{ $notification->data['message'] }}</a>
-                                    @endif
-                                </li>
-                                @endforeach
-                            </ul>
                         </li>
-                        @endif
-                        <li class="nav-item">
-                            <a rel="nofollow" data-toggle="tooltip" class="nav-link dropdown-item"><i class="dripicons-user"></i> <span>{{ ucfirst(Auth::user()->name) }}</span> <i class="fa fa-angle-down"></i>
-                            </a>
-                            <ul class="right-sidebar">
-                                <li>
-                                    <a href="{{ route('user.profile', ['id' => Auth::id()]) }}"><i class="dripicons-user"></i> {{ trans('file.profile') }}</a>
-                                </li>
-                                @if ($general_setting_permission_active)
-                                <li>
-                                    <a href="{{ route('setting.general') }}"><i class="dripicons-gear"></i>
-                                        {{ trans('file.settings') }}</a>
-                                </li>
-                                @endif
-                                <li>
-                                    <a href="{{ url('my-transactions/' . date('Y') . '/' . date('m')) }}"><i class="dripicons-swap"></i> {{ trans('file.My Transaction') }}</a>
-                                </li>
-                                @if (Auth::user()->role_id != 5)
-                                <li>
-                                    <a href="{{ url('holidays/my-holiday/' . date('Y') . '/' . date('m')) }}"><i class="dripicons-vibrate"></i> {{ trans('file.My Holiday') }}</a>
-                                </li>
-                                @endif
-                                @if ($empty_database_permission_active)
-                                <li>
-                                    <a onclick="return confirm('Are you sure want to delete? If you do this all of your data will be lost.')" href="{{ route('setting.emptyDatabase') }}"><i class="dripicons-stack"></i>
-                                        {{ trans('file.Empty Database') }}</a>
-                                </li>
-                                @endif
-                                <li>
-                                    <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();"><i class="dripicons-power"></i>
-                                        {{ trans('file.logout') }}
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                </ul>
-            </nav>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                            style="display: none;">
+                            @csrf
+                        </form>
+                    </div>
+                </div>
+            </div>
         </header>
         <!-- notification modal -->
         <div id="notification-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
