@@ -36,16 +36,18 @@
         </script>
         <div class="container-fluid">
 
-            <span class=" navbar-brand">
-                @if ($general_setting->site_logo)
-                    <a href="{{ url('/') }}"><img src="{{ url('public/logo', $general_setting->site_logo) }}"
-                            width="115"></a>
-                @else
+            <div class="app-logo app-branding d-flex px-5 py-4 justify-content-center">
+                <span class=" navbar-brand">
+                    @if ($general_setting->site_logo)
+                    <a href="{{ url('/') }}"><img src="{{ url('public/logo', $general_setting->site_logo) }}" width="115"></a>
+                    @else
                     <a href="{{ url('/') }}">
                         <h1 class="d-inline">{{ $general_setting->site_title }}</h1>
                     </a>
-                @endif
-            </span>
+                    @endif
+                </span>
+
+            </div>
             <div class="navbar-collapse" id="sidenavCollapse">
                 <ul class="navbar-nav mb-lg-7">
                     <li class="nav-item"><a class="nav-link active" href="{{ url('/') }}"> <i
