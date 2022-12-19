@@ -104,7 +104,7 @@ class HomeController extends Controller
                         $purchased_qty = 0;
                         $purchased_amount = 0;
                         $sold_qty = $product_sale->sold_qty * $qty_list[$index];
-                        
+
                         foreach ($product_purchase_data as $product_purchase) {
                             $purchased_qty += $product_purchase->qty;
                             $purchased_amount += $product_purchase->total;
@@ -184,7 +184,7 @@ class HomeController extends Controller
                         $purchased_qty = 0;
                         $purchased_amount = 0;
                         $sold_qty = $product_sale->sold_qty * $qty_list[$index];
-                        
+
                         foreach ($product_purchase_data as $product_purchase) {
                             $purchased_qty += $product_purchase->qty;
                             $purchased_amount += $product_purchase->total;
@@ -275,7 +275,7 @@ class HomeController extends Controller
 
             if(Auth::user()->role_id > 2 && $general_setting->staff_access == 'own') {
                 $recieved_amount = DB::table('payments')->whereNotNull('sale_id')->whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->where('user_id', Auth::id())->sum('amount');
-                $sent_amount = DB::table('payments')->whereNotNull('purchase_id')->whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->where('user_id', Auth::id())->sum('amount');
+                $sent_amount = DB::table('payments')->whereNotNull('supplier_id')->whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->where('user_id', Auth::id())->sum('amount');
                 $return_amount = Returns::whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->where('user_id', Auth::id())->sum('grand_total');
                 $purchase_return_amount = ReturnPurchase::whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->where('user_id', Auth::id())->sum('grand_total');
                 $expense_amount = Expense::whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->where('user_id', Auth::id())->sum('amount');
@@ -283,14 +283,14 @@ class HomeController extends Controller
             }
             else {
                 $recieved_amount = DB::table('payments')->whereNotNull('sale_id')->whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->sum('amount');
-                $sent_amount = DB::table('payments')->whereNotNull('purchase_id')->whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->sum('amount');
+                $sent_amount = DB::table('payments')->whereNotNull('supplier_id')->whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->sum('amount');
                 $return_amount = Returns::whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->sum('grand_total');
                 $purchase_return_amount = ReturnPurchase::whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->sum('grand_total');
                 $expense_amount = Expense::whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->sum('amount');
                 $payroll_amount = Payroll::whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->sum('amount');
             }
             $sent_amount = $sent_amount + $return_amount + $expense_amount + $payroll_amount;
-            
+
             $payment_recieved[] = number_format((float)($recieved_amount + $purchase_return_amount), 2, '.', '');
             $payment_sent[] = number_format((float)$sent_amount, 2, '.', '');
             $month[] = date("F", strtotime($start_date));
@@ -357,7 +357,7 @@ class HomeController extends Controller
                         $purchased_qty = 0;
                         $purchased_amount = 0;
                         $sold_qty = $product_sale->sold_qty * $qty_list[$index];
-                        
+
                         foreach ($product_purchase_data as $product_purchase) {
                             $purchased_qty += $product_purchase->qty;
                             $purchased_amount += $product_purchase->total;
@@ -435,7 +435,7 @@ class HomeController extends Controller
                         $purchased_qty = 0;
                         $purchased_amount = 0;
                         $sold_qty = $product_sale->sold_qty * $qty_list[$index];
-                        
+
                         foreach ($product_purchase_data as $product_purchase) {
                             $purchased_qty += $product_purchase->qty;
                             $purchased_amount += $product_purchase->total;
@@ -486,7 +486,7 @@ class HomeController extends Controller
             $data[2] = $profit;
             $data[3] = $purchase_return;
         }
-        
+
         return $data;
     }
 

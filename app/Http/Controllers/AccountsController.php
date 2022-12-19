@@ -108,7 +108,7 @@ class AccountsController extends Controller
             $credit = [];
             foreach ($lims_account_list as $account) {
                 $payment_recieved = Payment::whereNotNull('sale_id')->where('account_id', $account->id)->sum('amount');
-                $payment_sent = Payment::whereNotNull('purchase_id')->where('account_id', $account->id)->sum('amount');
+                $payment_sent = Payment::whereNotNull('supplier_id')->where('account_id', $account->id)->sum('amount');
                 $returns = DB::table('returns')->where('account_id', $account->id)->sum('grand_total');
                 $return_purchase = DB::table('return_purchases')->where('account_id', $account->id)->sum('grand_total');
                 $expenses = DB::table('expenses')->where('account_id', $account->id)->sum('amount');
@@ -141,7 +141,7 @@ class AccountsController extends Controller
         $payroll_list = new Collection;
         $recieved_money_transfer_list = new Collection;
         $sent_money_transfer_list = new Collection;
-        
+
         if($data['type'] == '0' || $data['type'] == '2') {
             $credit_list = Payment::whereNotNull('sale_id')
                             ->where('account_id', $data['account_id'])
@@ -162,11 +162,11 @@ class AccountsController extends Controller
                                     ->get();
         }
         if($data['type'] == '0' || $data['type'] == '1') {
-            $debit_list = Payment::whereNotNull('purchase_id')
+            $debit_list = Payment::whereNotNull('supplier_id')
                             ->where('account_id', $data['account_id'])
                             ->whereDate('created_at', '>=' , $data['start_date'])
                             ->whereDate('created_at', '<=' , $data['end_date'])
-                            ->select('payment_reference as reference_no', 'purchase_id', 'amount', 'created_at')
+                            ->select('payment_reference as reference_no', 'supplier_id', 'amount', 'created_at')
                             ->get();
             $expense_list = Expense::where('account_id', $data['account_id'])
                             ->whereDate('created_at', '>=' , $data['start_date'])

@@ -90,13 +90,13 @@
                         else {
                             if($variant_id[$key]) {
                                 $purchased_cost = DB::table('purchases')
-                                    ->join('product_purchases', 'purchases.id', '=', 'product_purchases.purchase_id')->where([
+                                    ->join('product_purchases', 'purchases.id', '=', 'product_purchases.supplier_id')->where([
                                         ['product_purchases.product_id', $pro_id],
                                         ['product_purchases.variant_id', $variant_id[$key] ],
                                         ['purchases.warehouse_id', $warehouse_id]
                                     ])->whereDate('purchases.created_at','>=', $start_date)->whereDate('purchases.created_at','<=', $end_date)->sum('total');
                                 $product_purchase_data = DB::table('purchases')
-                                    ->join('product_purchases', 'purchases.id', '=', 'product_purchases.purchase_id')->where([
+                                    ->join('product_purchases', 'purchases.id', '=', 'product_purchases.supplier_id')->where([
                                         ['product_purchases.product_id', $pro_id],
                                         ['product_purchases.variant_id', $variant_id[$key] ],
                                         ['purchases.warehouse_id', $warehouse_id]
@@ -104,12 +104,12 @@
                             }
                             else {
                                 $purchased_cost = DB::table('purchases')
-                                    ->join('product_purchases', 'purchases.id', '=', 'product_purchases.purchase_id')->where([
+                                    ->join('product_purchases', 'purchases.id', '=', 'product_purchases.supplier_id')->where([
                                         ['product_purchases.product_id', $pro_id],
                                         ['purchases.warehouse_id', $warehouse_id]
                                     ])->whereDate('purchases.created_at','>=', $start_date)->whereDate('purchases.created_at','<=', $end_date)->sum('total');
                                 $product_purchase_data = DB::table('purchases')
-                                    ->join('product_purchases', 'purchases.id', '=', 'product_purchases.purchase_id')->where([
+                                    ->join('product_purchases', 'purchases.id', '=', 'product_purchases.supplier_id')->where([
                                         ['product_purchases.product_id', $pro_id],
                                         ['purchases.warehouse_id', $warehouse_id]
                                     ])->whereDate('purchases.created_at','>=', $start_date)->whereDate('purchases.created_at','<=', $end_date)->get();

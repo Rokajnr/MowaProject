@@ -124,7 +124,7 @@ class AutoPurchase extends Command
             $purchase_data = Purchase::create($data);
             foreach ($data['product_id'] as $key => $product_id) {
                 ProductPurchase::create([
-                    'purchase_id' => $purchase_data->id,
+                    'supplier_id' => $purchase_data->id,
                     'product_id' => $product_id,
                     'qty' => 10,
                     'recieved' => 10,

@@ -44,7 +44,7 @@
                     @if($purchase_data->supplier_id)
                     <?php
                         $supplier = DB::table('suppliers')->find($purchase_data->supplier_id);
-                        $returned_amount = DB::table('return_purchases')->where('purchase_id', $purchase_data->id)->sum('grand_total');
+                        $returned_amount = DB::table('return_purchases')->where('supplier_id', $purchase_data->id)->sum('grand_total');
                     ?>
                     <tr>
                         <td>{{$key}}</td>

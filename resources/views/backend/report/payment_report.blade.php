@@ -43,7 +43,7 @@
                 @foreach($lims_payment_data as $payment)
                 <?php
                     $sale = DB::table('sales')->find($payment->sale_id);
-                    $purchase = DB::table('purchases')->find($payment->purchase_id);
+                    $purchase = DB::table('purchases')->find($payment->supplier_id);
                     $user = DB::table('users')->find($payment->user_id);
                 ?>
                 <tr>

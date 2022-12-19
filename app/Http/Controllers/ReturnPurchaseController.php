@@ -36,7 +36,7 @@ class ReturnPurchaseController extends Controller
                 $all_permission[] = $permission->name;
             if(empty($all_permission))
                 $all_permission[] = 'dummy text';
-            
+
             if($request->input('warehouse_id'))
                 $warehouse_id = $request->input('warehouse_id');
             else
@@ -60,11 +60,11 @@ class ReturnPurchaseController extends Controller
 
     public function returnData(Request $request)
     {
-        $columns = array( 
-            1 => 'created_at', 
+        $columns = array(
+            1 => 'created_at',
             2 => 'reference_no',
         );
-        
+
         $warehouse_id = $request->input('warehouse_id');
 
         if(Auth::user()->role_id > 2 && config('staff_access') == 'own')
@@ -158,8 +158,8 @@ class ReturnPurchaseController extends Controller
                 $nestedData['date'] = date(config('date_format'), strtotime($returns->created_at->toDateString()));
                 $nestedData['reference_no'] = $returns->reference_no;
                 $nestedData['warehouse'] = $returns->warehouse->name;
-                if($returns->purchase_id) {
-                    $purchase_data = Purchase::select('reference_no')->find($returns->purchase_id);
+                if($returns->supplier_id) {
+                    $purchase_data = Purchase::select('reference_no')->find($returns->supplier_id);
                     $nestedData['purchase_reference'] = $purchase_data->reference_no;
                 }
                 else
@@ -190,7 +190,7 @@ class ReturnPurchaseController extends Controller
                 if(in_array("returns-delete", $request['all_permission']))
                     $nestedData['options'] .= \Form::open(["route" => ["return-purchase.destroy", $returns->id], "method" => "DELETE"] ).'
                             <li>
-                              <button type="submit" class="btn btn-link" onclick="return confirmDelete()"><i class="dripicons-trash"></i> '.trans("file.delete").'</button> 
+                              <button type="submit" class="btn btn-link" onclick="return confirmDelete()"><i class="dripicons-trash"></i> '.trans("file.delete").'</button>
                             </li>'.\Form::close().'
                         </ul>
                     </div>';
@@ -202,12 +202,12 @@ class ReturnPurchaseController extends Controller
             }
         }
         $json_data = array(
-            "draw"            => intval($request->input('draw')),  
-            "recordsTotal"    => intval($totalData),  
-            "recordsFiltered" => intval($totalFiltered), 
-            "data"            => $data   
+            "draw"            => intval($request->input('draw')),
+            "recordsTotal"    => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data"            => $data
         );
-            
+
         echo json_encode($json_data);
     }
 
@@ -216,7 +216,7 @@ class ReturnPurchaseController extends Controller
         $role = Role::find(Auth::user()->role_id);
         if($role->hasPermissionTo('purchase-return-add')) {
             $lims_purchase_data = Purchase::select('id')->where('reference_no', $request->input('reference_no'))->first();
-            $lims_product_purchase_data = ProductPurchase::where('purchase_id', $lims_purchase_data->id)->get();
+            $lims_product_purchase_data = ProductPurchase::where('supplier_id', $lims_purchase_data->id)->get();
             $lims_warehouse_list = Warehouse::where('is_active',true)->get();
             $lims_tax_list = Tax::where('is_active',true)->get();
             $lims_account_list = Account::where('is_active',true)->get();
@@ -269,13 +269,13 @@ class ReturnPurchaseController extends Controller
             ])
             ->whereNotNull('product_warehouse.variant_id')
             ->get();
-        
+
         $product_code = [];
         $product_name = [];
         $product_qty = [];
         $is_batch = [];
         $product_data = [];
-        foreach ($lims_product_warehouse_data as $product_warehouse) 
+        foreach ($lims_product_warehouse_data as $product_warehouse)
         {
             $product_qty[] = $product_warehouse->qty;
             $product_code[] =  $product_warehouse->code;
@@ -284,7 +284,7 @@ class ReturnPurchaseController extends Controller
             $is_batch[] = null;
         }
         //product with batches
-        foreach ($lims_product_with_batch_warehouse_data as $product_warehouse) 
+        foreach ($lims_product_with_batch_warehouse_data as $product_warehouse)
         {
             $product_qty[] = $product_warehouse->qty;
             $lims_product_data = Product::select('code', 'name', 'type', 'is_batch')->find($product_warehouse->product_id);
@@ -295,7 +295,7 @@ class ReturnPurchaseController extends Controller
             $is_batch[] = $lims_product_data->is_batch;
         }
 
-        foreach ($lims_product_with_variant_warehouse_data as $product_warehouse) 
+        foreach ($lims_product_with_variant_warehouse_data as $product_warehouse)
         {
             $lims_product_variant_data = ProductVariant::select('item_code')->FindExactProduct($product_warehouse->id, $product_warehouse->variant_id)->first();
             $product_qty[] = $product_warehouse->qty;
@@ -328,7 +328,7 @@ class ReturnPurchaseController extends Controller
         $product[] = $lims_product_data->name;
         $product[] = $lims_product_data->code;
         $product[] = $lims_product_data->cost;
-        
+
         if ($lims_product_data->tax_id) {
             $lims_tax_data = Tax::find($lims_product_data->tax_id);
             $product[] = $lims_tax_data->rate;
@@ -357,7 +357,7 @@ class ReturnPurchaseController extends Controller
                 $unit_operation_value[] = $unit->operation_value;
             }
         }
-        
+
         $product[] = implode(",", $unit_name) . ',';
         $product[] = implode(",", $unit_operator) . ',';
         $product[] = implode(",", $unit_operation_value) . ',';
@@ -373,7 +373,7 @@ class ReturnPurchaseController extends Controller
         //return dd($data);
         $data['reference_no'] = 'prr-' . date("Ymd") . '-'. date("his");
         $data['user_id'] = Auth::id();
-        $lims_purchase_data = Purchase::select('warehouse_id', 'supplier_id')->find($data['purchase_id']);
+        $lims_purchase_data = Purchase::select('warehouse_id', 'supplier_id')->find($data['supplier_id']);
         $data['user_id'] = Auth::id();
         $data['supplier_id'] = $lims_purchase_data->supplier_id;
         $data['warehouse_id'] = $lims_purchase_data->warehouse_id;
@@ -389,7 +389,7 @@ class ReturnPurchaseController extends Controller
             );
             if ($v->fails())
                 return redirect()->back()->withErrors($v->errors());
-            
+
             $documentName = $document->getClientOriginalName();
             $document->move('public/return/documents', $documentName);
             $data['document'] = $documentName;
@@ -408,7 +408,7 @@ class ReturnPurchaseController extends Controller
             $mail_data['order_tax_rate'] = $lims_return_data->order_tax_rate;
             $mail_data['grand_total'] = $lims_return_data->grand_total;
         }
-            
+
         $product_id = $data['is_return'];
         $imei_number = $data['imei_number'];
         $product_batch_id = $data['product_batch_id'];
@@ -494,7 +494,7 @@ class ReturnPurchaseController extends Controller
                                 ['warehouse_id', $data['warehouse_id'] ],
                             ])->first();
                         }
-                        
+
                         $child_data->qty -= $qty[$key] * $qty_list[$index];
                         $child_warehouse_data->qty -= $qty[$key] * $qty_list[$index];
 
@@ -510,13 +510,13 @@ class ReturnPurchaseController extends Controller
                     $lims_product_warehouse_data->imei_number .= ',' . $imei_number[$key];
                  else
                     $lims_product_warehouse_data->imei_number = $imei_number[$key];
-                $lims_product_warehouse_data->save(); 
+                $lims_product_warehouse_data->save();
             }
             if($lims_product_data->is_variant)
                 $mail_data['products'][$key] = $lims_product_data->name . ' [' . $variant_data->name . ']';
             else
                 $mail_data['products'][$key] = $lims_product_data->name;
-            
+
             if($purchase_unit_id)
                 $mail_data['unit'][$key] = $lims_purchase_unit_data->unit_code;
             else
@@ -570,7 +570,7 @@ class ReturnPurchaseController extends Controller
         $lims_return_data = ReturnPurchase::create($data);
         if($data['supplier_id']){
             $lims_supplier_data = Supplier::find($data['supplier_id']);
-        
+
             //collecting male data
             $mail_data['email'] = $lims_supplier_data->email;
             $mail_data['reference_no'] = $lims_return_data->reference_no;
@@ -760,7 +760,7 @@ class ReturnPurchaseController extends Controller
         }
         else
             $message = "This return doesn't belong to any supplier";
-        
+
         return redirect()->back()->with('message', $message);
     }
 
@@ -796,7 +796,7 @@ class ReturnPurchaseController extends Controller
             );
             if ($v->fails())
                 return redirect()->back()->withErrors($v->errors());
-            
+
             $documentName = $document->getClientOriginalName();
             $document->move('public/return/documents', $documentName);
             $data['document'] = $documentName;
@@ -978,7 +978,7 @@ class ReturnPurchaseController extends Controller
             $mail_data['order_tax'] = $lims_return_data->order_tax;
             $mail_data['order_tax_rate'] = $lims_return_data->order_tax_rate;
             $mail_data['grand_total'] = $lims_return_data->grand_total;
-            
+
             try{
                 Mail::send( 'mail.return_details', $mail_data, function( $message ) use ($mail_data)
                 {
@@ -1075,7 +1075,7 @@ class ReturnPurchaseController extends Controller
                 }
                 else
                     $lims_product_warehouse_data = Product_Warehouse::FindProductWithoutVariant($product_return_data->product_id, $lims_return_data->warehouse_id)->first();
-                
+
                 if($product_return_data->imei_number) {
                     if($lims_product_warehouse_data->imei_number)
                         $lims_product_warehouse_data->imei_number .= ','.$product_return_data->imei_number;

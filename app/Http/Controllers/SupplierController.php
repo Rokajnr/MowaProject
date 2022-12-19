@@ -68,7 +68,7 @@ class SupplierController extends Controller
             }
             Payment::create([
                 'payment_reference' => 'ppr-'.date("Ymd").'-'.date("his"),
-                'purchase_id' => $purchase_data->id,
+                'supplier_id' => $purchase_data->id,
                 'user_id' => Auth::id(),
                 'cash_register_id' => $cash_register_id,
                 'account_id' => $account_data->id,

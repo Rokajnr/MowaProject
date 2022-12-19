@@ -26,8 +26,8 @@
                     $transaction = '';
                     if($data->sale_id)
                         $transaction = App\Sale::select('reference_no')->find($data->sale_id);
-                    elseif($data->purchase_id)
-                        $transaction = App\Purchase::select('reference_no')->find($data->purchase_id);
+                    elseif($data->supplier_id)
+                        $transaction = App\Purchase::select('reference_no')->find($data->supplier_id);
                     if(str_contains($data->reference_no, 'spr') || str_contains($data->reference_no, 'prr') || (str_contains($data->reference_no, 'mtr') && $data->to_account_id == $lims_account_data->id) ) {
                         $balance += $data->amount;
                         $credit = $data->amount;
