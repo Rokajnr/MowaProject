@@ -27,7 +27,7 @@
                 @foreach($lims_supplier_all as $key => $supplier)
                 <?php
                     $returned_amount = DB::table('purchases')
-                                    ->join('return_purchases', 'purchases.id', '=', 'return_purchases.purchase_id')
+                                    ->join('return_purchases', 'purchases.id', '=', 'return_purchases.supplier_id')
                                     ->where([
                                         ['purchases.supplier_id', $supplier->id],
                                         ['purchases.payment_status', 1]

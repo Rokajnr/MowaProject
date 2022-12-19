@@ -125,7 +125,7 @@ class SupplierController extends Controller
                 ],
             ]);
         }
-        
+
         $lims_supplier_data = $request->except('image');
         $lims_supplier_data['is_active'] = true;
         $image = $request->image;
@@ -270,9 +270,9 @@ class SupplierController extends Controller
                 }
                 catch(\Excetion $e){
                     $message = 'Supplier imported successfully. Please setup your <a href="setting/mail_setting">mail setting</a> to send mail.';
-                }   
+                }
             }
         }
-        return redirect('supplier')->with('message', $message); 
+        return redirect('supplier')->with('message', $message);
     }
 }
