@@ -96,7 +96,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="manifest" href="{{ url('manifest.json') }}">
     <!-- Bootstrap CSS-->
-    <link rel="stylesheet" href="<?php echo asset('../../vendor/bootstrap/css/bootstrap.min.css'); ?>" type="text/css">
     <link rel="preload" href="<?php echo asset('../../vendor/bootstrap-toggle/css/bootstrap-toggle.min.css'); ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
         <link href="<?php echo asset('../../vendor/bootstrap-toggle/css/bootstrap-toggle.min.css'); ?>" rel="stylesheet">
@@ -181,9 +180,9 @@
 <body @if ($theme=='dark' ) class="dark-mode dripicons-brightness-low" @else class="" @endif onload="myFunction()">
     <div id="loader"></div>
     <!-- Side Navbar -->
-    <nav id="mainNavbar" class="side-navbar navbar navbar-vertical navbar-expand-lg scrollbar bg-white navbar-light">
+    <nav id="mainNavbar" class="side-navbar navbar navbar-vertical navbar-expand-lg bg-white navbar-light">
         <div class="container-fluid">
-            <span class=" navbar-brand">
+            <span class=" navbar-brand px-6 py-4">
                 @if ($general_setting->site_logo)
                 <a href="{{ url('/') }}"><img src="{{ url('public/logo', $general_setting->site_logo) }}" width="115"></a>
                 @else
@@ -1111,6 +1110,14 @@
 <main>
         <!-- navbar-->
         <header class="navbar-header dashly container-fluid d-flex py-6 mb-4">
+            <?php
+            $empty_database_permission_active = DB::table('permissions')
+                ->join('role_has_permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                ->where([
+                    ['permissions.name', 'empty_database'],
+                    ['role_id', $role->id]
+            ])->first();
+        ?>
 
             <!-- Search -->
             {{-- <form class="d-none d-md-inline-block me-auto">
@@ -1211,6 +1218,11 @@
                             <li> <a class="dropdown-item" href="{{ route('setting.general') }}"><i
                                         class="dripicons-gear"></i> {{ trans('file.settings') }}</a>
                             </li>
+                        @endif
+                        @if($empty_database_permission_active)
+                        <li>
+                        <a class="dropdown-item" onclick="return confirm('Are you sure want to delete? If you do this all of your data will be lost.')" href="{{route('setting.emptyDatabase')}}"><i class="dripicons-stack"></i> {{trans('file.Empty Database')}}</a>
+                        </li>
                         @endif
                         <li><a class="dropdown-item"
                                 href="{{ url('my-transactions/' . date('Y') . '/' . date('m')) }}"><i
@@ -1768,6 +1780,20 @@
         }
     </script>
     <script type="text/javascript">
+    $(function(){
+    var current = location.pathname;
+    $('.nav-item a').each(function(){
+        var $this = $(this);
+        // if the current path is like this link, make it active
+        if($this.attr('href').indexOf(current) !== -1){
+            $this.addClass('active');
+            $this.closest('li a').addClass('active');
+        };
+
+    })
+})
+
+
         var theme = <?php echo json_encode($theme); ?>;
         if (theme == 'dark') {
             $('body').addClass('dark-mode');
@@ -1776,7 +1802,7 @@
             $('body').removeClass('dark-mode');
             $('#switch-theme i').addClass('dripicons-brightness-max');
         }
-        $('#switch-theme').click(function() {
+            $('#switch-theme').click(function() {
             if (theme == 'light') {
                 theme = 'dark';
                 var url = <?php echo json_encode(route('switchTheme', 'dark')); ?>;
