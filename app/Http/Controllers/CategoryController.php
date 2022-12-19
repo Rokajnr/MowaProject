@@ -27,15 +27,15 @@ class CategoryController extends Controller
 
     public function categoryData(Request $request)
     {
-        $columns = array( 
+        $columns = array(
             0 =>'id',
             2 =>'name',
             3=> 'parent_id',
             4=> 'is_active',
         );
-        
+
         $totalData = Category::where('is_active', true)->count();
-        $totalFiltered = $totalData; 
+        $totalFiltered = $totalData;
 
         if($request->input('length') != -1)
             $limit = $request->input('length');
@@ -52,7 +52,7 @@ class CategoryController extends Controller
                         ->get();
         else
         {
-            $search = $request->input('search.value'); 
+            $search = $request->input('search.value');
             $categories =  Category::where([
                             ['name', 'LIKE', "%{$search}%"],
                             ['is_active', true]
@@ -89,38 +89,41 @@ class CategoryController extends Controller
                 $nestedData['stock_qty'] = $category->product()->where('is_active', true)->sum('qty');
                 $total_price = $category->product()->where('is_active', true)->sum(DB::raw('price * qty'));
                 $total_cost = $category->product()->where('is_active', true)->sum(DB::raw('cost * qty'));
-                
+
                 if(config('currency_position') == 'prefix')
-                    $nestedData['stock_worth'] = config('currency').' '.$total_price.' / '.config('currency').' '.$total_cost;
+                    $nestedData['stock_worth'] = '<div class="badge text-bg-primary-soft p-2 fs-5">' .config('currency').' '.$total_price.' </div> / ' .'<div class="badge text-bg-info-soft p-2 fs-5"> '.config('currency').' '.$total_cost .'</div>';
                 else
-                    $nestedData['stock_worth'] = $total_price.' '.config('currency').' / '.$total_cost.' '.config('currency');
+                    $nestedData['stock_worth'] = '<div class="badge text-bg-primary-soft p-2 fs-5">' .$total_price.' '.config('currency').' </div> / '. '<div class="badge text-bg-info-soft p-2 fs-5">' .$total_cost.' '.config('currency'). '</div>';
 
                 $nestedData['options'] = '<div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.trans("file.action").'
-                              <span class="caret"></span>
-                              <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu edit-options dropdown-menu-right dropdown-default" user="menu">
-                                <li>
-                                    <button type="button" data-id="'.$category->id.'" class="open-EditCategoryDialog btn btn-link" data-toggle="modal" data-target="#editModal" ><i class="dripicons-document-edit"></i> '.trans("file.edit").'</button>
-                                </li>
-                                <li class="divider"></li>'.
-                                \Form::open(["route" => ["category.destroy", $category->id], "method" => "DELETE"] ).'
-                                <li>
-                                  <button type="submit" class="btn btn-link" onclick="return confirmDelete()"><i class="dripicons-trash"></i> '.trans("file.delete").'</button> 
-                                </li>'.\Form::close().'
-                            </ul>
+
+                <div class="dropdown">
+                                            <a href="javascript: void(0);" class="dropdown-toggle no-arrow d-flex align-items-center justify-content-center btn btn-light-green link-secondary rounded-circle w-50px h-50px p-0" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="18" width="18"><g><circle cx="3.25" cy="12" r="3.25" style="fill: currentColor"></circle><circle cx="12" cy="12" r="3.25" style="fill: currentColor"></circle><circle cx="20.75" cy="12" r="3.25" style="fill: currentColor"></circle></g></svg>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end" style="">
+                                                <a href="javascript: void(0);" class="dropdown-item"  data-id="'.$category->id.'" data-toggle="modal" data-target="#editModal">
+                                                <i class="fa-light fa-pen pe-3"></i>'.trans("file.edit").'
+                                                </a>
+                                                '.\Form::open(["route" => ["category.destroy", $category->id], "method" => "DELETE"] ).'
+                                                <a href="javascript: void(0);" class="dropdown-item" type="submit" onclick="return confirmDelete()">
+                                                <i class="fa-light fa-trash pe-3"></i>'.trans("file.delete").'
+
+                                                </a>
+                                                '.\Form::close().'
+                                            </div>
+                                        </div>
                         </div>';
                 $data[] = $nestedData;
             }
         }
         $json_data = array(
-                    "draw"            => intval($request->input('draw')),  
-                    "recordsTotal"    => intval($totalData),  
-                    "recordsFiltered" => intval($totalFiltered), 
-                    "data"            => $data   
+                    "draw"            => intval($request->input('draw')),
+                    "recordsTotal"    => intval($totalData),
+                    "recordsFiltered" => intval($totalFiltered),
+                    "data"            => $data
                     );
-            
+
         echo json_encode($json_data);
     }
 
@@ -142,7 +145,7 @@ class CategoryController extends Controller
             $imageName = date("Ymdhis");
             $imageName = $imageName . '.' . $ext;
             $image->move('public/images/category', $imageName);
-            
+
             $lims_category_data['image'] = $imageName;
         }
         $lims_category_data['name'] = $request->name;

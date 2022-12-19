@@ -16,12 +16,19 @@
 <section>
     <div class="container-fluid">
         <!-- Trigger the modal with a button -->
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModal"><i class="dripicons-plus"></i> {{trans("file.Add Category")}}</button>&nbsp;
-        <button class="btn btn-primary" data-toggle="modal" data-target="#importCategory"><i class="dripicons-copy"></i> {{trans('file.Import Category')}}</button>
+        <div class="btn-group">
+
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModal">
+                <svg viewBox="0 0 24 24" class="" height="18" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M22.91,6.953,12.7,1.672a1.543,1.543,0,0,0-1.416,0L1.076,6.953a.615.615,0,0,0,0,1.094l10.209,5.281a1.543,1.543,0,0,0,1.416,0L22.91,8.047a.616.616,0,0,0,0-1.094Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M.758,12.75l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,12.75" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M.758,17.25l10.527,5.078a1.543,1.543,0,0,0,1.416,0L23.258,17.25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+                 {{trans("file.Add Category")}}</button>&nbsp;
+            <button class="btn btn-primary" data-toggle="modal" data-target="#importCategory">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="18" width="18"><path d="M21.84,3.46a7,7,0,0,0-9.84,0L1.62,13.83a5.13,5.13,0,0,0,7.25,7.25l8.43-8.43A3.29,3.29,0,1,0,12.65,8L7.46,13.18a1,1,0,0,0,0,1.42,1,1,0,0,0,1.41,0l5.19-5.19a1.3,1.3,0,0,1,2.21.91,1.32,1.32,0,0,1-.38.92L7.46,19.67a3.13,3.13,0,0,1-5.34-2.21A3.09,3.09,0,0,1,3,15.25L13.41,4.87a5,5,0,0,1,7,7l-7.78,7.78a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l7.78-7.78a7,7,0,0,0,0-9.84Z" style="fill: currentColor"></path></svg>
+                {{trans('file.Import Category')}}</button>
+        </div>
     </div>
     <div class="table-responsive">
-        <table id="category-table" class="table" style="width: 100%">
-            <thead>
+        <table id="category-table" class="table table-nowrap" style="width: 100%">
+            <thead class="thead-light">
                 <tr>
                     <th class="not-exported"></th>
                     <th>{{trans('file.Image')}}</th>
@@ -43,7 +50,7 @@
       <div class="modal-content">
         {!! Form::open(['route' => 'category.store', 'method' => 'post', 'files' => true]) !!}
         <div class="modal-header">
-          <h5 id="exampleModalLabel" class="modal-title">{{trans('file.Add Category')}}</h5>
+          <h5 id="exampleModalLabel" class="modal-title type-1">{{trans('file.Add Category')}}</h5>
           <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
         </div>
         <div class="modal-body">
@@ -77,7 +84,7 @@
     <div class="modal-content">
         {{ Form::open(['route' => ['category.update', 1], 'method' => 'PUT', 'files' => true] ) }}
       <div class="modal-header">
-        <h5 id="exampleModalLabel" class="modal-title">{{trans('file.Update Category')}}</h5>
+        <h5 id="exampleModalLabel" class="modal-title type-1">{{trans('file.Update Category')}}</h5>
         <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
       </div>
       <div class="modal-body">
@@ -117,7 +124,7 @@
       <div class="modal-content">
         {!! Form::open(['route' => 'category.import', 'method' => 'post', 'files' => true]) !!}
         <div class="modal-header">
-          <h5 id="exampleModalLabel" class="modal-title">{{trans('file.Import Category')}}</h5>
+          <h5 id="exampleModalLabel" class="modal-title type-1">{{trans('file.Import Category')}}</h5>
           <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true"><i class="dripicons-cross"></i></span></button>
         </div>
         <div class="modal-body">
@@ -238,7 +245,7 @@
         buttons: [
             {
                 extend: 'pdf',
-                text: '<i title="export to pdf" class="fa fa-file-pdf-o"></i>',
+                text: '<i title="export to pdf" class="fa-solid fa-file-pdf"></i>',
                 exportOptions: {
                     columns: ':visible:Not(.not-exported)',
                     rows: ':visible'
@@ -247,7 +254,7 @@
             },
             {
                 extend: 'excel',
-                text: '<i title="export to excel" class="dripicons-document-new"></i>',
+                text: '<i title="export to excel" class="fa-solid fa-file-excel"></i>',
                 exportOptions: {
                     columns: ':visible:Not(.not-exported)',
                     rows: ':visible'
@@ -256,7 +263,7 @@
             },
             {
                 extend: 'csv',
-                text: '<i title="export to csv" class="fa fa-file-text-o"></i>',
+                text: '<i title="export to csv" class="fa-solid fa-file-text"></i>',
                 exportOptions: {
                     columns: ':visible:Not(.not-exported)',
                     rows: ':visible'
@@ -265,7 +272,7 @@
             },
             {
                 extend: 'print',
-                text: '<i title="print" class="fa fa-print"></i>',
+                text: '<i title="print" class="fa-solid fa-print"></i>',
                 exportOptions: {
                     columns: ':visible:Not(.not-exported)',
                     rows: ':visible'
@@ -273,7 +280,7 @@
                 footer:true
             },
             {
-                text: '<i title="delete" class="dripicons-cross"></i>',
+                text: '<i title="delete" class="fa-solid fa-trash py-1"></i>',
                 className: 'buttons-delete',
                 action: function ( e, dt, node, config ) {
                     if(user_verified == '1') {
@@ -305,7 +312,7 @@
             },
             {
                 extend: 'colvis',
-                text: '<i title="column visibility" class="fa fa-eye"></i>',
+                text: '<i title="column visibility" class="fa-light fa-eye"></i>',
                 columns: ':gt(0)'
             },
         ],
