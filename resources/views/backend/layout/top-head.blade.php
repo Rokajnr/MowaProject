@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" type="image/png" href="{{url('public/logo', $general_setting->site_logo)}}" />
+    @laravelPWA
     <title>{{$general_setting->site_title}}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -61,7 +62,7 @@
       <link rel="stylesheet" href="<?php echo asset('css/custom-rtl.css') ?>" type="text/css" id="custom-style">
     @endif
   </head>
-  <body class="pos-page" onload="myFunction()">
+  <body class="pos-page scrollbar" onload="myFunction()">
     <div id="loader"></div>
 
       <div style="display:none;" id="content" class="animate-bottom">
@@ -353,19 +354,6 @@
     <script type="text/javascript" src="<?php echo asset('vendor/datatable/dataTables.bootstrap4.min.js') ?>"></script>
 
     @stack('scripts')
-    <script>
-        if ('serviceWorker' in navigator ) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/demo/service-worker.js').then(function(registration) {
-                    // Registration was successful
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, function(err) {
-                    // registration failed :(
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
-    </script>
     <script type="text/javascript">
 
           function myFunction() {

@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    @laravelPWA
     @if (!config('database.connections.saleprosaas_landlord'))
     <link rel="icon" type="image/png" href="{{ url('logo', $general_setting->site_logo) }}" />
     <title>{{ $general_setting->site_title }}</title>
@@ -177,7 +178,7 @@
     </noscript>
 </head>
 
-<body @if ($theme=='dark' ) class="dark-mode dripicons-brightness-low" @else class="" @endif onload="myFunction()">
+<body @if ($theme=='dark' ) class="dark-mode dripicons-brightness-low" @else class="scrollbar" @endif onload="myFunction()">
     <div id="loader"></div>
     <!-- Side Navbar -->
     <nav id="mainNavbar" class="side-navbar navbar navbar-vertical navbar-expand-lg bg-white navbar-light">
@@ -1790,20 +1791,7 @@
     @endif
     @endif
     @stack('scripts')
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/salepro/service-worker.js').then(function(registration) {
-                    // Registration was successful
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, function(err) {
-                    // registration failed :(
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
-    </script>
-    <script type="text/javascript">
+      <script type="text/javascript">
     $(function(){
     var current = location.pathname;
     $('.nav-item a').each(function(){
