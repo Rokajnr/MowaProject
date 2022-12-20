@@ -18,13 +18,20 @@
 <section>
     <div class="container-fluid">
         @if(in_array("products-add", $all_permission))
-            <a href="{{route('products.create')}}" class="btn btn-info"><i class="dripicons-plus"></i> {{__('file.add_product')}}</a>
-            <a href="#" data-toggle="modal" data-target="#importProduct" class="btn btn-primary"><i class="dripicons-copy"></i> {{__('file.import_product')}}</a>
+        <div class="btn-group">
+            <a href="{{route('products.create')}}" class="btn btn-info">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="18" width="18"><defs><style>.a{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style></defs><title>common-file-double-1</title><path class="a" d="M17.25,23.25H3.75a1.5,1.5,0,0,1-1.5-1.5V5.25"></path><rect class="a" x="5.25" y="0.75" width="16.5" height="19.5" rx="1" ry="1"></rect></svg>
+                 {{__('file.add_product')}}</a>
+            <a href="#" data-toggle="modal" data-target="#importProduct" class="btn btn-primary">
+                <svg viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M20.25,9.75v-3a1.5,1.5,0,0,0-1.5-1.5H8.25V3.75a1.5,1.5,0,0,0-1.5-1.5H2.25a1.5,1.5,0,0,0-1.5,1.5v16.3a1.7,1.7,0,0,0,3.336.438l2.351-9.657A1.5,1.5,0,0,1,7.879,9.75H21.75A1.5,1.5,0,0,1,23.2,11.636l-2.2,9A1.5,1.5,0,0,1,19.55,21.75H2.447" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+                 {{__('file.import_product')}}</a>
+
+        </div>
         @endif
     </div>
     <div class="table-responsive">
-        <table id="product-data-table" class="table" style="width: 100%">
-            <thead>
+        <table id="product-data-table" class="table table-nowrap" style="width: 100%">
+            <thead class="thead-light">
                 <tr>
                     <th class="not-exported"></th>
                     <th>{{trans('file.Image')}}</th>
@@ -427,7 +434,7 @@
             buttons: [
                 {
                     extend: 'pdf',
-                    text: '<i title="export to pdf" class="fa fa-file-pdf-o"></i>',
+                    text: '<i title="export to pdf" class="fa-solid fa-file-pdf"></i>',
                     exportOptions: {
                         columns: ':visible:not(.not-exported)',
                         rows: ':visible',
@@ -456,7 +463,7 @@
                 },
                 {
                     extend: 'excel',
-                    text: '<i title="export to excel" class="dripicons-document-new"></i>',
+                    text: '<i title="export to excel" class="fa-solid fa-file-excel"></i>',
                     exportOptions: {
                         columns: ':visible:not(.not-exported)',
                         rows: ':visible',
@@ -473,7 +480,7 @@
                 },
                 {
                     extend: 'csv',
-                    text: '<i title="export to csv" class="fa fa-file-text-o"></i>',
+                    text: '<i title="export to csv" class="fa-solid fa-file-text"></i>',
                     exportOptions: {
                         columns: ':visible:not(.not-exported)',
                         rows: ':visible',
@@ -491,7 +498,7 @@
                 {
                     extend: 'print',
                     title: '',
-                    text: '<i title="print" class="fa fa-print"></i>',
+                    text: '<i title="print" class="fa-solid fa-print"></i>',
                     exportOptions: {
                         columns: ':visible:not(.not-exported)',
                         rows: ':visible',
@@ -511,7 +518,7 @@
                     }*/
                 },
                 {
-                    text: '<i title="delete" class="dripicons-cross"></i>',
+                    text: '<i title="delete" class="fa-solid fa-trash py-1"></i>',
                     className: 'buttons-delete',
                     action: function ( e, dt, node, config ) {
                         if(user_verified == '1') {
@@ -544,7 +551,7 @@
                 },
                 {
                     extend: 'colvis',
-                    text: '<i title="column visibility" class="fa fa-eye"></i>',
+                    text: '<i title="column visibility" class="fa-light fa-eye"></i>',
                     columns: ':gt(0)'
                 },
             ],

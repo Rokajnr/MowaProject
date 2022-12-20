@@ -159,44 +159,44 @@ class ProductController extends Controller
                 $nestedData['cost'] = $product->cost;
 
                 if(config('currency_position') == 'prefix')
-                    $nestedData['stock_worth'] = config('currency').' '.($nestedData['qty'] * $product->price).' / '.config('currency').' '.($nestedData['qty'] * $product->cost);
+                    $nestedData['stock_worth'] = '<div class="badge text-bg-primary-soft p-2 fs-5">' .config('currency').' '.($nestedData['qty'] * $product->price).'</div> / <div class="badge text-bg-info-soft p-2 fs-5">'.config('currency').' '.($nestedData['qty'] * $product->cost). '</div>';
                 else
-                    $nestedData['stock_worth'] = ($nestedData['qty'] * $product->price).' '.config('currency').' / '.($nestedData['qty'] * $product->cost).' '.config('currency');
+                    $nestedData['stock_worth'] = '<div class="badge text-bg-primary-soft p-2 fs-5">' .($nestedData['qty'] * $product->price).' '.config('currency').' / </div> <div class="badge text-bg-info-soft p-2 fs-5"> '.($nestedData['qty'] * $product->cost).' '.config('currency').'</div>';
 
                 $nestedData['options'] = '<div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.trans("file.action").'
-                              <span class="caret"></span>
-                              <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu edit-options dropdown-menu-right dropdown-default" user="menu">
-                            <li>
-                                <button="type" class="btn btn-link view"><i class="fa fa-eye"></i> '.trans('file.View').'</button>
+                <div class="dropdown">
+                <a href="javascript: void(0);" class="dropdown-toggle no-arrow d-flex align-items-center justify-content-center btn btn-light-green link-secondary rounded-circle w-50px h-50px p-0" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="18" width="18"><g><circle cx="3.25" cy="12" r="3.25" style="fill: currentColor"></circle><circle cx="12" cy="12" r="3.25" style="fill: currentColor"></circle><circle cx="20.75" cy="12" r="3.25" style="fill: currentColor"></circle></g></svg>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" style="">
+                            <li class="dropdown-item">
+                                <a type="button" class="view"><i class="fa fa-eye pe-3"></i> '.trans('file.View').'</button>
                             </li>';
 
                 if(in_array("products-edit", $request['all_permission']))
-                    $nestedData['options'] .= '<li>
-                            <a href="'.route('products.edit', $product->id).'" class="btn btn-link"><i class="fa fa-edit"></i> '.trans('file.edit').'</a>
+                    $nestedData['options'] .= '<li class="dropdown-item">
+                            <a href="'.route('products.edit', $product->id).'" class=""><i class="fa fa-edit pe-3"></i> '.trans('file.edit').'</a>
                         </li>';
                 if(in_array("product_history", $request['all_permission']))
                     $nestedData['options'] .= \Form::open(["route" => "products.history", "method" => "GET"] ).'
-                            <li>
+                            <li class="dropdown-item">
                                 <input type="hidden" name="product_id" value="'.$product->id.'" />
-                                <button type="submit" class="btn btn-link"><i class="dripicons-checklist"></i> '.trans("file.Product History").'</button>
+                                <a type="submit" class=""><i class="dripicons-checklist pe-3"></i> '.trans("file.Product History").'</a>
                             </li>'.\Form::close();
                 if(in_array("print_barcode", $request['all_permission'])) {
                     $product_info = $product->code.' ('.$product->name.')';
                     $nestedData['options'] .= \Form::open(["route" => "product.printBarcode", "method" => "GET"] ).'
-                        <li>
+                        <li class="dropdown-item">
                             <input type="hidden" name="data" value="'.$product_info.'" />
-                            <button type="submit" class="btn btn-link"><i class="dripicons-print"></i> '.trans("file.print_barcode").'</button>
+                            <a type="submit" class=""><i class="dripicons-print pe-3"></i> '.trans("file.print_barcode").'</a>
                         </li>'.\Form::close();
                 }
                 if(in_array("products-delete", $request['all_permission']))
                     $nestedData['options'] .= \Form::open(["route" => ["products.destroy", $product->id], "method" => "DELETE"] ).'
-                            <li>
-                              <button type="submit" class="btn btn-link" onclick="return confirmDelete()"><i class="fa fa-trash"></i> '.trans("file.delete").'</button>
+                            <li class="dropdown-item">
+                              <a type="submit" class="" onclick="return confirmDelete()"><i class="fa fa-trash pe-3"></i> '.trans("file.delete").'</a>
                             </li>'.\Form::close().'
-                        </ul>
+                        </div>
                     </div>';
                 // data for product details by one click
                 if($product->tax_id)
