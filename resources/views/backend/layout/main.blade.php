@@ -68,13 +68,13 @@
     <noscript>
         <link href="<?php echo asset('vendor/datatable/dataTables.bootstrap4.min.css'); ?>" rel="stylesheet">
     </noscript>
-    <link rel="preload" href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="<?php echo asset('vendor/datatable/fixedHeader.bootstrap.min.css'); ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-        <link href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+        <link href="<?php echo asset('vendor/datatable/fixedHeader.bootstrap.min.css'); ?>" rel="stylesheet">
     </noscript>
-    <link rel="preload" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="<?php echo asset('vendor/datatable/responsive.bootstrap.min.css'); ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-        <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css" rel="stylesheet">
+        <link href="<?php echo asset('vendor/datatable/responsive.bootstrap.min.css'); ?>" rel="stylesheet">
     </noscript>
     @endif
     <link rel="stylesheet" href="<?php echo asset('css/theme.bundle.css'); ?>">
@@ -150,13 +150,13 @@
     <noscript>
         <link href="<?php echo asset('../../vendor/datatable/dataTables.bootstrap4.min.css'); ?>" rel="stylesheet">
     </noscript>
-    <link rel="preload" href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="<?php echo asset('../../vendor/datatable/fixedHeader.bootstrap.min.css');?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-        <link href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+        <link href="<?php echo asset('../../vendor/datatable/fixedHeader.bootstrap.min.css');?>" rel="stylesheet">
     </noscript>
-    <link rel="preload" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="<?php echo asset('../../vendor/datatable/responsive.bootstrap.min.css');?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-        <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css" rel="stylesheet">
+        <link href="<?php echo asset('../../vendor/datatable/responsive.bootstrap.min.css');?>" rel="stylesheet">
     </noscript>
     @endif
 
@@ -1726,11 +1726,11 @@
 
     <script type="text/javascript" src="<?php echo asset('vendor/datatable/sum().js'); ?>"></script>
     <script type="text/javascript" src="<?php echo asset('vendor/datatable/dataTables.checkboxes.min.js'); ?>"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js">
+    <script type="text/javascript" src="<?php echo asset('vendor/datatable/dataTables.fixedHeader.min.js');?>"></script>
     </script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js">
+    <script type="text/javascript" src="<?php echo asset('vendor/datatable/dataTables.responsive.min.js'); ?>">
     </script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js">
+    <script type="text/javascript" src=""<?php echo asset('vendor/datatable/responsive.bootstrap.min.js'); ?>">
     </script>
     @endif
     @else
@@ -1782,11 +1782,10 @@
 
     <script type="text/javascript" src="<?php echo asset('../../vendor/datatable/sum().js'); ?>"></script>
     <script type="text/javascript" src="<?php echo asset('../../vendor/datatable/dataTables.checkboxes.min.js'); ?>"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js">
+    <script type="text/javascript" src="<?php echo asset('../../vendor/datatable/dataTables.fixedHeader.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo asset('../../vendor/datatable/dataTables.responsive.min.js'); ?>">
     </script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js">
-    </script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js">
+    <script type="text/javascript" src="<?php echo asset('../../vendor/datatable/responsive.bootstrap.min.js'); ?>">
     </script>
     @endif
     @endif
