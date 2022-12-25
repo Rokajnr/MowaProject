@@ -170,7 +170,7 @@ class ProductController extends Controller
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" style="">
                             <li class="dropdown-item">
-                                <a type="button" class="view"><i class="fa fa-eye pe-3"></i> '.trans('file.View').'</button>
+                                <a type="button" class="view"><i class="fa fa-eye pe-3"></i> '.trans('file.View').'</a>
                             </li>';
 
                 if(in_array("products-edit", $request['all_permission']))
