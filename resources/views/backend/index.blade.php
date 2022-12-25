@@ -608,9 +608,6 @@
         $.get('dashboard-filter/' + start_date_7days + '/' + end_date, function(data) {
             last7days(data);
         });
-        $.get('dashboard-filter/' + start_date_month + '/' + end_date, function(data) {
-            thismonth(data);
-        });
 
     });
 
