@@ -30,7 +30,7 @@
         @endif
     </div>
     <div class="table-responsive">
-        <table id="product-data-table" class="table table-nowrap" style="width: 100%">
+        <table id="product-data-table" class="table table-sm" style="width: 100%">
             <thead class="thead-light">
                 <tr>
                     <th class="not-exported"></th>
